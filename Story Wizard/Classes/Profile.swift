@@ -10,10 +10,12 @@ import SwiftUI
 class Profile: Hashable {
     var name: String
     var profilePicture: Image
+    var library: [Book] // library array stores book objects
     
     init(name: String, profilePicture: Image) {
         self.name = name
         self.profilePicture = profilePicture
+        self.library = [] // initialise empty library on profile creation
     }
     
     func profileCircle(size: CGFloat = 42) -> some View {
@@ -22,6 +24,10 @@ class Profile: Hashable {
             .scaledToFit()
             .frame(width: size, height: size)
             .clipShape(Circle())
+    }
+    
+    func addBook(bookObj: Book) -> Void {
+        library.append(bookObj)
     }
     
     func hash(into hasher: inout Hasher) {

@@ -1,5 +1,5 @@
 //
-//  CustomFont.swift
+//  FontExtension.swift
 //  Story Wizard
 //
 //  Created by Jeff Gugelmann on 17/10/2022.

@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "seamless-wood-texture-stylized-which-can-be-tiled-seamlessly-will-even-more-natural-tiled-images-objects-vector-eps-32630680.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
