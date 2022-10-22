@@ -11,6 +11,7 @@ struct HeaderView: View {
     var text: String
     var profile: Profile?
     var iconSize: CGFloat = 32
+    var textSize: CGFloat = 32
     var leftIcon: String?
     var rightIcon: String?
     var profileAction: (() -> Void)?
@@ -24,7 +25,7 @@ struct HeaderView: View {
         ZStack(alignment: .top) {
             HStack(alignment: .center) {
                 Text(text)
-                    .font(CustomFont.header.font)
+                    .font(Font.customHeader(size: textSize))
                     .multilineTextAlignment(.center)
             }
             .padding(.horizontal, hPad)

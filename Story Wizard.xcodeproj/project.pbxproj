@@ -18,12 +18,14 @@
 		2A587E3D28FD9C3C000ACBF5 /* LibraryPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A587E3C28FD9C3C000ACBF5 /* LibraryPage.swift */; };
 		2A587E3F28FD9C63000ACBF5 /* SettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A587E3E28FD9C63000ACBF5 /* SettingsPage.swift */; };
 		2A587E4228FD9ECF000ACBF5 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A587E4128FD9ECF000ACBF5 /* HeaderView.swift */; };
-		2A587E4528FD9FD8000ACBF5 /* CustomFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A587E4428FD9FD8000ACBF5 /* CustomFont.swift */; };
+		2A587E4528FD9FD8000ACBF5 /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A587E4428FD9FD8000ACBF5 /* FontExtension.swift */; };
 		2A587E4728FDA15D000ACBF5 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A587E4628FDA15D000ACBF5 /* IconButton.swift */; };
 		2A587E4928FDD85C000ACBF5 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A587E4828FDD85C000ACBF5 /* Page.swift */; };
 		2A587E4B28FDD8F1000ACBF5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A587E4A28FDD8F1000ACBF5 /* User.swift */; };
 		2A587E4D28FDD91D000ACBF5 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A587E4C28FDD91D000ACBF5 /* Profile.swift */; };
 		2A587E4F28FDDBC8000ACBF5 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A587E4E28FDDBC8000ACBF5 /* TestData.swift */; };
+		2AF488142903F9DB0024152C /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF488132903F9DB0024152C /* ColorExtension.swift */; };
+		2AF4881B2903FFB70024152C /* GloriaHallelujah.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2AF4881A2903FFB70024152C /* GloriaHallelujah.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,12 +41,15 @@
 		2A587E3C28FD9C3C000ACBF5 /* LibraryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPage.swift; sourceTree = "<group>"; };
 		2A587E3E28FD9C63000ACBF5 /* SettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPage.swift; sourceTree = "<group>"; };
 		2A587E4128FD9ECF000ACBF5 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
-		2A587E4428FD9FD8000ACBF5 /* CustomFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFont.swift; sourceTree = "<group>"; };
+		2A587E4428FD9FD8000ACBF5 /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		2A587E4628FDA15D000ACBF5 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		2A587E4828FDD85C000ACBF5 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		2A587E4A28FDD8F1000ACBF5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		2A587E4C28FDD91D000ACBF5 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		2A587E4E28FDDBC8000ACBF5 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
+		2AF488132903F9DB0024152C /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		2AF4881A2903FFB70024152C /* GloriaHallelujah.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GloriaHallelujah.ttf; sourceTree = "<group>"; };
+		2AF4881C290400260024152C /* Story-Wizard-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Story-Wizard-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,12 +82,14 @@
 		2A587E2228FD935A000ACBF5 /* Story Wizard */ = {
 			isa = PBXGroup;
 			children = (
+				2AF4881C290400260024152C /* Story-Wizard-Info.plist */,
 				2A587E2328FD935A000ACBF5 /* Story_WizardApp.swift */,
 				2A587E3128FD945A000ACBF5 /* NavigationView.swift */,
 				2A587E2728FD935B000ACBF5 /* Assets.xcassets */,
 				2A587E3328FD9528000ACBF5 /* Pages */,
 				2A587E4028FD9EAE000ACBF5 /* Components */,
 				2A587E4328FD9FC8000ACBF5 /* Classes */,
+				2AF488192903FFA20024152C /* Fonts */,
 				2A587E2928FD935B000ACBF5 /* Preview Content */,
 			);
 			path = "Story Wizard";
@@ -121,13 +128,22 @@
 		2A587E4328FD9FC8000ACBF5 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				2A587E4428FD9FD8000ACBF5 /* CustomFont.swift */,
+				2AF488132903F9DB0024152C /* ColorExtension.swift */,
+				2A587E4428FD9FD8000ACBF5 /* FontExtension.swift */,
 				2A587E4828FDD85C000ACBF5 /* Page.swift */,
 				2A587E4A28FDD8F1000ACBF5 /* User.swift */,
 				2A587E4C28FDD91D000ACBF5 /* Profile.swift */,
 				2A587E4E28FDDBC8000ACBF5 /* TestData.swift */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		2AF488192903FFA20024152C /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				2AF4881A2903FFB70024152C /* GloriaHallelujah.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,6 +206,7 @@
 			files = (
 				2A587E2B28FD935B000ACBF5 /* Preview Assets.xcassets in Resources */,
 				2A587E2828FD935B000ACBF5 /* Assets.xcassets in Resources */,
+				2AF4881B2903FFB70024152C /* GloriaHallelujah.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,11 +223,12 @@
 				2A587E4F28FDDBC8000ACBF5 /* TestData.swift in Sources */,
 				2A587E4D28FDD91D000ACBF5 /* Profile.swift in Sources */,
 				2A587E3228FD945A000ACBF5 /* NavigationView.swift in Sources */,
+				2AF488142903F9DB0024152C /* ColorExtension.swift in Sources */,
 				2A587E3528FD9542000ACBF5 /* ChooseUserPage.swift in Sources */,
 				2A587E3F28FD9C63000ACBF5 /* SettingsPage.swift in Sources */,
 				2A587E2428FD935A000ACBF5 /* Story_WizardApp.swift in Sources */,
 				2A587E4928FDD85C000ACBF5 /* Page.swift in Sources */,
-				2A587E4528FD9FD8000ACBF5 /* CustomFont.swift in Sources */,
+				2A587E4528FD9FD8000ACBF5 /* FontExtension.swift in Sources */,
 				2A587E3728FD95D9000ACBF5 /* HomePage.swift in Sources */,
 				2A587E4728FDA15D000ACBF5 /* IconButton.swift in Sources */,
 				2A587E3D28FD9C3C000ACBF5 /* LibraryPage.swift in Sources */,
@@ -346,6 +364,7 @@
 				DEVELOPMENT_TEAM = 46B5GC92TB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Story-Wizard-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Story Wizard";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.kids-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -377,6 +396,7 @@
 				DEVELOPMENT_TEAM = 46B5GC92TB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Story-Wizard-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Story Wizard";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.kids-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

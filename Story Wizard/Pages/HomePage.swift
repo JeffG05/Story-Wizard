@@ -61,7 +61,7 @@ struct HomePageButton: View {
             action()
         } label: {
             Text(text)
-                .font(CustomFont.mainBody.font)
+                .font(Font.customBody())
         }
         .frame(width: proxy.size.width / 2)
         .padding(.vertical, 24)
