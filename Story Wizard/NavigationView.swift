@@ -37,6 +37,7 @@ struct NavigationView: View {
                 EmptyView()
             }
         }
+        .ignoresSafeArea(.keyboard)
         .onChange(of: page) { _ in
             if page == .goBack {
                 currentPage = prevPage
