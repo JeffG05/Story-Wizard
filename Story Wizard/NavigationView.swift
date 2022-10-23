@@ -8,15 +8,19 @@
 import SwiftUI
 
 struct NavigationView: View {
-    @State private var page: Page = .chooseUser
+    @State private var page: Page = .signIn
     @State private var user: User = TestData.testUser
     
-    @State private var prevPage: Page = .chooseUser
-    @State private var currentPage: Page = .chooseUser
+    @State private var prevPage: Page = .signIn
+    @State private var currentPage: Page = .signIn
         
     var body: some View {
         GeometryReader { g in
             switch page {
+            case .signIn:
+                SignInPage(page: $page, proxy: g)
+            case .signUp:
+                SignUpPage(page: $page, proxy: g)
             case .chooseUser:
                 ChooseUserPage(user: $user, page: $page, proxy: g)
             case .home:

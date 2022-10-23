@@ -27,6 +27,8 @@
 		2AF488142903F9DB0024152C /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF488132903F9DB0024152C /* ColorExtension.swift */; };
 		2AF4881B2903FFB70024152C /* GloriaHallelujah.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2AF4881A2903FFB70024152C /* GloriaHallelujah.ttf */; };
 		2AF4881E29045A2E0024152C /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF4881D29045A2E0024152C /* Book.swift */; };
+		C55C493129049B7100942545 /* SignUpPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C492F29049B7100942545 /* SignUpPage.swift */; };
+		C55C493229049B7100942545 /* SignInPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C493029049B7100942545 /* SignInPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,8 @@
 		2AF4881A2903FFB70024152C /* GloriaHallelujah.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GloriaHallelujah.ttf; sourceTree = "<group>"; };
 		2AF4881C290400260024152C /* Story-Wizard-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Story-Wizard-Info.plist"; sourceTree = SOURCE_ROOT; };
 		2AF4881D29045A2E0024152C /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		C55C492F29049B7100942545 /* SignUpPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpPage.swift; sourceTree = "<group>"; };
+		C55C493029049B7100942545 /* SignInPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +114,8 @@
 			children = (
 				2A587E3428FD9542000ACBF5 /* ChooseUserPage.swift */,
 				2A587E3628FD95D9000ACBF5 /* HomePage.swift */,
+				C55C493029049B7100942545 /* SignInPage.swift */,
+				C55C492F29049B7100942545 /* SignUpPage.swift */,
 				2A587E3828FD9BD6000ACBF5 /* CreateStoryPage.swift */,
 				2A587E3A28FD9C15000ACBF5 /* ReadStoryPage.swift */,
 				2A587E3C28FD9C3C000ACBF5 /* LibraryPage.swift */,
@@ -220,6 +226,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C55C493229049B7100942545 /* SignInPage.swift in Sources */,
 				2A587E4B28FDD8F1000ACBF5 /* User.swift in Sources */,
 				2A587E3B28FD9C15000ACBF5 /* ReadStoryPage.swift in Sources */,
 				2A587E4228FD9ECF000ACBF5 /* HeaderView.swift in Sources */,
@@ -232,6 +239,7 @@
 				2A587E2428FD935A000ACBF5 /* Story_WizardApp.swift in Sources */,
 				2A587E4928FDD85C000ACBF5 /* Page.swift in Sources */,
 				2A587E4528FD9FD8000ACBF5 /* FontExtension.swift in Sources */,
+				C55C493129049B7100942545 /* SignUpPage.swift in Sources */,
 				2A587E3728FD95D9000ACBF5 /* HomePage.swift in Sources */,
 				2A587E4728FDA15D000ACBF5 /* IconButton.swift in Sources */,
 				2A587E3D28FD9C3C000ACBF5 /* LibraryPage.swift in Sources */,

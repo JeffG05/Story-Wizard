@@ -6,6 +6,8 @@
 //
 
 enum Page {
+    case signIn
+    case signUp
     case chooseUser
     case home
     case createStory
