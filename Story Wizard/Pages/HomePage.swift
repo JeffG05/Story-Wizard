@@ -25,16 +25,16 @@ struct HomePage: View {
                     rightAction: goToSettings
                 )
                 .foregroundColor(.mainYellow)
-                Spacer()
-                HomePageButton(text: "Create A Story", proxy: proxy) {
+                HomePageButton(text: "Create A Story", image: Image("HomePageImage1"), yOffset: 75, proxy: proxy) {
                     goToStoryCreator()
                 }
                 Spacer()
-                HomePageButton(text: "Read Your Stories", proxy: proxy) {
+                HomePageButton(text: "See Your Stories", image: Image("HomePageImage2"), yOffset: 100, proxy: proxy) {
                     goToLibrary()
                 }
                 Spacer()
             }
+            .padding(.bottom, proxy.size.height / 8)
         }
     }
     
@@ -57,27 +57,34 @@ struct HomePage: View {
 
 struct HomePageButton: View {
     var text: String
+    var image: Image
+    var yOffset: CGFloat
     var proxy: GeometryProxy
     var action: () -> Void
     
     var body: some View {
-        Button {
-            action()
-        } label: {
-            Text(text)
-                .font(Font.customBody())
+        ZStack {
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 7 * proxy.size.width / 8)
+            
+            Button {
+                action()
+            } label: {
+                Text(text)
+                    .font(Font.customHeader(size: 25))
+            }
+            .frame(width: 2 * proxy.size.width / 3)
+            .padding(.vertical, 24)
+            .background(
+                RoundedRectangle(cornerRadius: 36)
+                    .fill(Color.mainYellow)
+                    .shadow(color: .black.opacity(0.25), radius: 2, y: 4)
+            )
+            .foregroundColor(Color.black)
+            .transformEffect(.init(translationX: 0, y: yOffset))
         }
-        .frame(width: proxy.size.width / 2)
-        .padding(.vertical, 24)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.init(white: 0.8))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(Color.black)
-                )
-        )
-        .foregroundColor(Color.black)
     }
 }
 
