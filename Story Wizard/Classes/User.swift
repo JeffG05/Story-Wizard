@@ -7,20 +7,20 @@
 
 import SwiftUI
 
-class User {
+class User : ObservableObject {
     
     var name: String
     var email: String
     var password: String
-    var profiles: [Profile]
-    var currentProfile: Profile?
+    @Published var profiles: [Profile]
+    @Published var currentProfileIndex: Int = -1
     
-    init(name: String, email: String, password: String, profiles: [Profile], currentProfile: Profile? = nil) {
+    init(name: String, email: String, password: String, profiles: [Profile], currentProfileIndex: Int = 0) {
         self.name = name
         self.email = email
         self.password = password
         self.profiles = profiles
-        self.currentProfile = currentProfile ?? profiles.first
+        self.currentProfileIndex = currentProfileIndex
     }
     
 }

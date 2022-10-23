@@ -8,16 +8,19 @@
 import SwiftUI
 
 
-class Book: Hashable {
+struct Book: Hashable {
     
     var title: String
     var frontCover: Image
-//    var blurb: String
-    
-    init(title: String, frontCover: Image) {
+    var blurb: String
+    var bookmarked: Bool
+    var themes: [String]
+    init(title: String, frontCover: Image, blurb: String,bookmarked: Bool, themes: [String]) {
         self.title = title
         self.frontCover = frontCover
-//        self.blurb = blurb
+        self.blurb = blurb
+        self.bookmarked = bookmarked
+        self.themes = themes
     }
     
     func hash(into hasher: inout Hasher) {
@@ -32,6 +35,9 @@ class Book: Hashable {
         frontCover
             .resizable()
             .frame(width: size * aspectRatio, height: size)
+    }
+    mutating func bookmark() {
+        self.bookmarked = !self.bookmarked
     }
     
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NavigationView: View {
     @State private var page: Page = .signIn
-    @State private var user: User = TestData.testUser
+    @StateObject private var user: User = TestData.testUser
     
     @State private var prevPage: Page = .signIn
     @State private var currentPage: Page = .signIn
@@ -22,21 +22,22 @@ struct NavigationView: View {
             case .signUp:
                 SignUpPage(page: $page, proxy: g)
             case .chooseUser:
-                ChooseUserPage(user: $user, page: $page, proxy: g)
+                ChooseUserPage(page: $page, proxy: g)
             case .home:
-                HomePage(profile: user.currentProfile!, page: $page, proxy: g)
+                HomePage(profile: user.profiles[user.currentProfileIndex], page: $page, proxy: g)
             case .createStory:
                 CreateStoryPage(page: $page, proxy: g)
             case .readStory:
                 ReadStoryPage(page: $page, proxy: g)
             case .library:
-                LibraryPage(profile: user.currentProfile!, page: $page, proxy: g)
+                LibraryPage(profile: user.profiles[user.currentProfileIndex], page: $page, proxy: g)
             case .settings:
-                SettingsPage(user: $user, page: $page, proxy: g)
+                SettingsPage(page: $page, proxy: g)
             default:
                 EmptyView()
             }
         }
+        .environmentObject(user)
         .ignoresSafeArea(.keyboard)
         .onChange(of: page) { _ in
             if page == .goBack {

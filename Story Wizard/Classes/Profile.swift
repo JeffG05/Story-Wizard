@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class Profile: Hashable {
+struct Profile: Hashable {
     var name: String
     var profilePicture: Image
     var library: [Book] // library array stores book objects
@@ -26,7 +26,7 @@ class Profile: Hashable {
             .clipShape(Circle())
     }
     
-    func addBook(bookObj: Book) -> Void {
+    mutating func addBook(bookObj: Book) -> Void {
         library.append(bookObj)
     }
     

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ChooseUserPage: View {
-    @Binding var user: User
+    @EnvironmentObject var user: User
     @Binding var page: Page
     var proxy: GeometryProxy
     
@@ -40,9 +40,9 @@ struct ChooseUserPage: View {
                 
                 ScrollView(showsIndicators: false) {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 0) {
-                        ForEach(user.profiles, id: \.self) { profile in
-                            ProfileOptionView(profile: profile, proxy: proxy) {
-                                selectProfile(profile: profile)
+                        ForEach(0..<user.profiles.count, id: \.self) { i in
+                            ProfileOptionView(profile: user.profiles[i], proxy: proxy) {
+                                selectProfile(profileIndex: i)
                             }
                         }
                         AddProfileView(proxy: proxy) {
@@ -61,8 +61,8 @@ struct ChooseUserPage: View {
         .ignoresSafeArea()
     }
     
-    func selectProfile(profile: Profile) {
-        user.currentProfile = profile
+    func selectProfile(profileIndex: Int) {
+        user.currentProfileIndex = profileIndex
         page = .home
     }
 }
@@ -147,7 +147,8 @@ struct EditButton: View {
 struct ChooseUserPage_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { g in
-            ChooseUserPage(user: .constant(TestData.testUser), page: .constant(.chooseUser), proxy: g)
+            ChooseUserPage(page: .constant(.chooseUser), proxy: g)
+                .environmentObject(TestData.testUser)
         }
     }
 }

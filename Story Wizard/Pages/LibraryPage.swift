@@ -11,7 +11,9 @@ struct LibraryPage: View {
     var profile: Profile
     @Binding var page: Page
     var proxy: GeometryProxy
-    
+    @State var showPreview: Bool = false
+    @State var currentBookIndex : Int = -1
+    @EnvironmentObject var user: User
     var body: some View {
         
         ZStack {
@@ -26,7 +28,10 @@ struct LibraryPage: View {
                     rightAction: goToSettings
                 )
                 
-                Bookcase(profile: profile, proxy: proxy)
+                Bookcase(profile: profile, proxy: proxy, showPreview: $showPreview, currentBookIndex: $currentBookIndex)
+            }
+            if showPreview && currentBookIndex != -1 {
+                PreviewView(showPreview: $showPreview, bookIndex: currentBookIndex)
             }
         }
     }
@@ -43,7 +48,8 @@ struct LibraryPage: View {
 struct Bookcase: View {
     var profile: Profile
     var proxy: GeometryProxy
-    
+    @Binding var showPreview: Bool
+    @Binding var currentBookIndex: Int
     var body: some View {
         let shelfboardHeight: CGFloat = 25
         let shelves = max(Int(ceil(Double(profile.library.count) / 2.0) * 2), 6)
@@ -68,7 +74,7 @@ struct Bookcase: View {
                                         .frame(width: shelfboardHeight)
                                 }
                                 if i < profile.library.count {
-                                    BookOptionView(book: profile.library[i], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight) {}
+                                    BookOptionView(book: profile.library[i], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, showPreview: $showPreview, currentBookIndex: $currentBookIndex, thisIndex: i) {}
                                 } else {
                                     Spacer()
                                 }
@@ -111,8 +117,10 @@ struct BookOptionView: View {
     var book: Book
     var maxWidth: CGFloat
     var maxHeight: CGFloat
+    @Binding var showPreview: Bool
+    @Binding var currentBookIndex: Int
+    var thisIndex: Int
     var action: () -> Void
-    
     var body: some View {
         
         let bookHeight = maxHeight - 20
@@ -120,15 +128,27 @@ struct BookOptionView: View {
         
         ZStack {
             Button {
-                action()
+            action: do {
+                withAnimation(.easeIn(duration: 0.25)) {
+                    showPreview = true
+                    currentBookIndex = thisIndex
+                }
+            }
             } label: {
                 ZStack {
                     book.bookCover(size: bookHeight)
+                    
                     Text(book.title)
                         .frame(width: bookWidth)
-                        .font(Font.customBody())
+                        .font(Font.customHeader(size: 20))
                         .foregroundColor(.white)
                         .bold()
+                    
+                    if book.bookmarked {
+                        Image(systemName: "bookmark.fill")
+                            .foregroundColor(.red)
+                            .offset(x: 40, y: -75)
+                    }
                 }
                 .frame(width: bookWidth, height: bookHeight)
             }
