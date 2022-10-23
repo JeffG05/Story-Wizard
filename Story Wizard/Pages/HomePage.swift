@@ -13,25 +13,29 @@ struct HomePage: View {
     var proxy: GeometryProxy
     
     var body: some View {
-        VStack {
-            HeaderView(
-                text: "Welcome\n\(profile.name)!",
-                profile: profile,
-                rightIcon: "gear",
-                profileAction: goToUserSwitcher,
-                rightAction: goToSettings
-            )
-            Spacer()
-            HomePageButton(text: "Create A Story", proxy: proxy) {
-                goToStoryCreator()
+        ZStack {
+            BackgroundStarsView()
+            
+            VStack {
+                HeaderView(
+                    text: "Welcome\n\(profile.name)!",
+                    profile: profile,
+                    rightIcon: "gear",
+                    profileAction: goToUserSwitcher,
+                    rightAction: goToSettings
+                )
+                .foregroundColor(.mainYellow)
+                Spacer()
+                HomePageButton(text: "Create A Story", proxy: proxy) {
+                    goToStoryCreator()
+                }
+                Spacer()
+                HomePageButton(text: "Read Your Stories", proxy: proxy) {
+                    goToLibrary()
+                }
+                Spacer()
             }
-            Spacer()
-            HomePageButton(text: "Read Your Stories", proxy: proxy) {
-                goToLibrary()
-            }
-            Spacer()
         }
-        .frame(width: proxy.size.width, height: proxy.size.height)
     }
     
     func goToUserSwitcher() {

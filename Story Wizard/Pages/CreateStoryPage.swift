@@ -12,13 +12,17 @@ struct CreateStoryPage: View {
     var proxy: GeometryProxy
     
     var body: some View {
-        VStack {
-            HeaderView(
-                text: "What will your story be about?",
-                leftIcon: "arrow.backward",
-                leftAction: goToLibrary
-            )
-            Spacer()
+        ZStack {
+            BackgroundBubbleView(bubblePosition: .left, proxy: proxy)
+            
+            VStack {
+                HeaderView(
+                    text: "What will your story be about?",
+                    leftIcon: "x.square",
+                    leftAction: goToLibrary
+                )
+                Spacer()
+            }
         }
     }
     
