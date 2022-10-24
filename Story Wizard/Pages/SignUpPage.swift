@@ -110,6 +110,7 @@ struct SignUpPage_Previews: PreviewProvider {
         GeometryReader { g in
             SignUpPage(page: .constant(.signUp), proxy: g)
         }
+        .environmentObject(TestData.testUser)
     }
 }
 

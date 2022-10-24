@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChooseUserPage: View {
     @EnvironmentObject var user: User
+    
     @Binding var page: Page
     var proxy: GeometryProxy
     
@@ -148,7 +149,7 @@ struct ChooseUserPage_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { g in
             ChooseUserPage(page: .constant(.chooseUser), proxy: g)
-                .environmentObject(TestData.testUser)
         }
+        .environmentObject(TestData.testUser)
     }
 }

@@ -34,5 +34,6 @@ struct SettingsPage_Previews: PreviewProvider {
             SettingsPage(page: .constant(.settings), proxy: g)
                 .environmentObject(TestData.testUser)
         }
+        .environmentObject(TestData.testUser)
     }
 }

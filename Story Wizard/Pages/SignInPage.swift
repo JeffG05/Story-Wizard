@@ -134,5 +134,6 @@ struct SignInPage_Previews: PreviewProvider {
         GeometryReader { g in
             SignInPage(page: .constant(.signIn), proxy: g)
         }
+        .environmentObject(TestData.testUser)
     }
 }
