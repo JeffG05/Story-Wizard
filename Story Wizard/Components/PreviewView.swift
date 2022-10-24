@@ -16,7 +16,6 @@ struct PreviewView: View {
                 Color.black.ignoresSafeArea().opacity(0.8)
                 PreviewOverlay(showPreview: $showPreview, bookIndex: bookIndex)
                     .padding()
-                    .shadow(radius: 10)
             }
     }
 }
@@ -56,13 +55,13 @@ struct PreviewData: View {
                             showPreview = false
                         }
                     }, label: {
-                        Image(systemName: "x.square")
+                        Image(systemName: "x.square.fill")
                             .resizable()
                             .frame(width: 40, height: 40)
                     })
                     Spacer()
-                    Text(user.profiles[user.currentProfileIndex].library[bookIndex].title)
-                        .font(Font.customHeader(size: 25))
+                    OutlinedText(text: user.profiles[user.currentProfileIndex].library[bookIndex].title, width: 1.5, color: .black)
+                                .font(Font.customHeader(size: 25))
                         
                     Spacer()
                     Button(action: {
@@ -70,7 +69,7 @@ struct PreviewData: View {
                             showPreview = false
                         }
                     }, label: {
-                        Image(systemName: "trash")
+                        Image(systemName: "trash.fill")
                             .resizable()
                             .frame(width: 40, height: 40)
                     })
@@ -78,7 +77,7 @@ struct PreviewData: View {
                 
                 .foregroundColor(.white)
                 Spacer()
-                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi volutpat sollicitudin ligula, ac molestie turpis lacinia posuere. Nunc vitae lorem non felis varius tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean at sapien ut justo tincidunt eleifend. Mauris dictum urna sit amet velit semper tincidunt.")
+                OutlinedText(text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi volutpat sollicitudin ligula, ac molestie turpis lacinia posuere. Nunc vitae lorem non felis varius tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean at sapien ut justo tincidunt eleifend. Mauris dictum urna sit amet velit semper tincidunt.", width: 1, color: .black)
                     .foregroundColor(.white)
                 Spacer()
                 HStack {
@@ -88,8 +87,8 @@ struct PreviewData: View {
                                 Image(systemName: "book")
                                     .resizable()
                                     .frame(width: 60, height: 60)
-                                Text("Read")
-                                    .font(Font.customHeader(size: 15))
+                                OutlinedText(text: "Read", width: 1.5, color: .black)
+                                            .font(Font.customHeader(size: 15))
                             }
                         })
                     
@@ -109,8 +108,8 @@ struct PreviewData: View {
                                     .frame(width: 50, height: 60)
                             }
                             
-                            Text("Bookmark")
-                                .font(Font.customHeader(size: 15))
+                            OutlinedText(text: "Bookmark", width: 1.5, color: .black)
+                                        .font(Font.customHeader(size: 15))
                         }
                     })
                     Spacer()
@@ -124,21 +123,8 @@ struct PreviewData: View {
         }
     }
 }
-extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape( RoundedCorner(radius: radius, corners: corners) )
-    }
-}
-struct RoundedCorner: Shape {
 
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
 
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        return Path(path.cgPath)
-    }
-}
 struct PreviewView_Previews: PreviewProvider {
     static var previews: some View {
         PreviewView(showPreview: .constant(true), bookIndex: 0)

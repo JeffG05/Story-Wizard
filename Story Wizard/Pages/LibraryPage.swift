@@ -138,9 +138,9 @@ struct BookOptionView: View {
                 ZStack {
                     book.bookCover(size: bookHeight)
                     
-                    Text(book.title)
-                        .frame(width: bookWidth)
+                    OutlinedText(text: book.title, width: 1.5, color: .black)
                         .font(Font.customHeader(size: 20))
+                        .frame(width: bookWidth)
                         .foregroundColor(.white)
                         .bold()
                     

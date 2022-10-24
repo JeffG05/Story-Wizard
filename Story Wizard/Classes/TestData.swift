@@ -9,7 +9,7 @@ import SwiftUI
 
 class TestData {
     // Books
-    static var testBook: Book = Book(title: "Lost in Paradise", frontCover: Image("LostInParadise"), blurb: "Editor placeholder in source file", bookmarked: true, themes: ["Tropical"])
+    static var testBook: Book = Book(title: "Lost in Paradise", frontCover: Image("IslandOfParadiseCover"), blurb: "Editor placeholder in source file", bookmarked: true, themes: ["Tropical"])
     
     static var testBook2: Book = Book(title: "Lost2", frontCover: Image("LostInParadise"), blurb: "Editor placeholder in source file", bookmarked: false, themes: ["Tropical"])
     
