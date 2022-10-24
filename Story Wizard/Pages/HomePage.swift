@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct HomePage: View {
-    var profile: Profile
+    @EnvironmentObject var user: User
+    
     @Binding var page: Page
     var proxy: GeometryProxy
     
@@ -18,8 +19,8 @@ struct HomePage: View {
             
             VStack {
                 HeaderView(
-                    text: "Welcome\n\(profile.name)!",
-                    profile: profile,
+                    text: "Welcome\n\(user.currentProfile!.name)!",
+                    showProfile: true,
                     rightIcon: "gear",
                     profileAction: goToUserSwitcher,
                     rightAction: goToSettings
@@ -74,9 +75,9 @@ struct HomePageButton: View {
             } label: {
                 Text(text)
                     .font(Font.customHeader(size: 25))
+                    .frame(width: 2 * proxy.size.width / 3)
+                    .padding(.vertical, 24)
             }
-            .frame(width: 2 * proxy.size.width / 3)
-            .padding(.vertical, 24)
             .background(
                 RoundedRectangle(cornerRadius: 36)
                     .fill(Color.mainYellow)
@@ -91,7 +92,8 @@ struct HomePageButton: View {
 struct HomePage_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { g in
-            HomePage(profile: TestData.testProfile, page: .constant(.home), proxy: g)
+            HomePage(page: .constant(.home), proxy: g)
         }
+        .environmentObject(TestData.testUser)
     }
 }

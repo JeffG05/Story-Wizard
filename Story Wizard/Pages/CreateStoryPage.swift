@@ -19,15 +19,15 @@ struct CreateStoryPage: View {
                 HeaderView(
                     text: "What will your story be about?",
                     leftIcon: "x.square",
-                    leftAction: goToLibrary
+                    leftAction: goBack
                 )
                 Spacer()
             }
         }
     }
     
-    func goToLibrary() {
-        page = .library
+    func goBack() {
+        page = .goBack
     }
 }
 
@@ -36,5 +36,6 @@ struct CreateStoryPage_Previews: PreviewProvider {
         GeometryReader { g in
             CreateStoryPage(page: .constant(.createStory), proxy: g)
         }
+        .environmentObject(TestData.testUser)
     }
 }

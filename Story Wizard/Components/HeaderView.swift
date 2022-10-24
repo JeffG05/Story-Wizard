@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct HeaderView: View {
+    @EnvironmentObject var user: User
+    
     var text: String
-    var profile: Profile?
     var iconSize: CGFloat = 32
     var textSize: CGFloat = 32
+    var showProfile: Bool = false
     var leftIcon: String?
     var rightIcon: String?
     var profileAction: (() -> Void)?
@@ -19,7 +21,7 @@ struct HeaderView: View {
     var rightAction: (() -> Void)?
 
     var body: some View {
-        let hPad = 24 + (profile != nil ? 42 : 0) + (leftIcon != nil || rightIcon != nil ? iconSize : 0) + 8
+        let hPad = 24 + (showProfile ? 42 : 0) + (leftIcon != nil || rightIcon != nil ? iconSize : 0) + 8
         
         
         ZStack(alignment: .top) {
@@ -30,11 +32,11 @@ struct HeaderView: View {
             }
             .padding(.horizontal, hPad)
             HStack {
-                if profile != nil {
+                if showProfile {
                     Button {
                         profileAction?()
                     } label: {
-                        profile!.profileCircle(size: 42)
+                        user.currentProfile!.profileCircle(size: 42)
                     }
                     .foregroundColor(.black)
                 }
@@ -59,8 +61,9 @@ struct HeaderView: View {
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            HeaderView(text: "Welcome Child 123456", profile: TestData.testProfile, rightIcon: "arrow.right")
+            HeaderView(text: "Welcome Child 123456", rightIcon: "arrow.right")
             Spacer()
         }
+        .environmentObject(TestData.testUser)
     }
 }

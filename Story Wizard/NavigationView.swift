@@ -24,13 +24,13 @@ struct NavigationView: View {
             case .chooseUser:
                 ChooseUserPage(page: $page, proxy: g)
             case .home:
-                HomePage(profile: user.profiles[user.currentProfileIndex], page: $page, proxy: g)
+                HomePage(page: $page, proxy: g)
             case .createStory:
                 CreateStoryPage(page: $page, proxy: g)
             case .readStory:
                 ReadStoryPage(page: $page, proxy: g)
             case .library:
-                LibraryPage(profile: user.profiles[user.currentProfileIndex], page: $page, proxy: g)
+                LibraryPage(page: $page, proxy: g)
             case .settings:
                 SettingsPage(page: $page, proxy: g)
             default:

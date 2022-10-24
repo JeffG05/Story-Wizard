@@ -12,7 +12,18 @@ struct ReadStoryPage: View {
     var proxy: GeometryProxy
     
     var body: some View {
-        Text("Read Story")
+        VStack {
+            HeaderView(
+                text: "Read Story",
+                leftIcon: "x.square",
+                leftAction: goBack
+            )
+            Spacer()
+        }
+    }
+    
+    func goBack() {
+        page = .goBack
     }
 }
 
@@ -21,5 +32,6 @@ struct ReadStoryPage_Previews: PreviewProvider {
         GeometryReader { g in
             ReadStoryPage(page: .constant(.readStory), proxy: g)
         }
+        .environmentObject(TestData.testUser)
     }
 }

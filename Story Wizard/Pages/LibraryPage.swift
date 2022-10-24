@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct LibraryPage: View {
-    var profile: Profile
-    @Binding var page: Page
-    var proxy: GeometryProxy
+    @EnvironmentObject var user: User
+    
     @State var showPreview: Bool = false
     @State var currentBookIndex : Int = -1
-    @EnvironmentObject var user: User
+    
+    @Binding var page: Page
+    var proxy: GeometryProxy
+    
     var body: some View {
         
         ZStack {
@@ -21,14 +23,14 @@ struct LibraryPage: View {
             
             VStack {
                 HeaderView(
-                    text: "\(profile.name)'s Library",
-                    profile: profile,
+                    text: "\(user.currentProfile!.name)'s Library",
+                    showProfile: true,
                     rightIcon: "gear",
                     profileAction: goToUserSwitcher,
                     rightAction: goToSettings
                 )
                 
-                Bookcase(profile: profile, proxy: proxy, showPreview: $showPreview, currentBookIndex: $currentBookIndex)
+                Bookcase(proxy: proxy, showPreview: $showPreview, currentBookIndex: $currentBookIndex)
             }
             if showPreview && currentBookIndex != -1 {
                 PreviewView(showPreview: $showPreview, bookIndex: currentBookIndex)
@@ -46,13 +48,15 @@ struct LibraryPage: View {
 }
 
 struct Bookcase: View {
-    var profile: Profile
+    @EnvironmentObject var user: User
+    
     var proxy: GeometryProxy
     @Binding var showPreview: Bool
     @Binding var currentBookIndex: Int
+    
     var body: some View {
         let shelfboardHeight: CGFloat = 25
-        let shelves = max(Int(ceil(Double(profile.library.count) / 2.0) * 2), 6)
+        let shelves = max(Int(ceil(Double(user.currentProfile!.library.count) / 2.0) * 2), 6)
         
         GeometryReader { g in
             let shelfSectionHeight = (g.size.height - proxy.safeAreaInsets.bottom) / 3
@@ -73,8 +77,8 @@ struct Bookcase: View {
                                         .resizable()
                                         .frame(width: shelfboardHeight)
                                 }
-                                if i < profile.library.count {
-                                    BookOptionView(book: profile.library[i], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, showPreview: $showPreview, currentBookIndex: $currentBookIndex, thisIndex: i) {}
+                                if i < user.currentProfile!.library.count {
+                                    BookOptionView(book: user.currentProfile!.library[i], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, showPreview: $showPreview, currentBookIndex: $currentBookIndex, thisIndex: i) {}
                                 } else {
                                     Spacer()
                                 }
@@ -162,7 +166,8 @@ struct BookOptionView: View {
 struct LibraryPage_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { g in
-            LibraryPage(profile: TestData.testProfile, page: .constant(.library), proxy: g)
+            LibraryPage( page: .constant(.library), proxy: g)
         }
+        .environmentObject(TestData.testUser)
     }
 }
