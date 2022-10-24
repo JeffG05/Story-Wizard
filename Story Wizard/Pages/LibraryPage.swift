@@ -12,7 +12,7 @@ struct LibraryPage: View {
     
     @State var showPreview: Bool = false
     @State var currentBookIndex : Int = -1
-    
+    @State var showBookmarked: Bool = false
     @Binding var page: Page
     var proxy: GeometryProxy
     
@@ -29,8 +29,11 @@ struct LibraryPage: View {
                     profileAction: goToUserSwitcher,
                     rightAction: goToSettings
                 )
-                
-                Bookcase(proxy: proxy, showPreview: $showPreview, currentBookIndex: $currentBookIndex)
+                Toggle(isOn: $showBookmarked, label: {
+                    Text("Show Bookmarked only")
+                })
+                .padding()
+                Bookcase(proxy: proxy, showPreview: $showPreview, currentBookIndex: $currentBookIndex, showBookmarked: showBookmarked)
             }
             if showPreview && currentBookIndex != -1 {
                 PreviewView(showPreview: $showPreview, bookIndex: currentBookIndex)
@@ -53,10 +56,11 @@ struct Bookcase: View {
     var proxy: GeometryProxy
     @Binding var showPreview: Bool
     @Binding var currentBookIndex: Int
-    
+    var showBookmarked: Bool
     var body: some View {
         let shelfboardHeight: CGFloat = 25
-        let shelves = max(Int(ceil(Double(user.currentProfile!.library.count) / 2.0) * 2), 6)
+        let numbers = showBookmarked ? user.currentProfile!.bookmarkedBooks.count : user.currentProfile!.library.count
+        let shelves = showBookmarked ? max(Int(ceil(Double(user.currentProfile!.bookmarkedBooks.count) / 2.0) * 2), 6) : max(Int(ceil(Double(user.currentProfile!.library.count) / 2.0) * 2), 6)
         
         GeometryReader { g in
             let shelfSectionHeight = (g.size.height - proxy.safeAreaInsets.bottom) / 3
@@ -77,8 +81,12 @@ struct Bookcase: View {
                                         .resizable()
                                         .frame(width: shelfboardHeight)
                                 }
-                                if i < user.currentProfile!.library.count {
-                                    BookOptionView(book: user.currentProfile!.library[i], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, showPreview: $showPreview, currentBookIndex: $currentBookIndex, thisIndex: i) {}
+                                if i < numbers {
+                                    if showBookmarked {
+                                        BookOptionView(book: user.currentProfile!.library[user.currentProfile!.bookmarkedBooks[i]], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, showPreview: $showPreview, currentBookIndex: $currentBookIndex, thisIndex: user.currentProfile!.bookmarkedBooks[i]) {}
+                                    } else {
+                                        BookOptionView(book: user.currentProfile!.library[i], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, showPreview: $showPreview, currentBookIndex: $currentBookIndex, thisIndex: i) {}
+                                    }
                                 } else {
                                     Spacer()
                                 }
@@ -151,7 +159,7 @@ struct BookOptionView: View {
                     if book.bookmarked {
                         Image(systemName: "bookmark.fill")
                             .foregroundColor(.red)
-                            .offset(x: 40, y: -75)
+                            .offset(x: bookWidth * 0.3, y: -1 * bookHeight * 0.45)
                     }
                 }
                 .frame(width: bookWidth, height: bookHeight)

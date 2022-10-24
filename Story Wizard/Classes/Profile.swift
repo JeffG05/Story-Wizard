@@ -37,6 +37,15 @@ struct Profile: Hashable {
     static func == (lhs: Profile, rhs: Profile) -> Bool {
         return lhs.name == rhs.name && lhs.profilePicture == rhs.profilePicture
     }
+    var bookmarkedBooks: [Int] {
+        var result: [Int] = []
+        for index in 0..<library.count {
+            if library[index].bookmarked {
+                result.append(index)
+            }
+        }
+        return result
+    }
 }
 
 struct ProfileCircle_Previews: PreviewProvider {
