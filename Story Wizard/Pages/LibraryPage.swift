@@ -24,9 +24,9 @@ struct LibraryPage: View {
             VStack {
                 HeaderView(
                     text: "\(user.currentProfile!.name)'s Library",
-                    showProfile: true,
+                    leftIcon: "arrow.backward",
                     rightIcon: "gear",
-                    profileAction: goToUserSwitcher,
+                    leftAction: goToHome,
                     rightAction: goToSettings
                 )
                 
@@ -38,8 +38,8 @@ struct LibraryPage: View {
         }
     }
     
-    func goToUserSwitcher() {
-        page = .chooseUser
+    func goToHome() {
+        page = .home
     }
     
     func goToSettings() {
