@@ -11,6 +11,7 @@ struct LibraryPage: View {
     @EnvironmentObject var user: User
     
     @State var showPreview: Bool = false
+    @State var showSettings: Bool = false
     @State var currentBookIndex : Int = -1
     @State var showBookmarked: Bool = false
     @Binding var page: Page
@@ -29,14 +30,34 @@ struct LibraryPage: View {
                     leftAction: goToHome,
                     rightAction: goToSettings
                 )
-                Toggle(isOn: $showBookmarked, label: {
-                    Text("Show Bookmarked only")
+                
+                Button("Alphabetical", action:{
+                    user.currentProfile!.filterType = .alphabetical
+                    user.currentProfile!.sort_library()
                 })
-                .padding()
-                Bookcase(proxy: proxy, showPreview: $showPreview, currentBookIndex: $currentBookIndex, showBookmarked: showBookmarked)
+                
+                Button("Rev-Alphabetical", action:{
+                    user.currentProfile!.filterType = .rev_alphabet
+                    user.currentProfile!.sort_library()
+                })
+                
+                Button("Date Added", action:{
+                    user.currentProfile!.filterType = .date_added
+                    user.currentProfile!.sort_library()
+                })
+                
+                Button("Bookmarked", action:{
+                    user.currentProfile!.filterType = .bookmarked
+                    user.currentProfile!.sort_library()
+                })
+                
+                Bookcase(proxy: proxy, showPreview: $showPreview, currentBookIndex: $currentBookIndex)
             }
             if user.profiles[user.currentProfileIndex].currentBookIndex != -1 {
                 PreviewView(showPreview: $showPreview, bookIndex: $currentBookIndex,page: $page)
+            }
+            if showSettings == true {
+                SettingsView(showSettings: $showSettings)
             }
         }
     }
@@ -46,7 +67,9 @@ struct LibraryPage: View {
     }
     
     func goToSettings() {
-        page = .settings
+        showSettings = true
+        
+//        page = .settings
     }
 }
 
@@ -56,12 +79,10 @@ struct Bookcase: View {
     var proxy: GeometryProxy
     @Binding var showPreview: Bool
     @Binding var currentBookIndex: Int
-    var showBookmarked: Bool
+//    var showBookmarked: Bool
     var body: some View {
         let shelfboardHeight: CGFloat = 25
-        let numbers = showBookmarked ? user.currentProfile!.bookmarkedBooks.count : user.currentProfile!.library.count
-        let shelves = showBookmarked ? max(Int(ceil(Double(user.currentProfile!.bookmarkedBooks.count) / 2.0) * 2), 6) : max(Int(ceil(Double(user.currentProfile!.library.count) / 2.0) * 2), 6)
-        
+        let shelves = max(Int(ceil(Double(user.currentProfile!.libraryRender.count) / 2.0) * 2), 6)
         GeometryReader { g in
             let shelfSectionHeight = (g.size.height - proxy.safeAreaInsets.bottom) / 3
             ScrollView(showsIndicators: false) {
@@ -81,12 +102,8 @@ struct Bookcase: View {
                                         .resizable()
                                         .frame(width: shelfboardHeight)
                                 }
-                                if i < numbers {
-                                    if showBookmarked {
-                                        BookOptionView(book: user.currentProfile!.library[user.currentProfile!.bookmarkedBooks[i]], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, showPreview: $showPreview, currentBookIndex: $currentBookIndex, thisIndex: user.profiles[user.currentProfileIndex].bookmarkedBooks[i]) {}
-                                    } else {
-                                        BookOptionView(book: user.currentProfile!.library[i], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, showPreview: $showPreview, currentBookIndex: $currentBookIndex, thisIndex: i) {}
-                                    }
+                                if i < user.currentProfile!.libraryRender.count {
+                                   BookOptionView(book: user.currentProfile!.libraryRender[i], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, showPreview: $showPreview, currentBookIndex: $currentBookIndex, thisIndex: i) {}
                                 } else {
                                     Spacer()
                                 }

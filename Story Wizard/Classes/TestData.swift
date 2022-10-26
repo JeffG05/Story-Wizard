@@ -25,8 +25,6 @@ class TestData {
         profile.addBook(bookObj: testBook2)
         profile.addBook(bookObj: testBook3)
         profile.addBook(bookObj: testBook)
-        profile.addBook(bookObj: testBook2)
-        profile.addBook(bookObj: testBook3)
         return profile
     }
     static var testProfile2: Profile {

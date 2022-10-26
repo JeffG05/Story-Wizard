@@ -7,19 +7,29 @@
 
 import SwiftUI
 
+public enum FilterType: Int {
+    case alphabetical  // section1 is explicitly 0. You can start at any value.
+    case rev_alphabet
+    case date_added
+    case bookmarked
+}
+
 struct Profile: Hashable, Identifiable {
     var id: UUID
     var name: String
     var profilePicture: Image?
     var profileColor: Color
     var library: [Book] // library array stores book objects
+    var libraryRender: [Book]
+    var filterType: FilterType?
     var currentBookIndex: Int
-    
     init(name: String, profilePicture: Image? = nil, profileColor: Color) {
         self.id = UUID()
         self.name = name
         self.profilePicture = profilePicture
-        self.library = []
+        self.library = [] // stores original order of books
+        self.libraryRender = [] // order of books changed depending on filter. This is what is rendered in library page
+        self.filterType = .date_added
         self.currentBookIndex = -1// initialise empty library on profile creation
         self.profileColor = profileColor
         
@@ -46,7 +56,6 @@ struct Profile: Hashable, Identifiable {
             .mint,
         ]
     }
-    
     @MainActor
     func profileCircle(size: CGFloat = 42) -> some View {
         
@@ -59,6 +68,7 @@ struct Profile: Hashable, Identifiable {
     
     mutating func addBook(bookObj: Book) -> Void {
         library.append(bookObj)
+        libraryRender.append(bookObj)
     }
     mutating func removeBook(atIndex index: Int) {
         library.remove(at: index)
@@ -74,14 +84,30 @@ struct Profile: Hashable, Identifiable {
     static func == (lhs: Profile, rhs: Profile) -> Bool {
         return lhs.name == rhs.name && lhs.profilePicture == rhs.profilePicture
     }
-    var bookmarkedBooks: [Int] {
-        var result: [Int] = []
-        for index in 0..<library.count {
-            if library[index].bookmarked {
-                result.append(index)
-            }
+        
+//        var bookmarkedBooks: [Int] {
+//            var result: [Int] = []
+//            for index in 0..<library.count {
+//                if library[index].bookmarked {
+//                    result.append(index)
+//                }
+//            }
+//            return result
+//        }
+    
+    mutating func sort_library() -> Void {
+        switch filterType {
+        case .alphabetical:
+            libraryRender.sort{ $0.title < $1.title }
+        case .rev_alphabet:
+            libraryRender.sort{ $0.title > $1.title }
+        case .date_added:
+            libraryRender = library
+        case .bookmarked:
+            libraryRender = library.filter{ $0.bookmarked == true }
+        case .none:
+            break
         }
-        return result
     }
 }
 
