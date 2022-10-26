@@ -13,6 +13,7 @@ struct ChooseUserPage: View {
     
     @State var editMode: Bool = false
     @State var editingProfileIndex: Int? = nil
+    @State var isEditingNew: Bool = false
     
     @Binding var page: Page
     var proxy: GeometryProxy
@@ -58,9 +59,9 @@ struct ChooseUserPage: View {
                                 }
                             }
                         }
-                        if !editMode {
+                        if !editMode && editingProfileIndex == nil {
                             AddProfileView(proxy: proxy) {
-                                print("Add profile")
+                                addProfile()
                             }
                         }
                     }
@@ -70,10 +71,17 @@ struct ChooseUserPage: View {
                 Spacer()
                 
                 EditButton(editMode: $editMode, proxy: proxy)
+                    .disabled(user.profiles.count == 0)
+                    .opacity(user.profiles.count == 0 ? 0.5 : 1)
             }
             .frame(width: proxy.size.width, height: proxy.size.height)
         }
         .ignoresSafeArea()
+        .onChange(of: user.profiles.count) { count in
+            if count == 0 {
+                editMode = false
+            }
+        }
         .sheet(
             isPresented: .init(
                 get: {
@@ -86,8 +94,9 @@ struct ChooseUserPage: View {
                 }
             )
         ) {
-            ProfileEditSheet(profileIndex: editingProfileIndex!) {
+            ProfileEditSheet(profileIndex: editingProfileIndex!, isNewProfile: isEditingNew) {
                 editingProfileIndex = nil
+                isEditingNew = false
             }
                 .presentationDetents([.fraction(0.75)])
                 .onAppear {
@@ -100,6 +109,44 @@ struct ChooseUserPage: View {
         user.currentProfileIndex = profileIndex
         page = .home
     }
+    
+    func addProfile() {
+        var name = ""
+        var color = Color.white
+        
+        var i = 1
+        while true {
+            name = "Profile \(i)"
+            if user.profiles.contains(where: {
+                return name == $0.name
+            }) {
+                i += 1
+            } else {
+                break
+            }
+        }
+        
+        i = 0
+        var r = 0
+        while true {
+            color = Profile.profileColorOptions[i]
+            let colorCount = user.profiles.filter { p in
+                return p.profileColor == color
+            }.count
+            
+            if colorCount <= r {
+                break
+            } else {
+                i = (i + 1) % Profile.profileColorOptions.endIndex
+                r = i == 0 ? r + 1 : r
+            }
+        }
+        
+        let newProfile = Profile(name: name, profileColor: color)
+        user.profiles.append(newProfile)
+        editingProfileIndex = user.profiles.endIndex - 1
+        isEditingNew = true
+    }
 }
 
 struct ProfileEditSheet: View {
@@ -107,125 +154,167 @@ struct ProfileEditSheet: View {
     
     @State var initialProfile: Profile? = nil
     @State var selectedPhoto: PhotosPickerItem? = nil
+    @State var isValid: Bool = true
     
     var profileIndex: Int
+    var isNewProfile: Bool
     var onDismiss: () -> Void
     
+    var profile: Binding<Profile>? {
+        if !user.profiles.indices.contains(profileIndex) {
+            return nil
+        }
+        return $user.profiles[profileIndex]
+    }
+    
     var body: some View {
-        let profile = $user.profiles[profileIndex]
-        
-        GeometryReader { g in
-            VStack {
-                HeaderView(
-                    text: "Edit Profile"
-                )
+        if profile != nil {
+            GeometryReader { g in
+                VStack {
+                    HeaderView(
+                        text: isNewProfile ? "Add Profile" : "Edit Profile"
+                    )
                     .foregroundColor(.white)
                     .padding(.bottom)
-                
-                ZStack(alignment: .topTrailing) {
-                    PhotosPicker(
-                        selection: $selectedPhoto,
-                        matching: .images,
-                        photoLibrary: .shared()
-                    ) {
-                        ZStack {
-                            profile
-                                .wrappedValue
-                                .profileCircle(size: g.size.width / 3)
-                                .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
-                            
-                            Color.black
-                                .frame(width: g.size.width / 3, height: g.size.width / 3)
+                    
+                    ZStack(alignment: .topTrailing) {
+                        PhotosPicker(
+                            selection: $selectedPhoto,
+                            matching: .images,
+                            photoLibrary: .shared()
+                        ) {
+                            ZStack {
+                                profile!
+                                    .wrappedValue
+                                    .profileCircle(size: g.size.width / 3)
+                                    .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
+                                
+                                Color.black
+                                    .frame(width: g.size.width / 3, height: g.size.width / 3)
+                                    .clipShape(Circle())
+                                    .opacity(0.2)
+                                
+                                Image(systemName: "pencil")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: g.size.width / 9)
+                                    .foregroundColor(.white)
+                                    .fontWeight(.medium)
+                            }
+                            .padding(.bottom, 36)
+                        }
+                        
+                        if profile!.wrappedValue.profilePicture != nil {
+                            Button {
+                                selectedPhoto = nil
+                                profile!.wrappedValue.profilePicture = nil
+                            } label: {
+                                ZStack {
+                                    Image(systemName: "xmark")
+                                        .resizable()
+                                        .frame(width: 16, height: 16)
+                                        .padding(.all, 12)
+                                        .foregroundColor(.black)
+                                        .bold()
+                                }
+                                .background(.white)
                                 .clipShape(Circle())
-                                .opacity(0.2)
-                            
-                            Image(systemName: "pencil")
+                            }
+                        }
+                    }
+                    TextField("Name", text: profile!.name)
+                        .padding()
+                        .frame(width: g.size.width / 1.2)
+                        .background(Color.lighterBlue)
+                        .cornerRadius(5.0)
+                        .multilineTextAlignment(.center)
+                        .font(.customBody())
+                        .onChange(of: profile!.wrappedValue.name) { _ in
+                            updateValidity()
+                        }
+                    Spacer()
+                    HStack {
+                        Button {
+                            if isNewProfile {
+                                user.profiles.remove(at: profileIndex)
+                            } else {
+                                profile!.name.wrappedValue = initialProfile?.name ?? ""
+                                profile!.profilePicture.wrappedValue = initialProfile?.profilePicture
+                            }
+                            onDismiss()
+                        } label: {
+                            Image(systemName: "xmark.circle")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: g.size.width / 9)
+                                .frame(width: 42)
                                 .foregroundColor(.white)
-                                .fontWeight(.medium)
                         }
-                        .padding(.bottom, 36)
-                    }
-                    
-                    if profile.wrappedValue.profilePicture != nil {
+                        Spacer()
                         Button {
-                            selectedPhoto = nil
-                            profile.wrappedValue.profilePicture = nil
+                            onDismiss()
                         } label: {
-                            ZStack {
-                                Image(systemName: "xmark")
-                                    .resizable()
-                                    .frame(width: 16, height: 16)
-                                    .padding(.all, 12)
-                                    .foregroundColor(.black)
-                                    .bold()
-                            }
-                            .background(.white)
-                            .clipShape(Circle())
+                            Image(systemName: "checkmark.circle")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 42)
+                                .foregroundColor(.white)
                         }
+                        .disabled(!isValid)
+                        .opacity(isValid ? 1 : 0.5)
                     }
-                }
-                
-                TextField("Name", text: profile.name)
-                    .padding()
                     .frame(width: g.size.width / 1.2)
-                    .background(Color.lighterBlue)
-                    .cornerRadius(5.0)
-                    .multilineTextAlignment(.center)
-                    .font(.customBody())
-                Spacer()
-                HStack {
-                    Button {
-                        profile.name.wrappedValue = initialProfile?.name ?? ""
-                        profile.profilePicture.wrappedValue = initialProfile?.profilePicture
-                        onDismiss()
-                    } label: {
-                        Image(systemName: "xmark.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 42)
-                            .foregroundColor(.white)
-                    }
-                    Spacer()
-                    Button {
-                        onDismiss()
-                    } label: {
-                        Image(systemName: "checkmark.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 42)
-                            .foregroundColor(.white)
+                }
+                .padding(.vertical, 16)
+                .frame(width: g.size.width, height: g.size.height)
+                .background(Color.mainBlue)
+            }
+            .onAppear {
+                initialProfile = user.profiles[profileIndex]
+                updateValidity()
+            }
+            .onChange(of: selectedPhoto) { photo in
+                Task {
+                    if let data = try? await photo?.loadTransferable(type: Data.self) {
+                        if let uiImage = UIImage(data: data) {
+                            profile!.wrappedValue.profilePicture = Image(uiImage: uiImage)
+                        }
+                    } else {
+                        profile!.wrappedValue.profilePicture = nil
                     }
                 }
-                .frame(width: g.size.width / 1.2)
             }
-            .padding(.vertical, 16)
-            .frame(width: g.size.width, height: g.size.height)
+        } else {
+            GeometryReader { g in
+                
+            }
             .background(Color.mainBlue)
-        }
-        .onAppear {
-            initialProfile = user.profiles[profileIndex]
-        }
-        .onChange(of: selectedPhoto) { photo in
-            Task {
-                if let data = try? await photo?.loadTransferable(type: Data.self) {
-                    if let uiImage = UIImage(data: data) {
-                        profile.wrappedValue.profilePicture = Image(uiImage: uiImage)
-                    }
-                } else {
-                    profile.wrappedValue.profilePicture = nil
-                }
-            }
         }
     }
     
+    func checkValidity() -> Bool {
+        if profile!.wrappedValue.name.isEmpty {
+            return false
+        }
+        
+        if user.profiles.contains(where: { p in
+            return profile!.wrappedValue.name == p.name && profile!.wrappedValue.id != p.id
+        }) {
+            return false
+        }
+        
+        return true
+    }
+    
+    func updateValidity() {
+        isValid = checkValidity()
+    }
     
 }
 
 struct ProfileOptionView: View {
     @EnvironmentObject var user: User
+    
+    @State var deleteConfirmation: Bool = false
     
     var profileIndex: Int
     @Binding var editMode: Bool
@@ -233,37 +322,70 @@ struct ProfileOptionView: View {
     var action: () -> Void
     
     var body: some View {
-        let profile = user.profiles[profileIndex]
-        
-        Button {
-            action()
-        } label: {
-            VStack {
-                ZStack {
-                    profile.profileCircle(size: proxy.size.width / 3)
-                        .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
-                    
-                    if editMode {
-                        Color.black
-                            .frame(width: proxy.size.width / 3, height: proxy.size.width / 3)
-                            .clipShape(Circle())
-                            .opacity(0.2)
-                        
-                        Image(systemName: "pencil")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: proxy.size.width / 9)
+        if user.profiles.indices.contains(profileIndex) {
+            let profile = user.profiles[profileIndex]
+            
+            ZStack(alignment: .topTrailing) {
+                Button {
+                    action()
+                } label: {
+                    VStack {
+                        ZStack {
+                            profile.profileCircle(size: proxy.size.width / 3.5)
+                                .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
+                            
+                            if editMode {
+                                Color.black
+                                    .frame(width: proxy.size.width / 3.5, height: proxy.size.width / 3.5)
+                                    .clipShape(Circle())
+                                    .opacity(0.2)
+                                
+                                Image(systemName: "pencil")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: proxy.size.width / 9)
+                                    .foregroundColor(.white)
+                                    .fontWeight(.medium)
+                            }
+                        }
+                        Text(profile.name.isEmpty ? "Placeholder" : profile.name)
+                            .font(Font.customBody())
                             .foregroundColor(.white)
-                            .fontWeight(.medium)
+                            .opacity(profile.name.isEmpty ? 0 : 1)
                     }
                 }
-                Text(profile.name)
-                    .font(Font.customBody())
-                    .foregroundColor(.white)
+                .foregroundColor(.black)
+                .padding(.vertical)
+                
+                if editMode {
+                    Button {
+                        deleteConfirmation = true
+                    } label: {
+                        ZStack {
+                            Image(systemName: "xmark")
+                                .resizable()
+                                .frame(width: 14, height: 14)
+                                .padding(.all, 12)
+                                .foregroundColor(.black)
+                                .bold()
+                        }
+                        .background(.white)
+                        .clipShape(Circle())
+                    }
+                }
             }
+            .alert("Delete Profile?", isPresented: $deleteConfirmation) {
+                Button("Delete", role: .destructive) {
+                    user.profiles.remove(at: profileIndex)
+                }
+                Button("Cancel", role: .cancel) {
+                }
+            } message: {
+                Text("This cannot be undone")
+            }
+        } else {
+            EmptyView()
         }
-        .foregroundColor(.black)
-        .padding(.vertical)
     }
 }
 
@@ -279,7 +401,7 @@ struct AddProfileView: View {
                 ZStack {
                     Circle()
                         .fill(Color.init(white: 0.85))
-                        .frame(width: proxy.size.width / 3, height: proxy.size.width / 3)
+                        .frame(width: proxy.size.width / 3.5, height: proxy.size.width / 3.5)
                         .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
                     Image(systemName: "plus")
                         .resizable()
@@ -326,6 +448,12 @@ struct EditButton: View {
         }
     }
     
+}
+
+extension String {
+    func trim() -> String {
+        return self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }
 
 struct ChooseUserPage_Previews: PreviewProvider {
