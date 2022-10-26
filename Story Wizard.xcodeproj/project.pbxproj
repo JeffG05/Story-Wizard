@@ -32,6 +32,7 @@
 		2AF4881E29045A2E0024152C /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF4881D29045A2E0024152C /* Book.swift */; };
 		C55C493129049B7100942545 /* SignUpPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C492F29049B7100942545 /* SignUpPage.swift */; };
 		C55C493229049B7100942545 /* SignInPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C493029049B7100942545 /* SignInPage.swift */; };
+		D470982C290879F700C72558 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470982B290879F700C72558 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		2AF4881D29045A2E0024152C /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		C55C492F29049B7100942545 /* SignUpPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpPage.swift; sourceTree = "<group>"; };
 		C55C493029049B7100942545 /* SignInPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInPage.swift; sourceTree = "<group>"; };
+		D470982B290879F700C72558 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 				2A120C732905798C00F1F015 /* BackgroundBubbleView.swift */,
 				2A120C7529058C8000F1F015 /* BackgroundStarsView.swift */,
 				1F8734F02902FC1A00C71DB5 /* PreviewView.swift */,
+				D470982B290879F700C72558 /* SettingsView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 				2A587E4F28FDDBC8000ACBF5 /* TestData.swift in Sources */,
 				2A587E4D28FDD91D000ACBF5 /* Profile.swift in Sources */,
 				2A587E3228FD945A000ACBF5 /* NavigationView.swift in Sources */,
+				D470982C290879F700C72558 /* SettingsView.swift in Sources */,
 				2AF488142903F9DB0024152C /* ColorExtension.swift in Sources */,
 				2A587E3528FD9542000ACBF5 /* ChooseUserPage.swift in Sources */,
 				2A587E3F28FD9C63000ACBF5 /* SettingsPage.swift in Sources */,

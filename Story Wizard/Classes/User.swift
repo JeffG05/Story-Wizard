@@ -24,11 +24,19 @@ class User : ObservableObject {
     }
     
     var currentProfile: Profile? {
-        if currentProfileIndex < profiles.startIndex || currentProfileIndex >= profiles.endIndex {
-            return nil
+        get {
+            if currentProfileIndex < profiles.startIndex || currentProfileIndex >= profiles.endIndex {
+                return nil
+            }
+            
+            return profiles[currentProfileIndex]
         }
-        
-        return profiles[currentProfileIndex]
+        set {
+            if newValue == nil {
+                return
+            }
+            profiles[currentProfileIndex] = newValue!
+        }
     }
     
 }

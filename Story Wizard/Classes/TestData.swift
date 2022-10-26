@@ -9,24 +9,24 @@ import SwiftUI
 
 class TestData {
     // Books
-    static var testBook: Book = Book(title: "Lost in Paradise", frontCover: Image("LostInParadise"), blurb: "Editor placeholder in source file", bookmarked: true, themes: ["Tropical"])
+    static var testBook: Book = Book(title: "ALost in Paradise", frontCover: Image("LostInParadise"), blurb: "Editor placeholder in source file", bookmarked: true, themes: ["Tropical"])
     
-    static var testBook2: Book = Book(title: "Lost2", frontCover: Image("LostInParadise"), blurb: "Editor placeholder in source file", bookmarked: false, themes: ["Tropical"])
+    static var testBook2: Book = Book(title: "BLost2", frontCover: Image("LostInParadise"), blurb: "Editor placeholder in source file", bookmarked: false, themes: ["Tropical"])
     
-    static var testBook3: Book = Book(title: "Lost3", frontCover: Image("LostInParadise"), blurb: "Editor placeholder in source file", bookmarked: false, themes: ["Tropical"])
+    static var testBook3: Book = Book(title: "CLost3", frontCover: Image("LostInParadise"), blurb: "Editor placeholder in source file", bookmarked: false, themes: ["Tropical"])
     
     // Profiles
     static var testProfile: Profile {
         var profile = Profile(name: "Child 1", profilePicture: Image("ProfileImage"))
-        profile.addBook(bookObj: testBook)
         profile.addBook(bookObj: testBook2)
         profile.addBook(bookObj: testBook3)
         profile.addBook(bookObj: testBook)
-        profile.addBook(bookObj: testBook2)
-        profile.addBook(bookObj: testBook3)
-        profile.addBook(bookObj: testBook)
-        profile.addBook(bookObj: testBook2)
-        profile.addBook(bookObj: testBook3)
+//        profile.addBook(bookObj: testBook)
+//        profile.addBook(bookObj: testBook2)
+//        profile.addBook(bookObj: testBook3)
+//        profile.addBook(bookObj: testBook)
+//        profile.addBook(bookObj: testBook2)
+//        profile.addBook(bookObj: testBook3)
         return profile
     }
     static var testProfile2: Profile {
