@@ -14,25 +14,53 @@ public enum FilterType: Int {
     case bookmarked
 }
 
-struct Profile: Hashable {
+struct Profile: Hashable, Identifiable {
+    var id: UUID
     var name: String
-    var profilePicture: Image
+    var profilePicture: Image?
+    var profileColor: Color
     var library: [Book] // library array stores book objects
     var libraryRender: [Book]
     var filterType: FilterType?
-    
-    init(name: String, profilePicture: Image) {
+    var currentBookIndex: Int
+    init(name: String, profilePicture: Image? = nil, profileColor: Color) {
+        self.id = UUID()
         self.name = name
         self.profilePicture = profilePicture
         self.library = [] // stores original order of books
         self.libraryRender = [] // order of books changed depending on filter. This is what is rendered in library page
         self.filterType = .date_added
+        self.currentBookIndex = -1// initialise empty library on profile creation
+        self.profileColor = profileColor
+        
     }
     
+    @MainActor
+    static func defaultProfilePicture(color: Color) -> Image {
+        ZStack {
+            Image("Headshot")
+                .opacity(0.3)
+        }
+        .background(color)
+        .generateSnapshot()
+    }
+    
+    static var profileColorOptions: [Color] {
+        return [
+            .blue,
+            .red,
+            .purple,
+            .green,
+            .cyan,
+            .orange,
+            .mint,
+        ]
+    @MainActor
     func profileCircle(size: CGFloat = 42) -> some View {
-        profilePicture
+        
+        (profilePicture ?? Profile.defaultProfilePicture(color: profileColor))
             .resizable()
-            .scaledToFit()
+            .scaledToFill()
             .frame(width: size, height: size)
             .clipShape(Circle())
     }
@@ -40,6 +68,9 @@ struct Profile: Hashable {
     mutating func addBook(bookObj: Book) -> Void {
         library.append(bookObj)
         libraryRender.append(bookObj)
+    }
+    mutating func setCurrentBook(index: Int) {
+        self.currentBookIndex = index
     }
     
     func hash(into hasher: inout Hasher) {
@@ -49,6 +80,16 @@ struct Profile: Hashable {
     static func == (lhs: Profile, rhs: Profile) -> Bool {
         return lhs.name == rhs.name && lhs.profilePicture == rhs.profilePicture
     }
+        
+//        var bookmarkedBooks: [Int] {
+//            var result: [Int] = []
+//            for index in 0..<library.count {
+//                if library[index].bookmarked {
+//                    result.append(index)
+//                }
+//            }
+//            return result
+//        }
     
     mutating func sort_library() -> Void {
         switch filterType {
@@ -63,11 +104,26 @@ struct Profile: Hashable {
         case .none:
             break
         }
+        return result
+    }
+}
+
+extension View {
+    @MainActor
+    func generateSnapshot() -> Image {
+        let renderer = ImageRenderer(content: self)
+        return Image(uiImage: renderer.uiImage ?? UIImage())
     }
 }
 
 struct ProfileCircle_Previews: PreviewProvider {
     static var previews: some View {
-        TestData.testProfile.profileCircle()
+        VStack {
+            ForEach(Profile.profileColorOptions, id: \.self) { color in
+                Profile.defaultProfilePicture(color: color)
+                    .resizable()
+                    .frame(width: 50, height: 50)
+            }
+        }
     }
 }

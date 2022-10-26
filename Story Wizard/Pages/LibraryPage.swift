@@ -13,7 +13,7 @@ struct LibraryPage: View {
     @State var showPreview: Bool = false
     @State var showSettings: Bool = false
     @State var currentBookIndex : Int = -1
-    
+    @State var showBookmarked: Bool = false
     @Binding var page: Page
     var proxy: GeometryProxy
     
@@ -53,8 +53,8 @@ struct LibraryPage: View {
                 
                 Bookcase(proxy: proxy, showPreview: $showPreview, currentBookIndex: $currentBookIndex)
             }
-            if showPreview && currentBookIndex != -1 {
-                PreviewView(showPreview: $showPreview, bookIndex: currentBookIndex)
+            if user.profiles[user.currentProfileIndex].currentBookIndex != -1 {
+                PreviewView(showPreview: $showPreview, bookIndex: $currentBookIndex,page: $page)
             }
             if showSettings == true {
                 SettingsView(showSettings: $showSettings)
@@ -79,7 +79,7 @@ struct Bookcase: View {
     var proxy: GeometryProxy
     @Binding var showPreview: Bool
     @Binding var currentBookIndex: Int
-    
+    var showBookmarked: Bool
     var body: some View {
         let shelfboardHeight: CGFloat = 25
         let shelves = max(Int(ceil(Double(user.currentProfile!.libraryRender.count) / 2.0) * 2), 6)
@@ -143,6 +143,7 @@ struct Shelf: View {
 }
 
 struct BookOptionView: View {
+    @EnvironmentObject var user: User
     var book: Book
     var maxWidth: CGFloat
     var maxHeight: CGFloat
@@ -159,24 +160,24 @@ struct BookOptionView: View {
             Button {
             action: do {
                 withAnimation(.easeIn(duration: 0.25)) {
-                    showPreview = true
                     currentBookIndex = thisIndex
+                    user.profiles[user.currentProfileIndex].setCurrentBook(index: currentBookIndex)
                 }
             }
             } label: {
                 ZStack {
                     book.bookCover(size: bookHeight)
                     
-                    Text(book.title)
-                        .frame(width: bookWidth)
+                    OutlinedText(text: book.title, width: 1.5, color: .black)
                         .font(Font.customHeader(size: 20))
+                        .frame(width: bookWidth)
                         .foregroundColor(.white)
                         .bold()
                     
-                    if book.bookmarked {
+                    if user.profiles[user.currentProfileIndex].library[thisIndex].bookmarked {
                         Image(systemName: "bookmark.fill")
                             .foregroundColor(.red)
-                            .offset(x: 40, y: -75)
+                            .offset(x: bookWidth * 0.3, y: -1 * bookHeight * 0.45)
                     }
                 }
                 .frame(width: bookWidth, height: bookHeight)
