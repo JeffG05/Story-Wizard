@@ -39,13 +39,11 @@ struct Profile: Hashable, Identifiable {
         return [
             .blue,
             .red,
-            .pink,
             .purple,
             .green,
             .cyan,
             .orange,
             .mint,
-            .indigo
         ]
     }
     
@@ -94,6 +92,12 @@ extension View {
 
 struct ProfileCircle_Previews: PreviewProvider {
     static var previews: some View {
-        TestData.testProfile.profileCircle()
+        VStack {
+            ForEach(Profile.profileColorOptions, id: \.self) { color in
+                Profile.defaultProfilePicture(color: color)
+                    .resizable()
+                    .frame(width: 50, height: 50)
+            }
+        }
     }
 }
