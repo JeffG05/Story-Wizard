@@ -8,34 +8,30 @@
 import SwiftUI
 
 struct PreviewView: View {
-    @Binding var showPreview: Bool
-    @Binding var bookIndex: Int
-    @EnvironmentObject var user: User
+    @EnvironmentObject var profile: Profile
     @Binding var page : Page
     var body: some View {
             ZStack {
                 Color.black.ignoresSafeArea().opacity(0.8)
-                PreviewOverlay(showPreview: $showPreview, bookIndex: $bookIndex, page: $page)
+                PreviewOverlay(page: $page)
                     .padding()
             }
     }
 }
 struct PreviewOverlay: View {
-    @Binding var showPreview: Bool
-    @Binding var bookIndex: Int
-    @EnvironmentObject var user: User
+    @EnvironmentObject var profile: Profile
     @Binding var page: Page
     var body: some View {
-        if user.profiles[user.currentProfileIndex].currentBookIndex != -1 {
+        if profile.currentBookIndex != -1 {
             GeometryReader {g in
                 ZStack {
-                    user.profiles[user.currentProfileIndex].library[user.profiles[user.currentProfileIndex].currentBookIndex].frontCover
+                    profile.libraryRender[profile.currentBookIndex].frontCover
                         .resizable()
                         .aspectRatio(CGSize(width: g.size.width, height: g.size.height * 0.8),contentMode: .fit)
                     
                         .cornerRadius(10, corners: [.topRight, .bottomRight])
                         .offset(CGSize(width: 0, height: g.size.height * 0.1))
-                    PreviewData(showPreview: $showPreview, bookIndex: $bookIndex, page: $page)
+                    PreviewData(page: $page)
                         .offset(CGSize(width: 0, height: g.size.height * 0.1))
                     
                 }
@@ -47,18 +43,16 @@ struct PreviewOverlay: View {
 }
 
 struct PreviewData: View {
-    @Binding var showPreview: Bool
-    @Binding var bookIndex: Int
-    @EnvironmentObject var user: User
+    @EnvironmentObject var profile: Profile
     @Binding var page: Page
     var body: some View {
-        if user.profiles[user.currentProfileIndex].currentBookIndex != -1 {
+        if profile.currentBookIndex != -1 {
             GeometryReader {g in
                 VStack(alignment: .center) {
                     HStack {
                         Button(action: {
                             withAnimation(.easeIn(duration: 0.25)) {
-                                user.profiles[user.currentProfileIndex].currentBookIndex = -1
+                                profile.currentBookIndex = -1
                             }
                         }, label: {
                             Image(systemName: "x.square.fill")
@@ -66,14 +60,14 @@ struct PreviewData: View {
                                 .frame(width: 40, height: 40)
                         })
                         Spacer()
-                        OutlinedText(text: user.profiles[user.currentProfileIndex].library[user.profiles[user.currentProfileIndex].currentBookIndex].title, width: 1.5, color: .black)
+                        OutlinedText(text: profile.libraryRender[profile.currentBookIndex].title, width: 1.5, color: .black)
                             .font(Font.customHeader(size: 25))
                         
                         Spacer()
                         Button(action: {
                             withAnimation(.easeIn(duration: 0.25)) {
-                                user.profiles[user.currentProfileIndex].removeBook(atIndex: user.profiles[user.currentProfileIndex].currentBookIndex)
-                                user.profiles[user.currentProfileIndex].currentBookIndex = -1
+                                profile.removeBook(id: profile.libraryRender[profile.currentBookIndex].id)
+                                profile.currentBookIndex = -1
                             }
                         }, label: {
                             Image(systemName: "trash.fill")
@@ -103,10 +97,10 @@ struct PreviewData: View {
                         
                         Spacer()
                         Button(action: {
-                            user.profiles[user.currentProfileIndex].library[user.profiles[user.currentProfileIndex].currentBookIndex].bookmark()
+                            profile.bookmark(id: profile.libraryRender[profile.currentBookIndex].id)
                         }, label: {
                             VStack {
-                                if user.profiles[user.currentProfileIndex].library[user.profiles[user.currentProfileIndex].currentBookIndex].bookmarked {
+                                if profile.libraryRender[profile.currentBookIndex].bookmarked {
                                     Image(systemName: "bookmark.fill")
                                         .resizable()
                                         .frame(width: 50, height: 60)
@@ -137,7 +131,7 @@ struct PreviewData: View {
 
 struct PreviewView_Previews: PreviewProvider {
     static var previews: some View {
-        PreviewView(showPreview: .constant(true), bookIndex: .constant(0), page: .constant(Page.library))
+        PreviewView(page: .constant(Page.library))
             .environmentObject(TestData.testUser)
         
     }

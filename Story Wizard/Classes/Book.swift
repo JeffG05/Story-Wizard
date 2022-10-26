@@ -8,8 +8,9 @@
 import SwiftUI
 
 
-struct Book: Hashable {
+struct Book: Hashable, Identifiable {
     
+    var id: UUID
     var title: String
     var frontCover: Image
     var blurb: String
@@ -17,6 +18,7 @@ struct Book: Hashable {
     var themes: [String]
     var pages: [String]
     init(title: String, frontCover: Image, blurb: String,bookmarked: Bool, themes: [String]) {
+        self.id = UUID()
         self.title = title
         self.frontCover = frontCover
         self.blurb = blurb

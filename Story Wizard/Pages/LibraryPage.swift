@@ -8,15 +8,10 @@
 import SwiftUI
 
 struct LibraryPage: View {
-    @EnvironmentObject var user: User
-    
-    @State var showPreview: Bool = false
     @State var showSettings: Bool = false
-    @State var currentBookIndex : Int = -1
-    @State var showBookmarked: Bool = false
     @Binding var page: Page
     var proxy: GeometryProxy
-    
+    @StateObject var profile: Profile
     var body: some View {
         
         ZStack {
@@ -24,7 +19,7 @@ struct LibraryPage: View {
             
             VStack {
                 HeaderView(
-                    text: "\(user.currentProfile!.name)'s Library",
+                    text: "\(profile.name)'s Library",
                     leftIcon: "arrow.backward",
                     rightIcon: "gear",
                     leftAction: goToHome,
@@ -32,34 +27,35 @@ struct LibraryPage: View {
                 )
                 
                 Button("Alphabetical", action:{
-                    user.currentProfile!.filterType = .alphabetical
-                    user.currentProfile!.sort_library()
+                    profile.filterType = .alphabetical
+                    profile.sort_library()
                 })
                 
                 Button("Rev-Alphabetical", action:{
-                    user.currentProfile!.filterType = .rev_alphabet
-                    user.currentProfile!.sort_library()
+                    profile.filterType = .rev_alphabet
+                    profile.sort_library()
                 })
                 
                 Button("Date Added", action:{
-                    user.currentProfile!.filterType = .date_added
-                    user.currentProfile!.sort_library()
+                    profile.filterType = .date_added
+                    profile.sort_library()
                 })
                 
                 Button("Bookmarked", action:{
-                    user.currentProfile!.filterType = .bookmarked
-                    user.currentProfile!.sort_library()
+                    profile.filterType = .bookmarked
+                    profile.sort_library()
                 })
                 
-                Bookcase(proxy: proxy, showPreview: $showPreview, currentBookIndex: $currentBookIndex)
+                Bookcase(proxy: proxy)
             }
-            if user.profiles[user.currentProfileIndex].currentBookIndex != -1 {
-                PreviewView(showPreview: $showPreview, bookIndex: $currentBookIndex,page: $page)
+            if profile.currentBookIndex != -1 {
+                PreviewView(page: $page)
             }
             if showSettings == true {
                 SettingsView(showSettings: $showSettings)
             }
         }
+        .environmentObject(profile)
     }
     
     func goToHome() {
@@ -74,15 +70,11 @@ struct LibraryPage: View {
 }
 
 struct Bookcase: View {
-    @EnvironmentObject var user: User
-    
+    @EnvironmentObject var profile: Profile
     var proxy: GeometryProxy
-    @Binding var showPreview: Bool
-    @Binding var currentBookIndex: Int
-//    var showBookmarked: Bool
     var body: some View {
         let shelfboardHeight: CGFloat = 25
-        let shelves = max(Int(ceil(Double(user.currentProfile!.libraryRender.count) / 2.0) * 2), 6)
+        let shelves = max(Int(ceil(Double(profile.libraryRender.count) / 2.0) * 2), 6)
         GeometryReader { g in
             let shelfSectionHeight = (g.size.height - proxy.safeAreaInsets.bottom) / 3
             ScrollView(showsIndicators: false) {
@@ -102,8 +94,9 @@ struct Bookcase: View {
                                         .resizable()
                                         .frame(width: shelfboardHeight)
                                 }
-                                if i < user.currentProfile!.libraryRender.count {
-                                   BookOptionView(book: user.currentProfile!.libraryRender[i], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, showPreview: $showPreview, currentBookIndex: $currentBookIndex, thisIndex: i) {}
+    
+                                if i < profile.libraryRender.count {
+                                   BookOptionView(book: profile.libraryRender[i], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, thisIndex: i) {}
                                 } else {
                                     Spacer()
                                 }
@@ -143,12 +136,10 @@ struct Shelf: View {
 }
 
 struct BookOptionView: View {
-    @EnvironmentObject var user: User
+    @EnvironmentObject var profile: Profile
     var book: Book
     var maxWidth: CGFloat
     var maxHeight: CGFloat
-    @Binding var showPreview: Bool
-    @Binding var currentBookIndex: Int
     var thisIndex: Int
     var action: () -> Void
     var body: some View {
@@ -160,8 +151,7 @@ struct BookOptionView: View {
             Button {
             action: do {
                 withAnimation(.easeIn(duration: 0.25)) {
-                    currentBookIndex = thisIndex
-                    user.profiles[user.currentProfileIndex].setCurrentBook(index: currentBookIndex)
+                    profile.setCurrentBook(index: thisIndex)
                 }
             }
             } label: {
@@ -174,7 +164,7 @@ struct BookOptionView: View {
                         .foregroundColor(.white)
                         .bold()
                     
-                    if user.profiles[user.currentProfileIndex].library[thisIndex].bookmarked {
+                    if thisIndex < profile.libraryRender.count && profile.libraryRender[thisIndex].bookmarked {
                         Image(systemName: "bookmark.fill")
                             .foregroundColor(.red)
                             .offset(x: bookWidth * 0.3, y: -1 * bookHeight * 0.45)
@@ -192,7 +182,7 @@ struct BookOptionView: View {
 struct LibraryPage_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { g in
-            LibraryPage( page: .constant(.library), proxy: g)
+            LibraryPage( page: .constant(.library), proxy: g, profile:TestData.testUser.profiles[0])
         }
         .environmentObject(TestData.testUser)
     }

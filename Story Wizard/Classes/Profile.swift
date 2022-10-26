@@ -14,15 +14,15 @@ public enum FilterType: Int {
     case bookmarked
 }
 
-struct Profile: Hashable, Identifiable {
+class Profile: Hashable, Identifiable, ObservableObject {
     var id: UUID
     var name: String
     var profilePicture: Image?
     var profileColor: Color
-    var library: [Book] // library array stores book objects
-    var libraryRender: [Book]
-    var filterType: FilterType?
-    var currentBookIndex: Int
+    @Published var library: [Book] // library array stores book objects
+    @Published var libraryRender: [Book]
+    @Published var filterType: FilterType?
+    @Published var currentBookIndex: Int
     init(name: String, profilePicture: Image? = nil, profileColor: Color) {
         self.id = UUID()
         self.name = name
@@ -66,14 +66,40 @@ struct Profile: Hashable, Identifiable {
             .clipShape(Circle())
     }
     
-    mutating func addBook(bookObj: Book) -> Void {
+    func bookmark(id: UUID) {
+        for i in 0..<library.count {
+            if library[i].id == id {
+                library[i].bookmark()
+                break
+            }
+        }
+        for i in 0..<libraryRender.count {
+            if libraryRender[i].id == id {
+                libraryRender[i].bookmark()
+                break
+            }
+        }
+    }
+    
+    func addBook(bookObj: Book) -> Void {
         library.append(bookObj)
         libraryRender.append(bookObj)
     }
-    mutating func removeBook(atIndex index: Int) {
-        library.remove(at: index)
+    func removeBook(id: UUID) {
+        for i in 0..<library.count {
+            if library[i].id == id {
+                library.remove(at: i)
+                break
+            }
+        }
+        for i in 0..<libraryRender.count {
+            if libraryRender[i].id == id {
+                libraryRender.remove(at: i)
+                break
+            }
+        }
     }
-    mutating func setCurrentBook(index: Int) {
+    func setCurrentBook(index: Int) {
         self.currentBookIndex = index
     }
     
@@ -95,7 +121,7 @@ struct Profile: Hashable, Identifiable {
 //            return result
 //        }
     
-    mutating func sort_library() -> Void {
+    func sort_library() -> Void {
         switch filterType {
         case .alphabetical:
             libraryRender.sort{ $0.title < $1.title }

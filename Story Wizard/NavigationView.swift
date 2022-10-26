@@ -31,7 +31,7 @@ struct NavigationView: View {
             case .readStory:
                 ReadStoryPage(page: $page, proxy: g)
             case .library:
-                LibraryPage(page: $page, proxy: g)
+                LibraryPage(page: $page, proxy: g, profile: user.profiles[user.currentProfileIndex])
             case .settings:
                 SettingsPage(page: $page, proxy: g)
             default:

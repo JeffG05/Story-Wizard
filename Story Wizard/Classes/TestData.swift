@@ -17,23 +17,20 @@ class TestData {
     
     // Profiles
     static var testProfile: Profile {
-        var profile = Profile(name: "Profile 1", profileColor: Profile.profileColorOptions[0])
+        let profile = Profile(name: "Profile 1", profileColor: Profile.profileColorOptions[0])
         profile.addBook(bookObj: testBook)
         profile.addBook(bookObj: testBook2)
         profile.addBook(bookObj: testBook3)
-        profile.addBook(bookObj: testBook)
-        profile.addBook(bookObj: testBook2)
-        profile.addBook(bookObj: testBook3)
-        profile.addBook(bookObj: testBook)
+        
         return profile
     }
     static var testProfile2: Profile {
-        var profile = Profile(name: "Profile 2", profileColor: Profile.profileColorOptions[2])
+        let profile = Profile(name: "Profile 2", profileColor: Profile.profileColorOptions[2])
         profile.addBook(bookObj: testBook3)
         return profile
     }
     static var testProfile3: Profile {
-        var profile = Profile(name: "Profile 3", profileColor: Profile.profileColorOptions[3])
+        let profile = Profile(name: "Profile 3", profileColor: Profile.profileColorOptions[3])
         profile.addBook(bookObj: testBook)
         profile.addBook(bookObj: testBook2)
         return profile
