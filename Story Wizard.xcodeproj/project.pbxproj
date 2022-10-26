@@ -10,6 +10,7 @@
 		1F8734F12902FC1A00C71DB5 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8734F02902FC1A00C71DB5 /* PreviewView.swift */; };
 		1F8734F32906879000C71DB5 /* OutlinedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8734F22906879000C71DB5 /* OutlinedText.swift */; };
 		1F8734F52906887100C71DB5 /* CornerRadiusExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8734F42906887100C71DB5 /* CornerRadiusExtension.swift */; };
+		1F8734F72906F92600C71DB5 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8734F62906F92600C71DB5 /* Stack.swift */; };
 		2A120C742905798C00F1F015 /* BackgroundBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A120C732905798C00F1F015 /* BackgroundBubbleView.swift */; };
 		2A120C7629058C8000F1F015 /* BackgroundStarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A120C7529058C8000F1F015 /* BackgroundStarsView.swift */; };
 		2A587E2428FD935A000ACBF5 /* Story_WizardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A587E2328FD935A000ACBF5 /* Story_WizardApp.swift */; };
@@ -40,6 +41,7 @@
 		1F8734F02902FC1A00C71DB5 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		1F8734F22906879000C71DB5 /* OutlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlinedText.swift; sourceTree = "<group>"; };
 		1F8734F42906887100C71DB5 /* CornerRadiusExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadiusExtension.swift; sourceTree = "<group>"; };
+		1F8734F62906F92600C71DB5 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		2A120C732905798C00F1F015 /* BackgroundBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBubbleView.swift; sourceTree = "<group>"; };
 		2A120C7529058C8000F1F015 /* BackgroundStarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundStarsView.swift; sourceTree = "<group>"; };
 		2A587E2028FD935A000ACBF5 /* Story Wizard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Story Wizard.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,6 +160,7 @@
 				2A587E4C28FDD91D000ACBF5 /* Profile.swift */,
 				2A587E4E28FDDBC8000ACBF5 /* TestData.swift */,
 				1F8734F42906887100C71DB5 /* CornerRadiusExtension.swift */,
+				1F8734F62906F92600C71DB5 /* Stack.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				2A587E3F28FD9C63000ACBF5 /* SettingsPage.swift in Sources */,
 				2A587E2428FD935A000ACBF5 /* Story_WizardApp.swift in Sources */,
 				2A587E4928FDD85C000ACBF5 /* Page.swift in Sources */,
+				1F8734F72906F92600C71DB5 /* Stack.swift in Sources */,
 				2A587E4528FD9FD8000ACBF5 /* FontExtension.swift in Sources */,
 				C55C493129049B7100942545 /* SignUpPage.swift in Sources */,
 				2A587E4528FD9FD8000ACBF5 /* FontExtension.swift in Sources */,

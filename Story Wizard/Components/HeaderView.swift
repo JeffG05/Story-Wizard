@@ -10,15 +10,17 @@ import SwiftUI
 struct HeaderView: View {
     @EnvironmentObject var user: User
     
-    var text: String
+    var text: String?
     var iconSize: CGFloat = 32
     var textSize: CGFloat = 32
     var showProfile: Bool = false
     var leftIcon: String?
     var rightIcon: String?
+    var middleIcon: String?
     var profileAction: (() -> Void)?
     var leftAction: (() -> Void)?
     var rightAction: (() -> Void)?
+    var middleAction: (() -> Void)?
 
     var body: some View {
         let hPad = 24 + (showProfile ? 42 : 0) + (leftIcon != nil || rightIcon != nil ? iconSize : 0) + 8
@@ -26,9 +28,19 @@ struct HeaderView: View {
         
         ZStack(alignment: .top) {
             HStack(alignment: .center) {
-                Text(text)
-                    .font(Font.customHeader(size: textSize))
-                    .multilineTextAlignment(.center)
+                VStack {
+                    if let title = text {
+                        Text(verbatim: title)
+                            .font(Font.customHeader(size: textSize))
+                            .multilineTextAlignment(.center)
+                    }
+                    if let icon = middleIcon {
+                        IconButton(icon: icon, size: iconSize) {
+                            middleAction?()
+                        }
+                        
+                    }
+                }
             }
             .padding(.horizontal, hPad)
             HStack {
@@ -38,7 +50,7 @@ struct HeaderView: View {
                     } label: {
                         user.currentProfile!.profileCircle(size: 42)
                     }
-                    .foregroundColor(.black)
+                    
                 }
                 if leftIcon != nil {
                     IconButton(icon: leftIcon!, size: iconSize) {
@@ -61,7 +73,7 @@ struct HeaderView: View {
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            HeaderView(text: "Welcome Child 123456", rightIcon: "arrow.right")
+            HeaderView(rightIcon: "arrow.right",middleIcon: "speaker.wave.2")
             Spacer()
         }
         .environmentObject(TestData.testUser)

@@ -11,11 +11,13 @@ struct Profile: Hashable {
     var name: String
     var profilePicture: Image
     var library: [Book] // library array stores book objects
+    var currentBookIndex: Int
     
     init(name: String, profilePicture: Image) {
         self.name = name
         self.profilePicture = profilePicture
-        self.library = [] // initialise empty library on profile creation
+        self.library = []
+        self.currentBookIndex = -1// initialise empty library on profile creation
     }
     
     func profileCircle(size: CGFloat = 42) -> some View {
@@ -28,6 +30,9 @@ struct Profile: Hashable {
     
     mutating func addBook(bookObj: Book) -> Void {
         library.append(bookObj)
+    }
+    mutating func setCurrentBook(index: Int) {
+        self.currentBookIndex = index
     }
     
     func hash(into hasher: inout Hasher) {

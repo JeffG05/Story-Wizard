@@ -35,8 +35,8 @@ struct LibraryPage: View {
                 .padding()
                 Bookcase(proxy: proxy, showPreview: $showPreview, currentBookIndex: $currentBookIndex, showBookmarked: showBookmarked)
             }
-            if showPreview && currentBookIndex != -1 {
-                PreviewView(showPreview: $showPreview, bookIndex: currentBookIndex)
+            if user.profiles[user.currentProfileIndex].currentBookIndex != -1 {
+                PreviewView(showPreview: $showPreview, bookIndex: $currentBookIndex,page: $page)
             }
         }
     }
@@ -126,6 +126,7 @@ struct Shelf: View {
 }
 
 struct BookOptionView: View {
+    @EnvironmentObject var user: User
     var book: Book
     var maxWidth: CGFloat
     var maxHeight: CGFloat
@@ -142,8 +143,8 @@ struct BookOptionView: View {
             Button {
             action: do {
                 withAnimation(.easeIn(duration: 0.25)) {
-                    showPreview = true
                     currentBookIndex = thisIndex
+                    user.profiles[user.currentProfileIndex].setCurrentBook(index: currentBookIndex)
                 }
             }
             } label: {
@@ -156,7 +157,7 @@ struct BookOptionView: View {
                         .foregroundColor(.white)
                         .bold()
                     
-                    if book.bookmarked {
+                    if user.profiles[user.currentProfileIndex].library[thisIndex].bookmarked {
                         Image(systemName: "bookmark.fill")
                             .foregroundColor(.red)
                             .offset(x: bookWidth * 0.3, y: -1 * bookHeight * 0.45)

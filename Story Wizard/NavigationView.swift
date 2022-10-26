@@ -13,6 +13,7 @@ struct NavigationView: View {
     
     @State private var prevPage: Page = .signIn
     @State private var currentPage: Page = .signIn
+    private var pageStack: Stack = Stack<Page>()
         
     var body: some View {
         GeometryReader { g in
@@ -41,13 +42,14 @@ struct NavigationView: View {
         .ignoresSafeArea(.keyboard)
         .onChange(of: page) { _ in
             if page == .goBack {
-                currentPage = prevPage
-                page = currentPage
+                pageStack.pop()
+                page = pageStack.peek()!
+                print(page)
             }
             
-            if page != currentPage {
-                prevPage = currentPage
-                currentPage = page
+            if page != pageStack.peek() {
+                pageStack.push(item: page)
+                print(pageStack.peek()!)
             }            
         }
     }
