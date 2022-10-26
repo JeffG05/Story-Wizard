@@ -55,6 +55,7 @@ struct Profile: Hashable, Identifiable {
             .orange,
             .mint,
         ]
+    }
     @MainActor
     func profileCircle(size: CGFloat = 42) -> some View {
         
@@ -104,7 +105,6 @@ struct Profile: Hashable, Identifiable {
         case .none:
             break
         }
-        return result
     }
 }
 

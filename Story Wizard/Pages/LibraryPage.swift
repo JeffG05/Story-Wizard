@@ -79,7 +79,7 @@ struct Bookcase: View {
     var proxy: GeometryProxy
     @Binding var showPreview: Bool
     @Binding var currentBookIndex: Int
-    var showBookmarked: Bool
+//    var showBookmarked: Bool
     var body: some View {
         let shelfboardHeight: CGFloat = 25
         let shelves = max(Int(ceil(Double(user.currentProfile!.libraryRender.count) / 2.0) * 2), 6)
