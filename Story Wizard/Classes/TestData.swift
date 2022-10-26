@@ -17,7 +17,7 @@ class TestData {
     
     // Profiles
     static var testProfile: Profile {
-        var profile = Profile(name: "Child 1", profilePicture: Image("ProfileImage"))
+        var profile = Profile(name: "Child 1", profileColor: .pink)
         profile.addBook(bookObj: testBook)
         profile.addBook(bookObj: testBook2)
         profile.addBook(bookObj: testBook3)
@@ -30,12 +30,12 @@ class TestData {
         return profile
     }
     static var testProfile2: Profile {
-        var profile = Profile(name: "Child 2", profilePicture: Image("ProfileImage2"))
+        var profile = Profile(name: "Child 2", profileColor: .green)
         profile.addBook(bookObj: testBook3)
         return profile
     }
     static var testProfile3: Profile {
-        var profile = Profile(name: "Child 3", profilePicture: Image("ProfileImage3"))
+        var profile = Profile(name: "Child 3", profileColor: .cyan)
         profile.addBook(bookObj: testBook)
         profile.addBook(bookObj: testBook2)
         return profile
