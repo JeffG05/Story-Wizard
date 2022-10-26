@@ -72,7 +72,8 @@ struct PreviewData: View {
                         Spacer()
                         Button(action: {
                             withAnimation(.easeIn(duration: 0.25)) {
-                                showPreview = false
+                                user.profiles[user.currentProfileIndex].removeBook(atIndex: user.profiles[user.currentProfileIndex].currentBookIndex)
+                                user.profiles[user.currentProfileIndex].currentBookIndex = -1
                             }
                         }, label: {
                             Image(systemName: "trash.fill")

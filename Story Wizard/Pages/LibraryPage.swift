@@ -83,7 +83,7 @@ struct Bookcase: View {
                                 }
                                 if i < numbers {
                                     if showBookmarked {
-                                        BookOptionView(book: user.currentProfile!.library[user.currentProfile!.bookmarkedBooks[i]], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, showPreview: $showPreview, currentBookIndex: $currentBookIndex, thisIndex: user.currentProfile!.bookmarkedBooks[i]) {}
+                                        BookOptionView(book: user.currentProfile!.library[user.currentProfile!.bookmarkedBooks[i]], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, showPreview: $showPreview, currentBookIndex: $currentBookIndex, thisIndex: user.profiles[user.currentProfileIndex].bookmarkedBooks[i]) {}
                                     } else {
                                         BookOptionView(book: user.currentProfile!.library[i], maxWidth: (g.size.width/2)-shelfboardHeight, maxHeight: shelfSectionHeight - shelfboardHeight, showPreview: $showPreview, currentBookIndex: $currentBookIndex, thisIndex: i) {}
                                     }

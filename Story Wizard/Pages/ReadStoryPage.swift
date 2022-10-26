@@ -25,14 +25,24 @@ struct ReadStoryPage: View {
                 .opacity(0.3)
             GeometryReader {g in
                 VStack(alignment: .leading) {
-                    HeaderView(
-                        leftIcon: "x.square",
-                        rightIcon: "gear",
-                        middleIcon: "speaker.wave.2",
-                        leftAction: goBack,
-                        rightAction: settings,
-                        middleAction: readPageOutLoud
-                    )
+                    if currentPage > 0 && currentPage < user.profiles[user.currentProfileIndex].library[user.profiles[user.currentProfileIndex].currentBookIndex].pages.count + 1 {
+                        HeaderView(
+                            leftIcon: "x.square",
+                            rightIcon: "gear",
+                            middleIcon: "speaker.wave.2",
+                            leftAction: goBack,
+                            rightAction: settings,
+                            middleAction: readPageOutLoud
+                        )
+                    } else {
+                        HeaderView(
+                            leftIcon: "x.square",
+                            rightIcon: "gear",
+                            leftAction: goBack,
+                            rightAction: settings
+                        )
+                    }
+                    
                     HStack(alignment: .center) {
                         VStack {
                             Text(user.profiles[user.currentProfileIndex].library[user.profiles[user.currentProfileIndex].currentBookIndex].title)
@@ -44,10 +54,12 @@ struct ReadStoryPage: View {
                             .frame(width:g.size.width)
                         ForEach(0..<user.profiles[user.currentProfileIndex].library[user.profiles[user.currentProfileIndex].currentBookIndex].pages.count, id: \.self) {index in
                             VStack {
+                                Spacer()
                                 Text(user.profiles[user.currentProfileIndex].library[user.profiles[user.currentProfileIndex].currentBookIndex].pages[index])
                                     .font(Font.customHeader(size: 25))
                                     .multilineTextAlignment(.center)
                                     .padding(15)
+                                Spacer()
                             }
                                 .frame(width:g.size.width)
                         }
@@ -104,10 +116,10 @@ struct ReadStoryPage: View {
             }))
     }
     func readPageOutLoud() {
-        let utterance = AVSpeechUtterance(string: user.profiles[user.currentProfileIndex].library[user.profiles[user.currentProfileIndex].currentBookIndex].pages[currentPage])
-                        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-                        utterance.pitchMultiplier = 2.0
-                        utterance.rate = 0.3
+        let utterance = AVSpeechUtterance(string: user.profiles[user.currentProfileIndex].library[user.profiles[user.currentProfileIndex].currentBookIndex].pages[currentPage-1])
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        utterance.pitchMultiplier = 1.0
+        utterance.rate = 0.3
         let synthesizer = AVSpeechSynthesizer()
         synthesizer.speak(utterance)
     }

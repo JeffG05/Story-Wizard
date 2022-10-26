@@ -22,9 +22,9 @@ struct Book: Hashable {
         self.blurb = blurb
         self.bookmarked = bookmarked
         self.themes = themes
-        self.pages = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec interdum arcu non orci ullamcorper tempus. Quisque mattis massa id eros rutrum faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-                      "Donec efficitur elementum scelerisque. Aliquam sit amet leo ornare, efficitur sem non, volutpat est. Praesent laoreet vitae nisi eu placerat. Integer at egestas nisl. Ut porta gravida turpis sit amet ultrices. Aliquam sodales lacus neque, et mollis ex ornare vitae. Praesent volutpat ligula non nunc blandit, sit amet pharetra erat ornare.",
-                      "Curabitur semper nulla sed dui pulvinar, dapibus vehicula nunc posuere. Praesent ultrices bibendum aliquam. Cras sodales ligula turpis, ac finibus ante hendrerit ut. Morbi ac neque in turpis ullamcorper fermentum. Duis laoreet, ante nec placerat sollicitudin, nunc quam ultrices augue, sed finibus mauris lorem in dui. Proin pharetra pharetra ipsum, sed ultrices arcu auctor vel. Vestibulum non feugiat tellus. Nulla blandit luctus dolor quis convallis."]
+        self.pages = ["One day there was a tropical island, it was very tropical",
+                      "On the island was a tree called kenny. Kenny was a very big tree and his favourite sports was surfing",
+                      "One day there was a storm and it was so windy that Kenny snapped in half and died"]
     }
     
     func hash(into hasher: inout Hasher) {

@@ -62,6 +62,9 @@ struct Profile: Hashable, Identifiable {
     mutating func addBook(bookObj: Book) -> Void {
         library.append(bookObj)
     }
+    mutating func removeBook(atIndex index: Int) {
+        library.remove(at: index)
+    }
     mutating func setCurrentBook(index: Int) {
         self.currentBookIndex = index
     }
