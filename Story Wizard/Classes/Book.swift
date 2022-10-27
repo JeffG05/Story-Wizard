@@ -15,19 +15,17 @@ struct Book: Hashable, Identifiable {
     var frontCover: Image
     var blurb: String
     var bookmarked: Bool
-    var themes: [String]
+    var generationOptions: GenerationOptions
     var pages: [String]
     var rating: Rating
-    init(title: String, frontCover: Image, blurb: String,bookmarked: Bool, themes: [String]) {
+    init(title: String, frontCover: Image, blurb: String, bookmarked: Bool, pages: [String], options: GenerationOptions) {
         self.id = UUID()
         self.title = title
         self.frontCover = frontCover
         self.blurb = blurb
         self.bookmarked = bookmarked
-        self.themes = themes
-        self.pages = ["One day there was a tropical island, it was very tropical",
-                      "On the island was a tree called kenny. Kenny was a very big tree and his favourite sports was surfing",
-                      "One day there was a storm and it was so windy that Kenny snapped in half and died"]
+        self.generationOptions = options
+        self.pages = pages
         self.rating = .NONE
     }
     
@@ -49,6 +47,34 @@ struct Book: Hashable, Identifiable {
     }
     mutating func rate(rating: Rating) {
         self.rating = rating
+    }
+    
+    static func generate(options: GenerationOptions) -> Book {
+        return Book(
+            title: options.bookTitle ?? "Book Title",
+            frontCover: Image("LostInParadise"),
+            blurb: "This is a book about \(options.theme.title.lowercased()) set in the \(options.setting.title.lowercased()). It follows the travels of \(options.character.title.lowercased())\(options.characterName == nil ? "" : " called \(options.characterName!)") and \(options.friendName == nil ? "" : "\(options.friendName!), ")\(options.friend.title.lowercased())",
+            bookmarked: false,
+            pages: [
+                "Theme: \(options.theme.title)",
+                "Setting: \(options.setting.title)",
+                "Character: \(options.character.title)\(options.characterName != nil ? " (called \(options.characterName!))" : "")",
+                "Friend: \(options.friend.title)\(options.characterName != nil ? " (called \(options.friendName!))" : "")"
+            ],
+            options: options
+        )
+    }
+    
+    static func random(title: String) -> Book {
+        return Book.generate(
+            options: GenerationOptions(
+                theme: ChoiceOption.themes.randomElement()!,
+                setting: ChoiceOption.settings.randomElement()!,
+                character: ChoiceOption.characters.randomElement()!,
+                friend: ChoiceOption.characters.randomElement()!,
+                bookTitle: title
+            )
+        )
     }
     
 }

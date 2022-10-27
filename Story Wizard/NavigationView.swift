@@ -46,13 +46,11 @@ struct NavigationView: View {
             if page == .goBack {
                 pageStack.pop()
                 page = pageStack.peek()!
-                print(page)
             }
             
             if page != pageStack.peek() {
                 pageStack.push(item: page)
-                print(pageStack.peek()!)
-            }            
+            }
         }
     }
 }

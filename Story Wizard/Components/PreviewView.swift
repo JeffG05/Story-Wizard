@@ -85,10 +85,8 @@ struct PreviewData: View {
                     }
                     
                     Spacer()
-                    OutlinedText(text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi volutpat sollicitudin ligula, ac molestie turpis lacinia posuere.", width: 1, color: .white)
+                    OutlinedText(text: profile.libraryRender[profile.currentBookIndex].blurb, width: 1, color: .white)
                         .font(Font.customHeader(size: 20))
-                        
-                    Spacer()
                     Spacer()
                     HStack {
                         Spacer()

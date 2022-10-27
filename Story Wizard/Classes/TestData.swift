@@ -5,15 +5,25 @@
 //  Created by Jeff Gugelmann on 17/10/2022.
 //
 
+//["One day there was a tropical island, it was very tropical",
+//              "On the island was a tree called kenny. Kenny was a very big tree and his favourite sports was surfing",
+//              "One day there was a storm and it was so windy that Kenny snapped in half and died"]
+
 import SwiftUI
 
 class TestData {
     // Books
-    static var testBook: Book = Book(title: "Lost in Paradise", frontCover: Image("IslandOfParadiseCover"), blurb: "Editor placeholder in source file", bookmarked: true, themes: ["Tropical"])
+//    static var testBook: Book = Book(title: "Lost in Paradise", frontCover: Image("IslandOfParadiseCover"), blurb: "Editor placeholder in source file", bookmarked: true, themes: ["Tropical"])
+//
+//    static var testBook2: Book = Book(title: "Lost2", frontCover: Image("LostInParadise"), blurb: "Editor placeholder in source file", bookmarked: false, themes: ["Tropical"])
+//
+//    static var testBook3: Book = Book(title: "Lost3", frontCover: Image("LostInParadise"), blurb: "Editor placeholder in source file", bookmarked: false, themes: ["Tropical"])
     
-    static var testBook2: Book = Book(title: "Lost2", frontCover: Image("LostInParadise"), blurb: "Editor placeholder in source file", bookmarked: false, themes: ["Tropical"])
+    static var testBook: Book = Book.random(title: "Book 1")
     
-    static var testBook3: Book = Book(title: "Lost3", frontCover: Image("LostInParadise"), blurb: "Editor placeholder in source file", bookmarked: false, themes: ["Tropical"])
+    static var testBook2: Book = Book.random(title: "Book 2")
+    
+    static var testBook3: Book = Book.random(title: "Book 3")
     
     // Profiles
     static var testProfile: Profile {
