@@ -94,7 +94,9 @@ struct ChooseUserPage: View {
                 }
             )
         ) {
-            ProfileEditSheet(profileIndex: editingProfileIndex!, isNewProfile: isEditingNew) {
+            ProfileEditSheet(activeProfile: user.profiles[editingProfileIndex!],
+                             initialName: user.profiles[editingProfileIndex!].name,
+                             initialImage: user.profiles[editingProfileIndex!].profilePicture, profileIndex: editingProfileIndex!, isNewProfile: isEditingNew) {
                 editingProfileIndex = nil
                 isEditingNew = false
             }
@@ -151,10 +153,13 @@ struct ChooseUserPage: View {
 
 struct ProfileEditSheet: View {
     @EnvironmentObject var user: User
-    
+    @StateObject var activeProfile: Profile
     @State var initialProfile: Profile? = nil
     @State var selectedPhoto: PhotosPickerItem? = nil
     @State var isValid: Bool = true
+    
+    var initialName: String
+    var initialImage: Image?
     
     var profileIndex: Int
     var isNewProfile: Bool
@@ -184,8 +189,7 @@ struct ProfileEditSheet: View {
                             photoLibrary: .shared()
                         ) {
                             ZStack {
-                                profile!
-                                    .wrappedValue
+                                activeProfile
                                     .profileCircle(size: g.size.width / 3)
                                     .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
                                 
@@ -207,7 +211,7 @@ struct ProfileEditSheet: View {
                         if profile!.wrappedValue.profilePicture != nil {
                             Button {
                                 selectedPhoto = nil
-                                profile!.wrappedValue.profilePicture = nil
+                                activeProfile.profilePicture = nil
                             } label: {
                                 ZStack {
                                     Image(systemName: "xmark")
@@ -222,14 +226,14 @@ struct ProfileEditSheet: View {
                             }
                         }
                     }
-                    TextField("Name", text: profile!.name)
+                    TextField("Name", text: $activeProfile.name)
                         .padding()
                         .frame(width: g.size.width / 1.2)
                         .background(Color.lighterBlue)
                         .cornerRadius(5.0)
                         .multilineTextAlignment(.center)
                         .font(.customBody())
-                        .onChange(of: profile!.wrappedValue.name) { _ in
+                        .onChange(of: activeProfile.name) { _ in
                             updateValidity()
                         }
                     Spacer()
@@ -238,8 +242,13 @@ struct ProfileEditSheet: View {
                             if isNewProfile {
                                 user.profiles.remove(at: profileIndex)
                             } else {
-                                profile!.name.wrappedValue = initialProfile?.name ?? ""
-                                profile!.profilePicture.wrappedValue = initialProfile?.profilePicture
+                                activeProfile.name = initialName
+                                if let newImage = initialImage {
+                                    activeProfile.profilePicture = newImage
+                                } else {
+                                    activeProfile.profilePicture = nil
+                                }
+                                
                             }
                             onDismiss()
                         } label: {
@@ -269,17 +278,16 @@ struct ProfileEditSheet: View {
                 .background(Color.mainBlue)
             }
             .onAppear {
-                initialProfile = user.profiles[profileIndex]
-                updateValidity()
+                
             }
             .onChange(of: selectedPhoto) { photo in
                 Task {
                     if let data = try? await photo?.loadTransferable(type: Data.self) {
                         if let uiImage = UIImage(data: data) {
-                            profile!.wrappedValue.profilePicture = Image(uiImage: uiImage)
+                            activeProfile.profilePicture = Image(uiImage: uiImage)
                         }
                     } else {
-                        profile!.wrappedValue.profilePicture = nil
+                        activeProfile.profilePicture = nil
                     }
                 }
             }

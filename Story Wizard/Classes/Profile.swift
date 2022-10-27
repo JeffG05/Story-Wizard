@@ -17,7 +17,7 @@ public enum FilterType: Int {
 class Profile: Hashable, Identifiable, ObservableObject {
     var id: UUID
     var name: String
-    var profilePicture: Image?
+    @Published var profilePicture: Image?
     var profileColor: Color
     @Published var library: [Book] // library array stores book objects
     @Published var libraryRender: [Book]
