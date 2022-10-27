@@ -45,6 +45,10 @@ struct LibraryPage: View {
                     profile.filterType = .bookmarked
                     profile.sort_library()
                 })
+                Button("Liked", action:{
+                    profile.filterType = .liked
+                    profile.sort_library()
+                })
                 
                 Bookcase(proxy: proxy)
             }

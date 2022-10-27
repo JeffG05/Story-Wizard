@@ -29,11 +29,13 @@ struct NavigationView: View {
             case .createStory:
                 CreateStoryPage(page: $page, proxy: g)
             case .readStory:
-                ReadStoryPage(page: $page, proxy: g)
+                ReadStoryPage(page: $page, proxy: g, profile: user.currentProfile!)
             case .library:
-                LibraryPage(page: $page, proxy: g, profile: user.profiles[user.currentProfileIndex])
+                LibraryPage(page: $page, proxy: g, profile: user.currentProfile!)
             case .settings:
                 SettingsPage(page: $page, proxy: g)
+            case .rating:
+                RatingPage(page: $page, profile: user.currentProfile!)
             default:
                 EmptyView()
             }

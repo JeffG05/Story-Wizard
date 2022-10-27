@@ -14,19 +14,19 @@ struct ReadStoryPage: View {
     @State var currentPage: Int = 0
     @State var offsetPage: CGFloat = 0
     @State var useSpeech: Bool = false
-    @EnvironmentObject var user: User
     var proxy: GeometryProxy
+    @StateObject var profile: Profile
     
     var body: some View {
         ZStack {
-            user.profiles[user.currentProfileIndex].library[user.profiles[user.currentProfileIndex].currentBookIndex].frontCover
+            profile.libraryRender[profile.currentBookIndex].frontCover
                 .resizable()
                 .aspectRatio(CGSize(width: proxy.size.width, height: proxy.size.height), contentMode: .fill)
                 .ignoresSafeArea()
                 .opacity(0.3)
             GeometryReader {g in
                 VStack(alignment: .leading) {
-                    if currentPage > 0 && currentPage < user.profiles[user.currentProfileIndex].libraryRender[user.profiles[user.currentProfileIndex].currentBookIndex].pages.count + 1 {
+                    if currentPage > 0 && currentPage < profile.libraryRender[profile.currentBookIndex].pages.count + 1 {
                         
                         HeaderView(
                             leftIcon: "x.square",
@@ -47,17 +47,17 @@ struct ReadStoryPage: View {
                     
                     HStack(alignment: .center) {
                         VStack {
-                            Text(user.profiles[user.currentProfileIndex].libraryRender[user.profiles[user.currentProfileIndex].currentBookIndex].title)
+                            Text(profile.libraryRender[profile.currentBookIndex].title)
                                 .font(Font.customHeader(size: 25))
                                 .multilineTextAlignment(.center)
                                 .padding(15)
                             Text("Swipe to read")
                         }
                             .frame(width:g.size.width)
-                        ForEach(0..<user.profiles[user.currentProfileIndex].libraryRender[user.profiles[user.currentProfileIndex].currentBookIndex].pages.count, id: \.self) {index in
+                        ForEach(0..<profile.libraryRender[profile.currentBookIndex].pages.count, id: \.self) {index in
                             VStack {
                                 Spacer()
-                                Text(user.profiles[user.currentProfileIndex].libraryRender[user.profiles[user.currentProfileIndex].currentBookIndex].pages[index])
+                                Text(profile.libraryRender[profile.currentBookIndex].pages[index])
                                     .font(Font.customHeader(size: 25))
                                     .multilineTextAlignment(.center)
                                     .padding(15)
@@ -93,14 +93,19 @@ struct ReadStoryPage: View {
                 if value.translation.width < 0 {
                     // left
                     withAnimation(Animation.linear(duration: 0.25)) {
-                        if currentPage < user.profiles[user.currentProfileIndex].libraryRender[user.profiles[user.currentProfileIndex].currentBookIndex].pages.count + 1 {
+                        if currentPage < profile.libraryRender[profile.currentBookIndex].pages.count + 1 {
                             currentPage += 1
                             offsetPage = CGFloat(-400 * currentPage)
-                            if currentPage > 0 && currentPage < user.profiles[user.currentProfileIndex].libraryRender[user.profiles[user.currentProfileIndex].currentBookIndex].pages.count + 1 && useSpeech {
+                            if currentPage > 0 && currentPage < profile.libraryRender[profile.currentBookIndex].pages.count + 1 && useSpeech {
                                 readPageOutLoud()
                             }
                         } else {
-                            page = .goBack
+                            if profile.libraryRender[profile.currentBookIndex].rating == .NONE {
+                                page = .rating
+                            } else {
+                                page = .library
+                            }
+                            
                         }
                         
                         
@@ -112,7 +117,7 @@ struct ReadStoryPage: View {
                     withAnimation(Animation.linear(duration: 0.25)) {
                         if currentPage > 0 {
                             currentPage -= 1
-                            if currentPage > 0 && currentPage < user.profiles[user.currentProfileIndex].libraryRender[user.profiles[user.currentProfileIndex].currentBookIndex].pages.count + 1 && useSpeech {
+                            if currentPage > 0 && currentPage < profile.libraryRender[profile.currentBookIndex].pages.count + 1 && useSpeech {
                                 readPageOutLoud()
                             }
                             
@@ -131,7 +136,7 @@ struct ReadStoryPage: View {
         }
     }
     func readPageOutLoud() {
-        let utterance = AVSpeechUtterance(string: user.profiles[user.currentProfileIndex].libraryRender[user.profiles[user.currentProfileIndex].currentBookIndex].pages[currentPage-1])
+        let utterance = AVSpeechUtterance(string: profile.libraryRender[profile.currentBookIndex].pages[currentPage-1])
         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
         utterance.pitchMultiplier = 1.0
         utterance.rate = 0.3
@@ -150,8 +155,7 @@ struct ReadStoryPage: View {
 struct ReadStoryPage_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { g in
-            ReadStoryPage(page: .constant(.readStory), proxy: g)
+            ReadStoryPage(page: .constant(.readStory), proxy: g, profile: TestData.testProfileWithSelectedBook)
         }
-        .environmentObject(TestData.testUser)
     }
 }

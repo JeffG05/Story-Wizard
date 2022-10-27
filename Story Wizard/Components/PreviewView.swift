@@ -25,9 +25,14 @@ struct PreviewOverlay: View {
         if profile.currentBookIndex != -1 {
             GeometryReader {g in
                 ZStack {
+                    Color.white
+                        .cornerRadius(10, corners: [.topRight, .bottomRight])
+                        .offset(CGSize(width: 0, height: g.size.height * 0.1))
+                        
                     profile.libraryRender[profile.currentBookIndex].frontCover
                         .resizable()
                         .aspectRatio(CGSize(width: g.size.width, height: g.size.height * 0.8),contentMode: .fit)
+                        .opacity(0.7)
                     
                         .cornerRadius(10, corners: [.topRight, .bottomRight])
                         .offset(CGSize(width: 0, height: g.size.height * 0.1))
@@ -44,6 +49,7 @@ struct PreviewOverlay: View {
 
 struct PreviewData: View {
     @EnvironmentObject var profile: Profile
+    @State var showRating: Bool = true
     @Binding var page: Page
     var body: some View {
         if profile.currentBookIndex != -1 {
@@ -55,12 +61,13 @@ struct PreviewData: View {
                                 profile.currentBookIndex = -1
                             }
                         }, label: {
-                            Image(systemName: "x.square.fill")
+                            Image(systemName: "x.square")
                                 .resizable()
                                 .frame(width: 40, height: 40)
+                                .foregroundColor(.black)
                         })
                         Spacer()
-                        OutlinedText(text: profile.libraryRender[profile.currentBookIndex].title, width: 1.5, color: .black)
+                        OutlinedText(text: profile.libraryRender[profile.currentBookIndex].title, width: 1, color: .white)
                             .font(Font.customHeader(size: 25))
                         
                         Spacer()
@@ -70,16 +77,18 @@ struct PreviewData: View {
                                 profile.currentBookIndex = -1
                             }
                         }, label: {
-                            Image(systemName: "trash.fill")
+                            Image(systemName: "trash")
                                 .resizable()
                                 .frame(width: 40, height: 40)
+                                .foregroundColor(.black)
                         })
                     }
                     
-                    .foregroundColor(.white)
                     Spacer()
-                    OutlinedText(text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi volutpat sollicitudin ligula, ac molestie turpis lacinia posuere. Nunc vitae lorem non felis varius tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean at sapien ut justo tincidunt eleifend. Mauris dictum urna sit amet velit semper tincidunt.", width: 1, color: .black)
-                        .foregroundColor(.white)
+                    OutlinedText(text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi volutpat sollicitudin ligula, ac molestie turpis lacinia posuere.", width: 1, color: .white)
+                        .font(Font.customHeader(size: 20))
+                        
+                    Spacer()
                     Spacer()
                     HStack {
                         Spacer()
@@ -90,9 +99,12 @@ struct PreviewData: View {
                                 Image(systemName: "book")
                                     .resizable()
                                     .frame(width: 60, height: 60)
-                                OutlinedText(text: "Read", width: 1.5, color: .black)
+                                    
+                                OutlinedText(text: "Read", width: 1, color: .white)
                                     .font(Font.customHeader(size: 15))
+                                    .foregroundColor(.black)
                             }
+                            .foregroundColor(.black)
                         })
                         
                         Spacer()
@@ -109,10 +121,12 @@ struct PreviewData: View {
                                     Image(systemName: "bookmark")
                                         .resizable()
                                         .frame(width: 50, height: 60)
+                                        .foregroundColor(.black)
                                 }
                                 
-                                OutlinedText(text: "Bookmark", width: 1.5, color: .black)
+                                OutlinedText(text: "Bookmark", width: 1, color: .white)
                                     .font(Font.customHeader(size: 15))
+                                    .foregroundColor(.black)
                             }
                         })
                         Spacer()
@@ -121,7 +135,6 @@ struct PreviewData: View {
                     
                     
                 }
-                .foregroundColor(.white)
                 .padding()
             }
         }
@@ -132,7 +145,8 @@ struct PreviewData: View {
 struct PreviewView_Previews: PreviewProvider {
     static var previews: some View {
         PreviewView(page: .constant(Page.library))
-            .environmentObject(TestData.testUser)
+            .environmentObject(TestData.testProfileWithSelectedBook)
         
     }
+        
 }

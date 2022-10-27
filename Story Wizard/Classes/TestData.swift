@@ -24,6 +24,14 @@ class TestData {
         
         return profile
     }
+    static var testProfileWithSelectedBook: Profile {
+        let profile = Profile(name: "Profile 9", profileColor: Profile.profileColorOptions[0])
+        profile.addBook(bookObj: testBook)
+        profile.addBook(bookObj: testBook2)
+        profile.addBook(bookObj: testBook3)
+        profile.currentBookIndex = 0
+        return profile
+    }
     static var testProfile2: Profile {
         let profile = Profile(name: "Profile 2", profileColor: Profile.profileColorOptions[2])
         profile.addBook(bookObj: testBook3)

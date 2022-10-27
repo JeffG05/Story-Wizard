@@ -12,6 +12,7 @@ public enum FilterType: Int {
     case rev_alphabet
     case date_added
     case bookmarked
+    case liked
 }
 
 class Profile: Hashable, Identifiable, ObservableObject {
@@ -99,6 +100,20 @@ class Profile: Hashable, Identifiable, ObservableObject {
             }
         }
     }
+    func rateBook(id: UUID, rating: Rating) {
+        for i in 0..<library.count {
+            if library[i].id == id {
+                library[i].rate(rating: rating)
+                break
+            }
+        }
+        for i in 0..<libraryRender.count {
+            if libraryRender[i].id == id {
+                libraryRender[i].rate(rating: rating)
+                break
+            }
+        }
+    }
     func setCurrentBook(index: Int) {
         self.currentBookIndex = index
     }
@@ -131,6 +146,8 @@ class Profile: Hashable, Identifiable, ObservableObject {
             libraryRender = library
         case .bookmarked:
             libraryRender = library.filter{ $0.bookmarked == true }
+        case .liked:
+            libraryRender = library.filter{ $0.rating == .LIKE }
         case .none:
             break
         }

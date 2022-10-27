@@ -15,4 +15,5 @@ enum Page {
     case library
     case settings
     case goBack
+    case rating
 }

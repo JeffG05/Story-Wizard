@@ -17,6 +17,7 @@ struct Book: Hashable, Identifiable {
     var bookmarked: Bool
     var themes: [String]
     var pages: [String]
+    var rating: Rating
     init(title: String, frontCover: Image, blurb: String,bookmarked: Bool, themes: [String]) {
         self.id = UUID()
         self.title = title
@@ -27,6 +28,7 @@ struct Book: Hashable, Identifiable {
         self.pages = ["One day there was a tropical island, it was very tropical",
                       "On the island was a tree called kenny. Kenny was a very big tree and his favourite sports was surfing",
                       "One day there was a storm and it was so windy that Kenny snapped in half and died"]
+        self.rating = .NONE
     }
     
     func hash(into hasher: inout Hasher) {
@@ -44,6 +46,9 @@ struct Book: Hashable, Identifiable {
     }
     mutating func bookmark() {
         self.bookmarked = !self.bookmarked
+    }
+    mutating func rate(rating: Rating) {
+        self.rating = rating
     }
     
 }
