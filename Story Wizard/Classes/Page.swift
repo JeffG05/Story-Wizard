@@ -6,6 +6,7 @@
 //
 
 enum Page {
+    case walkthrough
     case signIn
     case signUp
     case chooseUser

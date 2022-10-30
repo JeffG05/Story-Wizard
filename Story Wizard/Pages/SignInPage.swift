@@ -1,9 +1,11 @@
 //
-//  HomePage.swift
+//  SignInPage.swift
 //  Story Wizard
 //
-//  Created by Jeff Gugelmann on 17/10/2022.
+//  Created by Jacob Curtis on 22/10/2022.
 //
+
+//Use login details 'User' and 'Password' to sign in
 
 import SwiftUI
 
@@ -14,6 +16,9 @@ struct SignInPage: View {
     
     @State var email: String = ""
     @State var password: String = ""
+    
+    @State var isSignInValid: Bool = false
+    @State var showInvalidDetailsAlert: Bool = false
     
     var body: some View {
         ZStack {
@@ -37,7 +42,9 @@ struct SignInPage: View {
             VStack {
                 HeaderView(
                     text: "Sign In",
-                    textSize: 40
+                    textSize: 40,
+                    rightIcon: "questionmark.circle",
+                    rightAction: goToWalkthrough
                 )
                 .padding(.bottom, 30)
                 .foregroundColor(.mainYellow)
@@ -56,7 +63,10 @@ struct SignInPage: View {
                     .padding(.bottom, 20)
                 
                 SignInButton(proxy: proxy, text:"Sign In"){
-                    goToChooseUser()
+                    checkSignIn()
+                }
+                .alert(isPresented: $showInvalidDetailsAlert) {
+                        Alert(title: Text("Incorrect Email/Password"))
                 }
                 
                 Spacer()
@@ -72,12 +82,31 @@ struct SignInPage: View {
         .ignoresSafeArea()
     }
     
+    func checkSignIn () {
+        let isSignInValid = self.email == "User" && self.password == "Password"
+        
+        
+        
+        //trigger logic
+        if isSignInValid {
+            self.isSignInValid = true //trigger NavigationLink
+            goToChooseUser()
+        }
+        else {
+            self.showInvalidDetailsAlert = true
+        }
+    }
+    
     func goToChooseUser() {
         page = .chooseUser
     }
     
     func goToSignUp() {
         page = .signUp
+    }
+    
+    func goToWalkthrough() {
+        page = .walkthrough
     }
     
 }
@@ -98,7 +127,7 @@ struct SignInButton: View {
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.init(white: 0.95))
+                    .fill(Color.mainYellow)
             )
             .foregroundColor(Color.black)
             .fontWeight(.medium)
@@ -119,7 +148,7 @@ struct RegisteredYNButton: View {
             HStack {
                 Text(text)
             }
-            .frame(width: proxy.size.width / 2)
+            .frame(width: proxy.size.width / 1.6)
             .padding(.vertical, 12)
             .foregroundColor(Color.mainYellow)
             .fontWeight(.medium)

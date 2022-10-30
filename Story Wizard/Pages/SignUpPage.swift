@@ -5,13 +5,6 @@
 //  Created by Jacob Curtis on 22/10/2022.
 //
 
-//
-//  HomePage.swift
-//  Story Wizard
-//
-//  Created by Jeff Gugelmann on 17/10/2022.
-//
-
 import SwiftUI
 
 struct SignUpPage: View {
@@ -23,6 +16,9 @@ struct SignUpPage: View {
     @State var email: String = ""
     @State var password: String = ""
     @State var readingAge: Int = 0
+    
+    @State var isSignUpValid: Bool = false
+    @State var showInvalidDetailsAlert: Bool = false
     
     
     var body: some View {
@@ -79,9 +75,12 @@ struct SignUpPage: View {
                     .padding(.bottom, 20)
                 
                 SignInButton(proxy: proxy, text:"Sign Up"){
-                    goToSignIn()
+                    checkSignUp()
                 }
                 
+                .alert(isPresented: $showInvalidDetailsAlert) {
+                    Alert(title: Text("There are some empty fields."))
+                }
                 Spacer()
                 
                 RegisteredYNButton(proxy: proxy, text:"Already registered? Sign In"){
@@ -93,6 +92,19 @@ struct SignUpPage: View {
             .frame(width: proxy.size.width, height: proxy.size.height)
         }
         .ignoresSafeArea()
+    }
+    
+    func checkSignUp() {
+        let isSignUpValid = self.email.isEmpty==false && self.password.isEmpty == false
+        
+        //trigger logic
+        if isSignUpValid {
+            self.isSignUpValid = true //trigger NavigationLink
+            goToSignIn()
+        }
+        else {
+            self.showInvalidDetailsAlert = true
+        }
     }
     
     func goToSignIn() {

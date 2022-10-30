@@ -38,6 +38,7 @@
 		2AF4881E29045A2E0024152C /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF4881D29045A2E0024152C /* Book.swift */; };
 		C55C493129049B7100942545 /* SignUpPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C492F29049B7100942545 /* SignUpPage.swift */; };
 		C55C493229049B7100942545 /* SignInPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C493029049B7100942545 /* SignInPage.swift */; };
+		C5E0AAE6290ECD9800AB1B04 /* WalkthroughPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E0AAE5290ECD9800AB1B04 /* WalkthroughPage.swift */; };
 		D470982C290879F700C72558 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470982B290879F700C72558 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 		2AF4881D29045A2E0024152C /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		C55C492F29049B7100942545 /* SignUpPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpPage.swift; sourceTree = "<group>"; };
 		C55C493029049B7100942545 /* SignInPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInPage.swift; sourceTree = "<group>"; };
+		C5E0AAE5290ECD9800AB1B04 /* WalkthroughPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughPage.swift; sourceTree = "<group>"; };
 		D470982B290879F700C72558 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,6 +134,7 @@
 		2A587E3328FD9528000ACBF5 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				C5E0AAE5290ECD9800AB1B04 /* WalkthroughPage.swift */,
 				2A587E3428FD9542000ACBF5 /* ChooseUserPage.swift */,
 				2A587E3628FD95D9000ACBF5 /* HomePage.swift */,
 				C55C493029049B7100942545 /* SignInPage.swift */,
@@ -274,6 +277,7 @@
 				2A587E4928FDD85C000ACBF5 /* Page.swift in Sources */,
 				1F8734F72906F92600C71DB5 /* Stack.swift in Sources */,
 				2A587E4528FD9FD8000ACBF5 /* FontExtension.swift in Sources */,
+				C5E0AAE6290ECD9800AB1B04 /* WalkthroughPage.swift in Sources */,
 				C55C493129049B7100942545 /* SignUpPage.swift in Sources */,
 				2A587E4528FD9FD8000ACBF5 /* FontExtension.swift in Sources */,
 				1F8734F12902FC1A00C71DB5 /* PreviewView.swift in Sources */,
