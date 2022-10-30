@@ -18,6 +18,7 @@ struct Book: Hashable, Identifiable {
     var generationOptions: GenerationOptions
     var pages: [String]
     var rating: Rating
+    var theme: String
     init(title: String, frontCover: Image, blurb: String, bookmarked: Bool, pages: [String], options: GenerationOptions) {
         self.id = UUID()
         self.title = title
@@ -27,6 +28,7 @@ struct Book: Hashable, Identifiable {
         self.generationOptions = options
         self.pages = pages
         self.rating = .NONE
+        self.theme = options.theme.title
     }
     
     func hash(into hasher: inout Hasher) {

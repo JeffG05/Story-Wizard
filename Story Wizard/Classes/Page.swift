@@ -17,4 +17,5 @@ enum Page {
     case settings
     case goBack
     case rating
+    case feedbackThanks
 }

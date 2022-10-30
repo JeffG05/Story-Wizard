@@ -38,6 +38,8 @@ struct NavigationView: View {
                 SettingsPage(page: $page, proxy: g)
             case .rating:
                 RatingPage(page: $page, profile: user.currentProfile!)
+            case .feedbackThanks:
+                ThanksFeedbackPage(page: $page, background: user.currentProfile!.libraryRender[user.currentProfile!.currentBookIndex].frontCover)
             default:
                 EmptyView()
             }

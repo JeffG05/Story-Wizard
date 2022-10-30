@@ -85,6 +85,18 @@ struct PreviewData: View {
                     }
                     
                     Spacer()
+                    HStack {
+                        if profile.libraryRender[profile.currentBookIndex].rating == .LIKE {
+                            Image(systemName: "hand.thumbsup")
+                            
+                        }
+                        if profile.libraryRender[profile.currentBookIndex].rating == .DISLIKE {
+                            Image(systemName: "hand.thumbsdown")
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                        }
+                        Spacer()
+                    }
                     OutlinedText(text: profile.libraryRender[profile.currentBookIndex].blurb, width: 1, color: .white)
                         .font(Font.customHeader(size: 20))
                     Spacer()
