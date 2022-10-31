@@ -32,7 +32,7 @@ struct PreviewOverlay: View {
                     profile.libraryRender[profile.currentBookIndex].frontCover
                         .resizable()
                         .aspectRatio(CGSize(width: g.size.width, height: g.size.height * 0.8),contentMode: .fit)
-                        .opacity(0.7)
+                        .opacity(0.5)
                     
                         .cornerRadius(10, corners: [.topRight, .bottomRight])
                         .offset(CGSize(width: 0, height: g.size.height * 0.1))
@@ -87,11 +87,13 @@ struct PreviewData: View {
                     Spacer()
                     HStack {
                         if profile.libraryRender[profile.currentBookIndex].rating == .LIKE {
-                            Image(systemName: "hand.thumbsup")
+                            Image("happyFace")
+                                .resizable()
+                                .frame(width: 40, height: 40)
                             
                         }
                         if profile.libraryRender[profile.currentBookIndex].rating == .DISLIKE {
-                            Image(systemName: "hand.thumbsdown")
+                            Image("sadFace")
                                 .resizable()
                                 .frame(width: 40, height: 40)
                         }

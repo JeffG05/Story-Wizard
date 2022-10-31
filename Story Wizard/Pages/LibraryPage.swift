@@ -136,6 +136,7 @@ struct Shelf: View {
         Image(decorative: UIImage(named: "Wood")!.cgImage!, scale: 1, orientation: .left)
             .resizable()
             .frame(width: proxy.size.width / 2, height: height)
+            
     }
 }
 
@@ -161,6 +162,7 @@ struct BookOptionView: View {
             } label: {
                 ZStack {
                     book.bookCover(size: bookHeight)
+                        .cornerRadius(10, corners: [.topRight, .bottomRight])
                     
                     OutlinedText(text: book.title, width: 1.5, color: .black)
                         .font(Font.customHeader(size: 20))

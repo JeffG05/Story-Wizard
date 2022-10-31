@@ -18,75 +18,110 @@ struct RatingPage: View {
         GeometryReader {g in
             ZStack {
                 profile.libraryRender[profile.currentBookIndex].frontCover
-                    .resizable()
-                    .aspectRatio(CGSize(width: g.size.width, height: g.size.height), contentMode: .fill)
-                    .ignoresSafeArea()
-                    .opacity(0.3)
-                VStack {
-                    Text("Please rate this story")
-                        .font(Font.customHeader(size: 25))
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            currentRating = .LIKE
-                            withAnimation(.linear(duration: 0.5)) {
-                                showReason = false
-                            }                        }, label: {
-                            VStack {
-                                Image(systemName: currentRating == .LIKE ? "hand.thumbsup.fill" : "hand.thumbsup")
                                     .resizable()
-                                    .frame(width: 60, height: 60)
-                                Text("Like")
-                            }
-                        })
+                                    .aspectRatio(CGSize(width: g.size.width, height: g.size.height), contentMode: .fill)
+                                    .ignoresSafeArea()
+                                    .opacity(0.3)
+                HStack {
+                    VStack {
+                        Text("Please rate this story")
+                            .font(Font.customHeader(size: 25))
+                            .foregroundColor(.mainYellow)
+                        Divider()
+                        Text("Your feedback will be used to improve future stories")
+                            .font(Font.customHeader(size: 20))
+                            .foregroundColor(.mainYellow)
+                            .multilineTextAlignment(.center)
                         Spacer()
-                        Button(action: {
-                            currentRating = .DISLIKE
-                            withAnimation(.linear(duration: 0.5)) {
-                                showReason = true
-                            }
-                        }, label: {
-                            VStack {
-                                Image(systemName: currentRating == .DISLIKE ? "hand.thumbsdown.fill" : "hand.thumbsdown")
-                                    .resizable()
-                                    .frame(width: 60, height: 60)
-                                Text("Dislike")
-                            }
-                        })
-                        Spacer()
-
-                    }
-                    HStack {
-                        if showReason {
-                            LazyVGrid(columns: columns,alignment: .center, spacing:15) {
-                                FeedbackButton(text: "Too Boring")
-                                FeedbackButton(text: "Inapropriate")
-                                FeedbackButton(text: "Doesn't make sense")
-                            }
-                        }
-                        Spacer()
-                    }
-                    .padding()
-                    HStack {
-                        if currentRating != .NONE {
+                        HStack {
+                            Spacer()
                             Button(action: {
-                                profile.rateBook(id: profile.libraryRender[profile.currentBookIndex].id, rating: currentRating)
-                                withAnimation(.easeInOut(duration: 1)) {
-                                    page = .feedbackThanks
+                                currentRating = .LIKE
+                                withAnimation(.linear(duration: 0.5)) {
+                                    showReason = false
+                                }                        }, label: {
+                                    VStack {
+                                        Image(currentRating == .LIKE ? "happyFace.fill" : "happyFace")
+                                            .resizable()
+                                            .frame(width: 60, height: 60)
+                                        Text("Like")
+                                    }
+                                })
+                            Spacer()
+                            Button(action: {
+                                currentRating = .DISLIKE
+                                withAnimation(.linear(duration: 0.5)) {
+                                    showReason = true
                                 }
                             }, label: {
-                                Image(systemName: "arrow.right.circle")
-                                    .resizable()
-                                    .frame(width: 60, height: 60)
+                                VStack {
+                                    Image(currentRating == .DISLIKE ? "sadFace.fill" : "sadFace")
+                                        .resizable()
+                                        .frame(width: 60, height: 60)
+                                    Text("Dislike")
+                                }
                             })
+                            Spacer()
+                            
                         }
-                    }.frame(width: 60, height: 60)
-                    Spacer()
-                    
-                    
+                        HStack {
+                            if showReason {
+                                LazyVGrid(columns: columns,alignment: .center, spacing:15) {
+                                    FeedbackButton(text: "Too Boring")
+                                    FeedbackButton(text: "Inapropriate")
+                                    FeedbackButton(text: "Doesn't make sense")
+                                    FeedbackButton(text: "Too Long")
+                                }
+                            }
+                            Spacer()
+                        }
+                        .padding()
+                        HStack {
+                            if currentRating != .NONE {
+                                Button(action: {
+                                    profile.rateBook(id: profile.libraryRender[profile.currentBookIndex].id, rating: currentRating)
+                                    withAnimation(.easeInOut(duration: 1)) {
+                                        page = .feedbackThanks
+                                    }
+                                }, label: {
+                                    Image(systemName: "arrow.right.circle")
+                                        .resizable()
+                                        .frame(width: 60, height: 60)
+                                })
+                            }
+                        }.frame(width: 60, height: 60)
+                        Spacer()
+                        
+                            
+                            Button(action: {
+                                page = .library
+                            }, label: {
+                                HStack {
+                                    Spacer()
+                                    Text("Skip")
+                                    
+                                        .padding()
+                                        .font(Font.customHeader(size: 15))
+                                    Spacer()
+                                }
+                                .background() {
+                                    Color.mainYellow
+                                }
+                            })
+                            
+                        
+                        
+                        
+                        
+                    }
+                    .background() {
+                        Color.mainBlue
+                    }
+                    .foregroundColor(.black)
+                    .cornerRadius(15)
+                    .shadow(radius: 5)
                 }
-                .foregroundColor(.black)
+                .padding()
             }
         }
         
@@ -110,7 +145,7 @@ struct FeedbackButton : View {
                 RoundedRectangle(cornerRadius: 15).stroke(Color(.black), lineWidth: 2))
                     .background() {
                 if clicked {
-                    Color.mainBlue
+                    Color.mainYellow
                         .cornerRadius(15)
                 }
             }

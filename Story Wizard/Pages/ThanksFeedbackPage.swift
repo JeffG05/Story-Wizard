@@ -13,18 +13,21 @@ struct ThanksFeedbackPage: View {
     var body: some View {
         GeometryReader {g in
         ZStack {
-            background
-                .resizable()
-                .aspectRatio(CGSize(width: g.size.width, height: g.size.height), contentMode: .fill)
-                .ignoresSafeArea()
-                .opacity(0.3)
+            Color.mainBlue.ignoresSafeArea()
             VStack(alignment: .center) {
-                Text("Thanks for the feedback")
+                Image("FullWizzo")
+                    .resizable()
+                    .aspectRatio(CGSize(width: 20, height: 20),contentMode: .fit)
+                Spacer()
+                Text("Thank You!")
                     .font(Font.customHeader(size: 25))
-                Text("Your input will be used to help us make more amazing stories for you")
+                Text("Wizzo will use your feedback to create even better stories in future")
                     .font(Font.customHeader(size: 20))
                     .multilineTextAlignment(.center)
+                    .padding()
+                Spacer()
             }
+            .foregroundColor(.mainYellow)
         }
         .onAppear(perform :{
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {

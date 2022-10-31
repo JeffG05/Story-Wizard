@@ -19,11 +19,16 @@ struct ReadStoryPage: View {
     
     var body: some View {
         ZStack {
-            profile.libraryRender[profile.currentBookIndex].frontCover
-                .resizable()
-                .aspectRatio(CGSize(width: proxy.size.width, height: proxy.size.height), contentMode: .fill)
-                .ignoresSafeArea()
-                .opacity(0.3)
+            if currentPage == 0 || currentPage ==  profile.libraryRender[profile.currentBookIndex].pages.count + 1{
+                profile.libraryRender[profile.currentBookIndex].frontCover
+                               .resizable()
+                               .aspectRatio(CGSize(width: proxy.size.width, height: proxy.size.height), contentMode: .fill)
+                               .ignoresSafeArea()
+                               .opacity(0.3)
+                               
+            } else {
+                Color.white
+            }
             GeometryReader {g in
                 VStack(alignment: .leading) {
                     if currentPage > 0 && currentPage < profile.libraryRender[profile.currentBookIndex].pages.count + 1 {
@@ -44,26 +49,25 @@ struct ReadStoryPage: View {
                             rightAction: settings
                         )
                     }
-                    
-                    HStack(alignment: .center) {
+                    TabView(selection: $currentPage) {
                         VStack {
                             Text(profile.libraryRender[profile.currentBookIndex].title)
-                                .font(Font.customHeader(size: 25))
+                                .font(Font.customHeader(size: 30))
                                 .multilineTextAlignment(.center)
                                 .padding(15)
                             Text("Swipe to read")
-                        }
-                            .frame(width:g.size.width)
+                        }.tag(0)
                         ForEach(0..<profile.libraryRender[profile.currentBookIndex].pages.count, id: \.self) {index in
                             VStack {
                                 Spacer()
-                                Text(profile.libraryRender[profile.currentBookIndex].pages[index])
+                                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed libero mi. In eu tellus ac justo malesuada blandit elementum non risus. Vivamus nec congue velit.")
                                     .font(Font.customHeader(size: 25))
                                     .multilineTextAlignment(.center)
                                     .padding(15)
                                 Spacer()
                             }
-                                .frame(width:g.size.width)
+                            .frame(width:g.size.width)
+                            .tag(index + 1)
                         }
                         VStack {
                             Text("The end")
@@ -72,62 +76,33 @@ struct ReadStoryPage: View {
                                 .padding(15)
                             Text("Swipe to go back")
                         }
+                        .tag(profile.libraryRender[profile.currentBookIndex].pages.count + 1)
                         .frame(width:g.size.width)
+                        Text("")
+                            .tag(profile.libraryRender[profile.currentBookIndex].pages.count + 2)
                         
-                        
-                    
+                    }.indexViewStyle(.page(backgroundDisplayMode: .interactive))
+                        .tabViewStyle(.page(indexDisplayMode: .never))
+                        .onChange(of: currentPage) {newValue in
+                            if newValue > profile.libraryRender[profile.currentBookIndex].pages.count + 1 {
+                                if profile.libraryRender[profile.currentBookIndex].rating == .NONE {
+                                    page = .rating
+                                } else {
+                                    page = .library
+                                }
+                            }
+                        }
+                    HStack {
+                        Spacer()
+                        Text("Page \(currentPage + 1)")
+                    }
+                    .padding()
                 }
-                .offset(x: CGFloat(offsetPage))
                 
-                Spacer()
-                
-                }
                 
             }
             
-        }.gesture(DragGesture(minimumDistance: 3, coordinateSpace: .local)
-            .onChanged({value in
-                offsetPage = CGFloat(-400 * currentPage) + value.translation.width
-            })
-            .onEnded({ value in
-                if value.translation.width < 0 {
-                    // left
-                    withAnimation(Animation.linear(duration: 0.25)) {
-                        if currentPage < profile.libraryRender[profile.currentBookIndex].pages.count + 1 {
-                            currentPage += 1
-                            offsetPage = CGFloat(-400 * currentPage)
-                            if currentPage > 0 && currentPage < profile.libraryRender[profile.currentBookIndex].pages.count + 1 && useSpeech {
-                                readPageOutLoud()
-                            }
-                        } else {
-                            if profile.libraryRender[profile.currentBookIndex].rating == .NONE {
-                                page = .rating
-                            } else {
-                                page = .library
-                            }
-                            
-                        }
-                        
-                        
-                    }
-                }
-
-                if value.translation.width > 0 {
-                    // right
-                    withAnimation(Animation.linear(duration: 0.25)) {
-                        if currentPage > 0 {
-                            currentPage -= 1
-                            if currentPage > 0 && currentPage < profile.libraryRender[profile.currentBookIndex].pages.count + 1 && useSpeech {
-                                readPageOutLoud()
-                            }
-                            
-                        }
-                        offsetPage = CGFloat(-400 * currentPage)
-                        
-                        
-                    }
-                }
-            }))
+        }.animation(.easeInOut, value: currentPage)
     }
     func toggleSpeech() {
         useSpeech = !useSpeech
