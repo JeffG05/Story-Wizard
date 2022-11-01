@@ -17,6 +17,7 @@ struct PreviewView: View {
                     .padding()
                     .rotation3DEffect(Angle(degrees: degree), axis: (x: 0, y: 1, z: 0))
             }
+            .foregroundColor(.mainYellow)
     }
 }
 struct PreviewOverlay: View {
@@ -28,6 +29,11 @@ struct PreviewOverlay: View {
                 ZStack {
                     Color.mainBlue
                         .cornerRadius(10, corners: [.topRight, .bottomRight])
+                        .offset(CGSize(width: 0, height: g.size.height * 0.1))
+                    Image("Stars")
+                        .resizable()
+                        .opacity(0.3)
+                        .aspectRatio(contentMode: .fit)
                         .offset(CGSize(width: 0, height: g.size.height * 0.1))
                         PreviewData(page: $page)
                         .offset(CGSize(width: 0, height: g.size.height * 0.1))
@@ -60,7 +66,7 @@ struct PreviewData: View {
                                 .foregroundColor(.black)
                         })
                         Spacer()
-                        OutlinedText(text: profile.libraryRender[profile.currentBookIndex].title, width: 1, color: .white)
+                        Text(profile.libraryRender[profile.currentBookIndex].title)
                             .font(Font.customHeader(size: 25))
                         
                         Spacer()
@@ -92,8 +98,9 @@ struct PreviewData: View {
                         }
                         Spacer()
                     }
-                    OutlinedText(text: profile.libraryRender[profile.currentBookIndex].blurb, width: 1, color: .white)
+                    Text(profile.libraryRender[profile.currentBookIndex].blurb)
                         .font(Font.customHeader(size: 20))
+                        .multilineTextAlignment(.center)
                     Spacer()
                     HStack {
                         Spacer()
@@ -104,12 +111,11 @@ struct PreviewData: View {
                                 Image(systemName: "book")
                                     .resizable()
                                     .frame(width: 60, height: 60)
-                                    
-                                OutlinedText(text: "Read", width: 1, color: .white)
-                                    .font(Font.customHeader(size: 15))
                                     .foregroundColor(.black)
+                                    
+                                Text("Read")
+                                    .font(Font.customHeader(size: 15))
                             }
-                            .foregroundColor(.black)
                         })
                         
                         Spacer()
@@ -129,9 +135,8 @@ struct PreviewData: View {
                                         .foregroundColor(.black)
                                 }
                                 
-                                OutlinedText(text: "Bookmark", width: 1, color: .white)
+                                Text("Bookmark")
                                     .font(Font.customHeader(size: 15))
-                                    .foregroundColor(.black)
                             }
                         })
                         Spacer()
