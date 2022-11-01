@@ -10,11 +10,12 @@ import SwiftUI
 struct PreviewView: View {
     @EnvironmentObject var profile: Profile
     @Binding var page : Page
+    @Binding var degree : Double
     var body: some View {
             ZStack {
-                Color.black.ignoresSafeArea().opacity(0.8)
                 PreviewOverlay(page: $page)
                     .padding()
+                    .rotation3DEffect(Angle(degrees: degree), axis: (x: 0, y: 1, z: 0))
             }
     }
 }
@@ -25,18 +26,10 @@ struct PreviewOverlay: View {
         if profile.currentBookIndex != -1 {
             GeometryReader {g in
                 ZStack {
-                    Color.white
+                    Color.mainBlue
                         .cornerRadius(10, corners: [.topRight, .bottomRight])
                         .offset(CGSize(width: 0, height: g.size.height * 0.1))
-                        
-                    profile.libraryRender[profile.currentBookIndex].frontCover
-                        .resizable()
-                        .aspectRatio(CGSize(width: g.size.width, height: g.size.height * 0.8),contentMode: .fit)
-                        .opacity(0.5)
-                    
-                        .cornerRadius(10, corners: [.topRight, .bottomRight])
-                        .offset(CGSize(width: 0, height: g.size.height * 0.1))
-                    PreviewData(page: $page)
+                        PreviewData(page: $page)
                         .offset(CGSize(width: 0, height: g.size.height * 0.1))
                     
                 }
@@ -156,7 +149,7 @@ struct PreviewData: View {
 
 struct PreviewView_Previews: PreviewProvider {
     static var previews: some View {
-        PreviewView(page: .constant(Page.library))
+        PreviewView(page: .constant(Page.library), degree: .constant(0))
             .environmentObject(TestData.testProfileWithSelectedBook)
         
     }

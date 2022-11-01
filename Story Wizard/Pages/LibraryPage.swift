@@ -12,6 +12,8 @@ struct LibraryPage: View {
     @Binding var page: Page
     var proxy: GeometryProxy
     @StateObject var profile: Profile
+    @State var frontDegree: Double = -90
+    @State var backDegree: Double = 0
     var body: some View {
         
         ZStack {
@@ -53,7 +55,22 @@ struct LibraryPage: View {
                 Bookcase(proxy: proxy)
             }
             if profile.currentBookIndex != -1 {
-                PreviewView(page: $page)
+                ZStack {
+                    Color.black.ignoresSafeArea().opacity(0.8)
+                    PreviewView(page: $page, degree: $frontDegree)
+                    BookCoverView(degree: $backDegree)
+                }
+                .onAppear {
+                    backDegree = 0
+                    frontDegree = -90
+                    withAnimation(.linear(duration: 0.4)) {
+                                    backDegree = 90
+                                }
+                    withAnimation(.linear(duration: 0.4).delay(0.4)){
+                                    frontDegree = 0
+                                }
+                }
+                
             }
             if showSettings == true {
                 SettingsView(showSettings: $showSettings)
