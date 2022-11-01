@@ -222,7 +222,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1400;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					2A587E1F28FD935A000ACBF5 = {
 						CreatedOnToolsVersion = 14.0.1;
@@ -287,7 +287,6 @@
 				2A587E4528FD9FD8000ACBF5 /* FontExtension.swift in Sources */,
 				C5E0AAE6290ECD9800AB1B04 /* WalkthroughPage.swift in Sources */,
 				C55C493129049B7100942545 /* SignUpPage.swift in Sources */,
-				2A587E4528FD9FD8000ACBF5 /* FontExtension.swift in Sources */,
 				1F8734F12902FC1A00C71DB5 /* PreviewView.swift in Sources */,
 				1FBD7271290ACCB0008DC6E4 /* Rating.swift in Sources */,
 				1F8734F52906887100C71DB5 /* CornerRadiusExtension.swift in Sources */,

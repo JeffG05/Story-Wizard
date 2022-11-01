@@ -48,7 +48,7 @@ struct NavigationView: View {
         .ignoresSafeArea(.keyboard)
         .onChange(of: page) { _ in
             if page == .goBack {
-                pageStack.pop()
+                let _ = pageStack.pop()
                 page = pageStack.peek()!
             }
             
