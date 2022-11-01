@@ -90,11 +90,15 @@ struct SignInPage: View {
         //trigger logic
         if isSignInValid {
             self.isSignInValid = true //trigger NavigationLink
-            goToChooseUser()
+            goToNumberPin()
         }
         else {
             self.showInvalidDetailsAlert = true
         }
+    }
+    
+    func goToNumberPin() {
+        page = .numberPin
     }
     
     func goToChooseUser() {

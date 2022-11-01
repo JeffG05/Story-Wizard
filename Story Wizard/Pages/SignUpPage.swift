@@ -20,7 +20,6 @@ struct SignUpPage: View {
     @State var isSignUpValid: Bool = false
     @State var showInvalidDetailsAlert: Bool = false
     
-    
     var body: some View {
         ZStack {
             // Background color

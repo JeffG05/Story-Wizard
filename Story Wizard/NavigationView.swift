@@ -24,6 +24,10 @@ struct NavigationView: View {
                 SignInPage(page: $page, proxy: g)
             case .signUp:
                 SignUpPage(page: $page, proxy: g)
+            case .numberPin:
+                NumberPinPage(page: $page, proxy: g)
+            case .numberPin2:
+                NumberPinPage2(page: $page, proxy: g)
             case .chooseUser:
                 ChooseUserPage(page: $page, proxy: g)
             case .home:

@@ -9,6 +9,8 @@ enum Page {
     case walkthrough
     case signIn
     case signUp
+    case numberPin
+    case numberPin2
     case chooseUser
     case home
     case createStory

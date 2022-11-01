@@ -55,5 +55,5 @@ class TestData {
     }
     
     // Users
-    static var testUser: User = User(name: "Adult", email: "test@gmail.com", password: "password", profiles: [testProfile, testProfile2, testProfile3])
+    static var testUser: User = User(name: "Adult", email: "test@gmail.com", password: "password", numberPin: "1234", profiles: [testProfile, testProfile2, testProfile3])
 }

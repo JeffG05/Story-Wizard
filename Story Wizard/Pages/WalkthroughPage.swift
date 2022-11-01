@@ -18,17 +18,21 @@ struct WalkthroughPage: View {
     var body: some View {
         Color.mainBlue
             .ignoresSafeArea()
+        BackgroundStarsView()
         TabView(selection: $pageIndex) {
             ForEach(pages) { page in
                 VStack {
-                    HeaderView(
-                       // leftIcon: "arrow.backward",
-                        rightIcon: "xmark",
-                       // leftAction: goToSignUp,
-                        rightAction: goToSignUp
-                    )
+                    HStack {
+                         Spacer()
+                         
+                        Button("Skip", action: goToSignUp)
+                            .padding(.vertical, 5)
+                            .foregroundColor(Color.mainYellow)
+                            .fontWeight(.medium)
+                            .padding(.trailing, 20)
+                            .padding(.bottom, 10)
+                      }
                     
-                    Spacer()
                     WalkthroughView(page: page)
                     if page == pages.last {
                         
@@ -37,6 +41,8 @@ struct WalkthroughPage: View {
                             .background(
                                 RoundedRectangle(cornerRadius: 10)
                                     .fill(Color.mainYellow))
+
+                        
                     } else {
                         
                         Button("Next", action: incrementPage)
@@ -45,8 +51,8 @@ struct WalkthroughPage: View {
                                 RoundedRectangle(cornerRadius: 10)
                                     .fill(Color.mainYellow))
                         
+                        
                     }
-                    Spacer()
                 }
                 .tag(page.tag)
             }
@@ -58,6 +64,10 @@ struct WalkthroughPage: View {
             dotAppearance.currentPageIndicatorTintColor = UIColor(Color.mainYellow)
             dotAppearance.pageIndicatorTintColor = .gray
         }
+    }
+    
+    func goToChooseUser(){
+        page = .chooseUser
     }
     
     func goToSignUp(){
@@ -79,26 +89,38 @@ struct WalkthroughView: View {
     
     var body: some View {
         VStack(spacing: 10) {
-            Image("\(page.image)")
-                .resizable()
-                .scaledToFit()
-                .padding()
-                .cornerRadius(30)
-                .background(.gray.opacity(0.20))
-                .cornerRadius(10)
-                .padding()
             
-            Text(page.name)
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundColor(.mainYellow)
-            Text(page.description)
-                .font(.title2)
-                .frame(width: 340)
-                .foregroundColor(.mainYellow)
-                .multilineTextAlignment(.center)
+            HeaderView(
+                text: page.name
+            )
+            .foregroundColor(.mainYellow)
+            
+            HStack(spacing:10){
+                Image("\(page.image)")
+                    .resizable()
+                    .scaledToFit()
+                    .cornerRadius(25)
+                    .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
+                    .padding()
+                
+                Text(page.description)
+                    .font(Font.customHeader(size:20))
+                    .frame(width: 150)
+                    .foregroundColor(.mainYellow)
+                    .multilineTextAlignment(.center)
+                
+            }
+            
+            Image("FullWizzo")
+                .resizable()
+                .frame(width: 180, height: 180)
+                .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
+                //.rotationEffect(.degrees(90))
+                //.transformEffect(CGAffineTransform(translationX:-( UIScreen.main.bounds.size.width/2.5), y: UIScreen.main.bounds.size.height/20))
         }
+        Spacer()
     }
+
 }
 
 struct SlidePage: Identifiable, Equatable {
@@ -109,11 +131,11 @@ struct SlidePage: Identifiable, Equatable {
     var tag: Int
     
     static var samplePages: [SlidePage] = [
-        SlidePage(name: "Home Page", description: "This is the home page. Here you can create a story or go to your library.", image: "walkthrough1", tag: 0),
-        SlidePage(name: "Create a Story", description: "Select an option for your story. If you don't like the options, click shuffle and new options will appear!", image: "walkthrough2", tag: 1),
-        SlidePage(name: "Library", description: "Here is where you store the books you have read. Click on a book to see a preview of it. Click read to enjoy your story!", image: "walkthrough3", tag: 2),
-        SlidePage(name: "Read Page", description: "Swipe to flip the page. You can bookmark your favourite books or press the audio button to have the book read to you.", image: "walkthrough4", tag: 3),
-        SlidePage(name: "Ratings", description: "At the end of the book, make sure to rate the book with a face to help Wizzo write your books.", image: "walkthrough5", tag: 4),
+        SlidePage(name: "HOME", description: "This is the home page. Here you can create a story or go to your library.", image: "Home", tag: 0),
+        SlidePage(name: "CREATE STORY", description: "Select an option for your story. If you don't like the options, click shuffle and new options will appear!", image: "CreateStory", tag: 1),
+        SlidePage(name: "LIBRARY", description: "Here is where you store the books you have read. Click on a book to see a preview of it. Click read to enjoy your story!", image: "Library", tag: 2),
+        SlidePage(name: "READ", description: "Swipe to flip the page. You can bookmark your favourite books or press the audio button to have the book read to you.", image: "Reading", tag: 3),
+        SlidePage(name: "FEEDBACK", description: "At the end of the book, make sure to rate the book with a face to help Wizzo write your books.", image: "Feedback", tag: 4),
 
     ]
 }

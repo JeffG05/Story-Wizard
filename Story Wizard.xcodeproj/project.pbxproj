@@ -41,6 +41,8 @@
 		C55C493129049B7100942545 /* SignUpPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C492F29049B7100942545 /* SignUpPage.swift */; };
 		C55C493229049B7100942545 /* SignInPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C493029049B7100942545 /* SignInPage.swift */; };
 		C5E0AAE6290ECD9800AB1B04 /* WalkthroughPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E0AAE5290ECD9800AB1B04 /* WalkthroughPage.swift */; };
+		C5FC95A32911DADB00D45B85 /* NumberPinPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FC95A22911DADB00D45B85 /* NumberPinPage.swift */; };
+		C5FC95A52911DAE300D45B85 /* NumberPinPage2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FC95A42911DAE300D45B85 /* NumberPinPage2.swift */; };
 		D470982C290879F700C72558 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470982B290879F700C72558 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +83,8 @@
 		C55C492F29049B7100942545 /* SignUpPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpPage.swift; sourceTree = "<group>"; };
 		C55C493029049B7100942545 /* SignInPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInPage.swift; sourceTree = "<group>"; };
 		C5E0AAE5290ECD9800AB1B04 /* WalkthroughPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughPage.swift; sourceTree = "<group>"; };
+		C5FC95A22911DADB00D45B85 /* NumberPinPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPinPage.swift; sourceTree = "<group>"; };
+		C5FC95A42911DAE300D45B85 /* NumberPinPage2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPinPage2.swift; sourceTree = "<group>"; };
 		D470982B290879F700C72558 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -141,6 +145,8 @@
 				C5E0AAE5290ECD9800AB1B04 /* WalkthroughPage.swift */,
 				2A587E3428FD9542000ACBF5 /* ChooseUserPage.swift */,
 				2A587E3628FD95D9000ACBF5 /* HomePage.swift */,
+				C5FC95A22911DADB00D45B85 /* NumberPinPage.swift */,
+				C5FC95A42911DAE300D45B85 /* NumberPinPage2.swift */,
 				C55C493029049B7100942545 /* SignInPage.swift */,
 				C55C492F29049B7100942545 /* SignUpPage.swift */,
 				2A587E3828FD9BD6000ACBF5 /* CreateStoryPage.swift */,
@@ -269,6 +275,7 @@
 				C55C493229049B7100942545 /* SignInPage.swift in Sources */,
 				2A5A5067290AB2B400C29F53 /* GenerationOptions.swift in Sources */,
 				2A587E4B28FDD8F1000ACBF5 /* User.swift in Sources */,
+				C5FC95A52911DAE300D45B85 /* NumberPinPage2.swift in Sources */,
 				2A120C7629058C8000F1F015 /* BackgroundStarsView.swift in Sources */,
 				2A587E3B28FD9C15000ACBF5 /* ReadStoryPage.swift in Sources */,
 				2A587E4228FD9ECF000ACBF5 /* HeaderView.swift in Sources */,
@@ -295,6 +302,7 @@
 				2A587E4728FDA15D000ACBF5 /* IconButton.swift in Sources */,
 				2A587E3D28FD9C3C000ACBF5 /* LibraryPage.swift in Sources */,
 				2A587E3928FD9BD6000ACBF5 /* CreateStoryPage.swift in Sources */,
+				C5FC95A32911DADB00D45B85 /* NumberPinPage.swift in Sources */,
 				1F8734F32906879000C71DB5 /* OutlinedText.swift in Sources */,
 				2AF4881E29045A2E0024152C /* Book.swift in Sources */,
 			);

@@ -12,14 +12,16 @@ class User : ObservableObject {
     var name: String
     var email: String
     var password: String
+    var numberPin: String
     @Published var profiles: [Profile]
     @Published var currentProfileIndex: Int
     
     
-    init(name: String, email: String, password: String, profiles: [Profile], currentProfileIndex: Int = 0) {
+    init(name: String, email: String, password: String, numberPin: String, profiles: [Profile], currentProfileIndex: Int = 0) {
         self.name = name
         self.email = email
         self.password = password
+        self.numberPin = numberPin
         self.profiles = profiles
         self.currentProfileIndex = currentProfileIndex
     }
