@@ -17,6 +17,7 @@ struct HeaderView: View {
     var leftIcon: String?
     var rightIcon: String?
     var middleIcon: String?
+    var middleDisabled: Bool = false
     var profileAction: (() -> Void)?
     var leftAction: (() -> Void)?
     var rightAction: (() -> Void)?
@@ -38,7 +39,8 @@ struct HeaderView: View {
                         IconButton(icon: icon, size: iconSize) {
                             middleAction?()
                         }
-                        
+                        .disabled(middleDisabled)
+                        .opacity(middleDisabled ? 0.5 : 1)
                     }
                 }
             }

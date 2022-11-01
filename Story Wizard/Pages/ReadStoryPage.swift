@@ -16,6 +16,8 @@ struct ReadStoryPage: View {
     @State var useSpeech: Bool = false
     var proxy: GeometryProxy
     @StateObject var profile: Profile
+    @State var voice: AVSpeechSynthesisVoice? = nil
+    let synthesizer = AVSpeechSynthesizer()
     
     var body: some View {
         ZStack {
@@ -37,6 +39,7 @@ struct ReadStoryPage: View {
                             leftIcon: "x.square",
                             rightIcon: "gear",
                             middleIcon: useSpeech ? "speaker.wave.2.fill" : "speaker.wave.2",
+                            middleDisabled: voice == nil,
                             leftAction: goBack,
                             rightAction: settings,
                             middleAction: toggleSpeech
@@ -60,7 +63,7 @@ struct ReadStoryPage: View {
                         ForEach(0..<profile.libraryRender[profile.currentBookIndex].pages.count, id: \.self) {index in
                             VStack {
                                 Spacer()
-                                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed libero mi. In eu tellus ac justo malesuada blandit elementum non risus. Vivamus nec congue velit.")
+                                Text(profile.libraryRender[profile.currentBookIndex].pages[index])
                                     .font(Font.customHeader(size: 25))
                                     .multilineTextAlignment(.center)
                                     .padding(15)
@@ -91,6 +94,10 @@ struct ReadStoryPage: View {
                                     page = .library
                                 }
                             }
+                            
+                            if useSpeech {
+                                readPageOutLoud()
+                            }
                         }
                     HStack {
                         Spacer()
@@ -102,21 +109,41 @@ struct ReadStoryPage: View {
                 
             }
             
-        }.animation(.easeInOut, value: currentPage)
+        }
+        .animation(.easeInOut, value: currentPage)
+        .onAppear {
+            findVoice()
+        }
     }
+    
     func toggleSpeech() {
         useSpeech = !useSpeech
         if useSpeech {
             readPageOutLoud()
         }
     }
+    
+    func findVoice() {
+        if let v = AVSpeechSynthesisVoice(language: "en-GB") {
+            voice = v
+        } else if let v = AVSpeechSynthesisVoice(language: "English") {
+            voice = v
+        } else {
+            voice = nil
+        }
+    }
+    
     func readPageOutLoud() {
-        let utterance = AVSpeechUtterance(string: profile.libraryRender[profile.currentBookIndex].pages[currentPage-1])
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-        utterance.pitchMultiplier = 1.0
-        utterance.rate = 0.3
-        let synthesizer = AVSpeechSynthesizer()
-        synthesizer.speak(utterance)
+        let pages = profile.libraryRender[profile.currentBookIndex].pages
+        if pages.indices.contains(currentPage-1) {
+            let text = pages[currentPage-1]
+            let utterance = AVSpeechUtterance(string: text)
+            utterance.voice = voice
+            utterance.pitchMultiplier = 1.2
+            utterance.rate = 0.3
+            synthesizer.stopSpeaking(at: .immediate)
+            synthesizer.speak(utterance)
+        }
     }
     
     func goBack() {
