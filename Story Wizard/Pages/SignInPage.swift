@@ -11,11 +11,16 @@ import SwiftUI
 
 struct SignInPage: View {
     
+    enum FocusField {
+        case email, password
+    }
+    
     @Binding var page: Page
     var proxy: GeometryProxy
     
     @State var email: String = ""
     @State var password: String = ""
+    @FocusState var focusedField: FocusField?
     
     @State var isSignInValid: Bool = false
     @State var showInvalidDetailsAlert: Bool = false
@@ -25,6 +30,9 @@ struct SignInPage: View {
             // Background color
             Color.mainBlue
                 .ignoresSafeArea()
+                .onTapGesture {
+                    focusedField = nil
+                }
             
             // Background star
             VStack {
@@ -37,6 +45,9 @@ struct SignInPage: View {
                     .rotationEffect(.degrees(40))
             }
             .frame(width: proxy.size.width)
+            .onTapGesture {
+                focusedField = nil
+            }
             
             // Main screen
             VStack {
@@ -49,20 +60,43 @@ struct SignInPage: View {
                 .padding(.bottom, 30)
                 .foregroundColor(.mainYellow)
                 
-                TextField("Email", text: $email)
-                                .padding()
-                                .frame(width: proxy.size.width / 1.2)
-                                .background(Color.starBlue)
-                                .cornerRadius(5.0)
-                                .padding(.bottom, 20)
-                SecureField("Password", text: $password)
-                    .padding()
-                    .frame(width: proxy.size.width / 1.2)
-                    .background(Color.starBlue)
-                    .cornerRadius(5.0)
-                    .padding(.bottom, 20)
+                VStack(spacing: 0) {
+                    TextField("Email", text: $email)
+                        .textContentType(.emailAddress)
+                        .submitLabel(.next)
+                        .focused($focusedField, equals: .email)
+                        .padding()
+                        .frame(width: proxy.size.width / 1.2)
+                        .background(Color.starBlue)
+                        .cornerRadius(5.0)
+                        .padding(.bottom, 20)
+                    
+                    SecureField("Password", text: $password)
+                        .textContentType(.password)
+                        .submitLabel(.return)
+                        .focused($focusedField, equals: .password)
+                        .padding()
+                        .frame(width: proxy.size.width / 1.2)
+                        .background(Color.starBlue)
+                        .cornerRadius(5.0)
+                        .padding(.bottom, 20)
+                        .onChange(of: $focusedField.wrappedValue) { _ in
+                            if focusedField == .password {
+                                password = ""
+                            }
+                        }
+                }
+                .onSubmit {
+                    switch focusedField {
+                    case .email:
+                        focusedField = .password
+                    default:
+                        focusedField = nil
+                    }
+                }
                 
                 SignInButton(proxy: proxy, text:"Sign In"){
+                    focusedField = nil
                     checkSignIn()
                 }
                 .alert(isPresented: $showInvalidDetailsAlert) {
@@ -70,6 +104,9 @@ struct SignInPage: View {
                 }
                 
                 Spacer()
+                    .onTapGesture {
+                        focusedField = nil
+                    }
                 
                 RegisteredYNButton(proxy: proxy, text: "Not registered? Sign Up"){
                     goToSignUp()
@@ -77,6 +114,7 @@ struct SignInPage: View {
                 
                 
             }
+            .ignoresSafeArea(.keyboard)
             .frame(width: proxy.size.width, height: proxy.size.height)
         }
         .ignoresSafeArea()

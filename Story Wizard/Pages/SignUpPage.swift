@@ -9,13 +9,18 @@ import SwiftUI
 
 struct SignUpPage: View {
     
+    enum FocusField {
+        case name, email, password, age
+    }
+    
     @Binding var page: Page
     var proxy: GeometryProxy
     
     @State var name: String = ""
     @State var email: String = ""
     @State var password: String = ""
-    @State var readingAge: Int = 0
+    @State var readingAge: Int? = nil
+    @FocusState var focusedField: FocusField?
     
     @State var isSignUpValid: Bool = false
     @State var showInvalidDetailsAlert: Bool = false
@@ -25,6 +30,9 @@ struct SignUpPage: View {
             // Background color
             Color.mainBlue
                 .ignoresSafeArea()
+                .onTapGesture {
+                    focusedField = nil
+                }
             
             // Background star
             VStack {
@@ -37,6 +45,9 @@ struct SignUpPage: View {
                     .rotationEffect(.degrees(40))
             }
             .frame(width: proxy.size.width)
+            .onTapGesture {
+                focusedField = nil
+            }
             
             // Main screen
             VStack {
@@ -46,41 +57,78 @@ struct SignUpPage: View {
                 )
                 .padding(.bottom, 30)
                 .foregroundColor(.mainYellow)
+                .onTapGesture {
+                    focusedField = nil
+                }
                 
-                TextField("Name", text: $name)
-                    .padding()
-                    .frame(width: proxy.size.width / 1.2)
-                    .background(Color.starBlue)
-                    .cornerRadius(5.0)
-                    .padding(.bottom, 20)
-                TextField("Email", text: $email)
-                    .padding()
-                    .frame(width: proxy.size.width / 1.2)
-                    .background(Color.starBlue)
-                    .cornerRadius(5.0)
-                    .padding(.bottom, 20)
-                SecureField("Password", text: $password)
-                    .padding()
-                    .frame(width: proxy.size.width / 1.2)
-                    .background(Color.starBlue)
-                    .cornerRadius(5.0)
-                    .padding(.bottom, 20)
-                TextField("Reading Age", value: $readingAge, formatter: NumberFormatter())
-                    .keyboardType(.decimalPad)
-                    .padding()
-                    .frame(width: proxy.size.width / 1.2)
-                    .background(Color.starBlue)
-                    .cornerRadius(5.0)
-                    .padding(.bottom, 20)
+                VStack(spacing: 0) {
+                    TextField("Name", text: $name)
+                        .textContentType(.givenName)
+                        .submitLabel(.next)
+                        .focused($focusedField, equals: .name)
+                        .padding()
+                        .frame(width: proxy.size.width / 1.2)
+                        .background(Color.starBlue)
+                        .cornerRadius(5.0)
+                        .padding(.bottom, 20)
+                    TextField("Email", text: $email)
+                        .textContentType(.emailAddress)
+                        .submitLabel(.next)
+                        .focused($focusedField, equals: .email)
+                        .padding()
+                        .frame(width: proxy.size.width / 1.2)
+                        .background(Color.starBlue)
+                        .cornerRadius(5.0)
+                        .padding(.bottom, 20)
+                    SecureField("Password", text: $password)
+                        .submitLabel(.next)
+                        .focused($focusedField, equals: .password)
+                        .padding()
+                        .frame(width: proxy.size.width / 1.2)
+                        .background(Color.starBlue)
+                        .cornerRadius(5.0)
+                        .padding(.bottom, 20)
+                        .onChange(of: $focusedField.wrappedValue) { _ in
+                            if focusedField == .password {
+                                password = ""
+                            }
+                        }
+                    TextField("Reading Age", value: $readingAge, formatter: NumberFormatter())
+                        .keyboardType(.numberPad)
+                        .submitLabel(.return)
+                        .focused($focusedField, equals: .age)
+                        .padding()
+                        .frame(width: proxy.size.width / 1.2)
+                        .background(Color.starBlue)
+                        .cornerRadius(5.0)
+                        .padding(.bottom, 20)
+                }
+                .onSubmit {
+                    switch focusedField {
+                    case .name:
+                        focusedField = .email
+                    case .email:
+                        focusedField = .password
+                    case .password:
+                        focusedField = .age
+                    default:
+                        focusedField = nil
+                    }
+                }
                 
                 SignInButton(proxy: proxy, text:"Sign Up"){
+                    focusedField = nil
                     checkSignUp()
                 }
                 
                 .alert(isPresented: $showInvalidDetailsAlert) {
                     Alert(title: Text("There are some empty fields."))
                 }
+                
                 Spacer()
+                    .onTapGesture {
+                        focusedField = nil
+                    }
                 
                 RegisteredYNButton(proxy: proxy, text:"Already registered? Sign In"){
                     goToSignIn()
