@@ -27,30 +27,24 @@ struct LibraryPage: View {
                     leftAction: goToHome,
                     rightAction: goToSettings
                 )
-                
-                Button("Alphabetical", action:{
-                    profile.filterType = .alphabetical
-                    profile.sort_library()
-                })
-                
-                Button("Rev-Alphabetical", action:{
-                    profile.filterType = .rev_alphabet
-                    profile.sort_library()
-                })
-                
-                Button("Date Added", action:{
-                    profile.filterType = .date_added
-                    profile.sort_library()
-                })
-                
-                Button("Bookmarked", action:{
-                    profile.filterType = .bookmarked
-                    profile.sort_library()
-                })
-                Button("Liked", action:{
-                    profile.filterType = .liked
-                    profile.sort_library()
-                })
+                HStack {
+                    Button("A-Z", action:{
+                        profile.filterType = .alphabetical
+                        profile.sort_library()
+                    })
+                    Button("Date Added", action:{
+                        profile.filterType = .date_added
+                        profile.sort_library()
+                    })
+                    Button("Bookmarked", action:{
+                        profile.filterType = .bookmarked
+                        profile.sort_library()
+                    })
+                    Button("Liked", action:{
+                        profile.filterType = .liked
+                        profile.sort_library()
+                    })
+                }
                 
                 Bookcase(proxy: proxy)
             }
@@ -73,7 +67,7 @@ struct LibraryPage: View {
                 
             }
             if showSettings == true {
-                SettingsView(showSettings: $showSettings)
+                SettingsView(showSettings: $showSettings, proxy: proxy)
             }
         }
         .environmentObject(profile)
@@ -85,8 +79,6 @@ struct LibraryPage: View {
     
     func goToSettings() {
         showSettings = true
-        
-//        page = .settings
     }
 }
 
