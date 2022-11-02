@@ -27,7 +27,7 @@ struct SettingsOverlay: View {
     @Binding var showSettings: Bool
     @EnvironmentObject var profile: Profile
     var proxy: GeometryProxy
-
+    
     var body: some View {
          GeometryReader {g in
              ZStack {
@@ -51,7 +51,7 @@ struct SettingsOverlay: View {
 struct SettingsData: View {
     @Binding var showSettings: Bool
     @EnvironmentObject var profile: Profile
-
+    let fontSizeOptions: [FontSizeOption] = [FontSizeOption(label: "Aa", fontValue: .small, size: 15),FontSizeOption(label: "Aa", fontValue: .medium, size: 25),FontSizeOption(label: "Aa", fontValue: .large, size: 45)]
     var proxy: GeometryProxy // have to define proxy for user circle
     var body: some View {
         GeometryReader {g in
@@ -86,22 +86,31 @@ struct SettingsData: View {
                         Spacer()
                     }
                     
-                    HStack {
-                        Text("Text Size")
-                        Button("Aa", action:{
-                            profile.textSize = .small
-                        })
-                        .font(Font.customHeader(size: 15))
-                        
-                        Button("Aa", action:{
-                            profile.textSize = .medium
-                        })
-                        .font(Font.customHeader(size: 25))
-                        
-                        Button("Aa", action:{
-                            profile.textSize = .large
-                        })
-                        .font(Font.customHeader(size: 45))
+                    VStack {
+                        HStack {
+                            Text("Text Size:")
+                                .padding()
+                            Spacer()
+                        }
+                        HStack {
+                            ForEach(0..<fontSizeOptions.count, id: \.self) {optionIndex in
+                                Button(action: {
+                                    profile.textSize = fontSizeOptions[optionIndex].fontValue
+                                }, label: {
+                                    Text(fontSizeOptions[optionIndex].label)
+                                        .font(Font.customHeader(size: CGFloat(fontSizeOptions[optionIndex].size)))
+                                        .padding()
+                                        .background() {
+                                            if profile.textSize == fontSizeOptions[optionIndex].fontValue {
+                                                Color.gray
+                                            }
+                                        }
+                                        .cornerRadius(15)
+                                            
+                                        
+                                })
+                            }
+                        }
                             
 
                         Spacer()
@@ -114,4 +123,10 @@ struct SettingsData: View {
             .padding()
         }
     }
+}
+
+struct FontSizeOption {
+    var label: String
+    var fontValue: TextSize
+    var size: Int
 }
