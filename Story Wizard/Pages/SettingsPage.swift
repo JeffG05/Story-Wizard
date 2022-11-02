@@ -89,7 +89,7 @@ struct SettingsPage: View {
     }
     
     func disclaimer() {
-//        page = .disclaimer
+        page = .disclaimer
     }
     
     func signout() {
