@@ -19,7 +19,7 @@ struct NavigationView: View {
         GeometryReader { g in
             switch page {
             case .walkthrough:
-                WalkthroughPage(page: $page)
+                WalkthroughPage(page: $page, proxy: g)
             case .signIn:
                 SignInPage(page: $page, proxy: g)
             case .signUp:

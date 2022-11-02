@@ -11,59 +11,54 @@ struct WalkthroughPage: View {
     
     @State private var pageIndex = 0
     @Binding var page: Page
+    var proxy: GeometryProxy
     
     private let pages: [SlidePage] = SlidePage.samplePages
     private let dotAppearance = UIPageControl.appearance()
     
     var body: some View {
-        Color.mainBlue
-            .ignoresSafeArea()
-        BackgroundStarsView()
-        TabView(selection: $pageIndex) {
-            ForEach(pages) { page in
-                VStack {
-                    HStack {
-                         Spacer()
-                         
-                        Button("Skip", action: goToSignUp)
-                            .padding(.vertical, 5)
-                            .foregroundColor(Color.mainYellow)
-                            .fontWeight(.medium)
-                            .padding(.trailing, 20)
-                            .padding(.bottom, 10)
-                      }
-                    
-                    WalkthroughView(page: page)
-                    if page == pages.last {
-                        
-                        Button("Sign up!", action: goToSignUp)
-                            .buttonStyle(.bordered)
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.mainYellow))
-
-                        
-                    } else {
-                        
-                        Button("Next", action: incrementPage)
-                            .buttonStyle(.bordered)
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.mainYellow))
-                        
-                        
+        ZStack {
+            Color.mainBlue
+                .ignoresSafeArea()
+            
+            BackgroundStarsView()
+                .frame(width: proxy.size.width, height: proxy.size.height)
+            
+            VStack {
+                Spacer()
+                Image("FullWizzo")
+                    .resizable()
+                    .frame(width: proxy.size.width, height: proxy.size.width)
+                .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
+                .offset(y: proxy.size.width / 5)
+                
+            }
+            
+            VStack {
+                TabView(selection: $pageIndex) {
+                    ForEach(pages) { page in
+                        WalkthroughView(
+                            page: page,
+                            buttonText: page == pages.last ? "Sign Up!" : "Next",
+                            buttonAction: page == pages.last ? goToSignUp : incrementPage,
+                            skipAction: goToSignUp
+                        )
+                            .tag(page.tag)
                     }
                 }
-                .tag(page.tag)
+                .animation(.easeInOut, value: pageIndex)
+                .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+                .tabViewStyle(PageTabViewStyle())
+                .onAppear {
+                    dotAppearance.currentPageIndicatorTintColor = UIColor(Color.mainYellow)
+                    dotAppearance.pageIndicatorTintColor = .gray
+                }
+                .padding(.bottom, 8)
             }
+            .ignoresSafeArea()
+            
         }
-        .animation(.easeInOut, value: pageIndex)// 2
-        .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-        .tabViewStyle(PageTabViewStyle())
-        .onAppear {
-            dotAppearance.currentPageIndicatorTintColor = UIColor(Color.mainYellow)
-            dotAppearance.pageIndicatorTintColor = .gray
-        }
+        
     }
     
     func goToChooseUser(){
@@ -86,39 +81,69 @@ struct WalkthroughPage: View {
 
 struct WalkthroughView: View {
     var page: SlidePage
+    var buttonText: String
+    var buttonAction: () -> Void
+    var skipAction: () -> Void
     
     var body: some View {
-        VStack(spacing: 10) {
-            
-            HeaderView(
-                text: page.name
-            )
-            .foregroundColor(.mainYellow)
-            
-            HStack(spacing:10){
-                Image("\(page.image)")
-                    .resizable()
-                    .scaledToFit()
-                    .cornerRadius(25)
-                    .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
-                    .padding()
+        GeometryReader { g in
+            VStack(spacing: 10) {
+                HeaderView(
+                    text: page.name
+                )
+                .foregroundColor(.mainYellow)
                 
-                Text(page.description)
-                    .font(Font.customHeader(size:20))
-                    .frame(width: 150)
-                    .foregroundColor(.mainYellow)
-                    .multilineTextAlignment(.center)
+                
+                HStack(spacing:16){
+                    Image("\(page.image)")
+                        .resizable()
+                        .scaledToFit()
+                        .cornerRadius(25)
+                        .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
+                        .padding(.vertical)
+                    
+                    Text(page.description)
+                        .font(Font.customHeader(size:20))
+                        .frame(width: g.size.width / 2.5)
+                        .foregroundColor(.mainYellow)
+                        .multilineTextAlignment(.center)
+                    
+                }
+                .padding(.horizontal)
+                
+                Spacer()
+                
+                Button {
+                    buttonAction()
+                } label: {
+                    Text(buttonText)
+                        .font(.customHeader(size: 20))
+                        .foregroundColor(.black)
+                        .padding(.vertical, 4)
+                        .frame(width: g.size.width * 0.66)
+                }
+                .background(Color.mainYellow)
+                .cornerRadius(10, corners: .allCorners)
+                .padding(.top)
+                
+                Button {
+                    skipAction()
+                } label: {
+                    Text("Skip")
+                        .font(.customHeader(size: 14))
+                        .foregroundColor(.mainYellow)
+                        .bold()
+                        .padding(.vertical, 2)
+                        .padding(.horizontal)
+                }
+                .padding(.bottom, 4)
+                .disabled(buttonText.contains("Sign Up"))
+                .opacity(buttonText.contains("Sign Up") ? 0 : 1)
                 
             }
-            
-            Image("FullWizzo")
-                .resizable()
-                .frame(width: 180, height: 180)
-                .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
-                //.rotationEffect(.degrees(90))
-                //.transformEffect(CGAffineTransform(translationX:-( UIScreen.main.bounds.size.width/2.5), y: UIScreen.main.bounds.size.height/20))
+            .frame(height: g.size.height - 16)
+//            .background(.red)
         }
-        Spacer()
     }
 
 }
@@ -144,7 +169,7 @@ struct SlidePage: Identifiable, Equatable {
 struct WalkthroughPage_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { g in
-            WalkthroughPage(page: .constant(.walkthrough))
+            WalkthroughPage(page: .constant(.walkthrough), proxy: g)
         }
         .environmentObject(TestData.testUser)
     }
