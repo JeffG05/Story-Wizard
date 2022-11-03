@@ -15,6 +15,10 @@ struct SettingsPage: View {
     @State var theme: String = ""
     
     var body: some View {
+        Color.mainBlue
+            .ignoresSafeArea()
+        
+        BackgroundStarsView()
         ScrollView {
             VStack {
                 HeaderView(
@@ -36,13 +40,15 @@ struct SettingsPage: View {
                         .background(Color.starBlue)
                         .cornerRadius(5.0)
                         .padding(.bottom, 20)
-                    Button("Remove", action: {
+                    Button("Submit", action: {
                         let trimmed = word.trimmingCharacters(in: .whitespacesAndNewlines) // remove whitespace from name
                         if (trimmed.count != 0) {
                             user.addBannedWord(word: word)
                             word = ""
                         }
+
                     })
+                    .foregroundColor(Color.mainYellow)
                 }
                 
                 Text("Banned Themes")
@@ -58,27 +64,28 @@ struct SettingsPage: View {
                         .background(Color.starBlue)
                         .cornerRadius(5.0)
                         .padding(.bottom, 20)
-                    Button("Remove", action: {
+                    Button("Submit", action: {
                         let trimmed = theme.trimmingCharacters(in: .whitespacesAndNewlines) // remove whitespace from theme
                         if (trimmed.count != 0) {
                             user.addBannedTheme(word: theme)
                             theme = ""
                         }
                     })
+                    .foregroundColor(Color.mainYellow)
                 }
+
                 
-                Text("AI Transparency")
-                    .font(.headline)
-                    .frame(maxWidth: proxy.size.width / 1.2, alignment: .leading)
-                
-                Button("Click here to read more about AI", action: {
+                Button("Click here to read more about our AI", action: {
                     disclaimer()
                 })
+                .foregroundColor(Color.mainYellow)
                 .frame(maxWidth: proxy.size.width / 1.2, alignment: .leading)
                 
-                Button("Sign Out", action: {
+                SignInButton(proxy: proxy, text:"Sign Out"){
                     signout()
-                })
+                }
+                
+                .foregroundColor(Color.mainYellow)
                 .padding()
             }
         }
@@ -129,6 +136,6 @@ struct BannedWordsView: View {
         }
         .frame(maxWidth: proxy.size.width / 1.2, maxHeight: 300)
 
-        .background(Rectangle().fill(Color.white).shadow(radius: 3))
+        .background(Rectangle().fill(Color.mainYellow).shadow(radius: 3))
     }
 }
