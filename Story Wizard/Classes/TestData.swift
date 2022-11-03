@@ -19,6 +19,10 @@ class TestData {
 //
 //    static var testBook3: Book = Book(title: "Lost3", frontCover: Image("LostInParadise"), blurb: "Editor placeholder in source file", bookmarked: false, themes: ["Tropical"])
     
+    static var randomTitles: [String] = ["Adventures in Paradise","Danger on the moon","Poker in the pyramids","A wonderful story","Guinness book of world records"]
+    
+    static var randomName: [String] = ["Jack","Jordan","Jacob", "Chris","Robbie","Jeff","Guy","Dan","Martian"]
+    
     static var testBook: Book = Book.random(title: "Book 1")
     
     static var testBook2: Book = Book.random(title: "Book 2")

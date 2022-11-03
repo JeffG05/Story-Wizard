@@ -56,7 +56,7 @@ struct PreviewData: View {
                 VStack(alignment: .center) {
                     HStack {
                         Button(action: {
-                            withAnimation(.easeIn(duration: 0.25)) {
+                            withAnimation(.easeOut(duration: 0.25)) {
                                 profile.currentBookIndex = -1
                             }
                         }, label: {
@@ -71,7 +71,7 @@ struct PreviewData: View {
                         
                         Spacer()
                         Button(action: {
-                            withAnimation(.easeIn(duration: 0.25)) {
+                            withAnimation(.easeOut(duration: 0.25)) {
                                 profile.removeBook(id: profile.libraryRender[profile.currentBookIndex].id)
                                 profile.currentBookIndex = -1
                             }

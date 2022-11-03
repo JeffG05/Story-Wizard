@@ -17,7 +17,7 @@ struct SettingsView: View {
                 Color.black.ignoresSafeArea().opacity(0.8)
                 SettingsOverlay(showSettings: $showSettings, proxy: proxy) // added proxy call
                     .padding()
-                    .shadow(radius: 10)
+                    
             }
     }
 }
@@ -32,12 +32,18 @@ struct SettingsOverlay: View {
          GeometryReader {g in
              ZStack {
                  Rectangle()
-                     .foregroundColor(.white)
+                     .foregroundColor(.mainBlue)
                      .aspectRatio(CGSize(width: g.size.width, height: g.size.height * 0.8),contentMode: .fit)
                      .cornerRadius(10, corners: [.topRight, .bottomRight])
                      .offset(CGSize(width: 0, height: g.size.height * 0.1))
+                     .overlay() {
+                         BackgroundStarsView()
+                             .frame(width: g.size.width, height: g.size.height * 0.8)
+                             .offset(CGSize(width: 0, height: g.size.height * 0.1))
+                     }
                  SettingsData(showSettings: $showSettings, proxy: proxy)
                      .offset(CGSize(width: 0, height: g.size.height * 0.1))
+                     
 
              }
              .frame(width: g.size.width, height: g.size.height * 0.8)
@@ -75,6 +81,7 @@ struct SettingsData: View {
                 VStack {
                     HStack {
                         Text("Reading Age (Years)")
+                            
                         Button("-", action:{
                             profile.decrementReadingAge()
                         })
@@ -84,12 +91,13 @@ struct SettingsData: View {
                         })
 
                         Spacer()
-                    }
+                    }.font(Font.customHeader(size:20))
                     
                     VStack {
                         HStack {
                             Text("Text Size:")
                                 .padding()
+                                .font(Font.customHeader(size:20))
                             Spacer()
                         }
                         HStack {
@@ -121,6 +129,7 @@ struct SettingsData: View {
                 
             }
             .padding()
+            .foregroundColor(.mainYellow)
         }
     }
 }

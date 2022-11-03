@@ -102,10 +102,10 @@ struct Bookcase: View {
     @EnvironmentObject var profile: Profile
     var proxy: GeometryProxy
     var body: some View {
-        let shelfboardHeight: CGFloat = 25
+        let shelfboardHeight: CGFloat = 10
         let shelves = max(Int(ceil(Double(profile.libraryRender.count) / 2.0) * 2), 6)
         GeometryReader { g in
-            let shelfSectionHeight = (g.size.height - proxy.safeAreaInsets.bottom) / 3
+            let shelfSectionHeight = (g.size.height - proxy.safeAreaInsets.bottom) / 2.5
             ScrollView(showsIndicators: false) {
                 LazyVGrid(
                     columns: [
@@ -180,7 +180,7 @@ struct BookOptionView: View {
         ZStack {
             Button {
             action: do {
-                withAnimation(.easeIn(duration: 0.25)) {
+                withAnimation(.easeInOut(duration: 0.25)) {
                     profile.setCurrentBook(index: thisIndex)
                 }
             }

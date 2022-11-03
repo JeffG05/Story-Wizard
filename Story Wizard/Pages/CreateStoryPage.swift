@@ -15,9 +15,9 @@ struct CreateStoryPage: View {
     @State var chosenSetting: ChoiceOption? = nil
     @State var chosenCharacter: ChoiceOption? = nil
     @State var chosenFriend: ChoiceOption? = nil
-    @State var bookTitle: String = ""
-    @State var characterName: String = ""
-    @State var friendName: String = ""
+    @State var bookTitle: String = TestData.randomTitles.randomElement()!
+    @State var characterName: String = TestData.randomName.randomElement()!
+    @State var friendName: String = TestData.randomName.randomElement()!
     @State var offsetPage: CGFloat = 0
     
     @Binding var page: Page
