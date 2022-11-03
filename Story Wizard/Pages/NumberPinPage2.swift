@@ -40,22 +40,28 @@ struct NumberPinPage2: View {
                 .foregroundColor(.mainYellow)
                 .multilineTextAlignment(.center)
     
-        ZStack {
-            pinDots
-            backgroundField
-        }
-        showPinStack
+            ZStack {
+                pinDots
+                backgroundField
+            }
             
-        .alert(isPresented: $incorrectPin) {
-            Alert(title: Text("Pins do not match."))
-        }
-        
-        Button("Get Started!", action: checkPin)
-            .buttonStyle(.bordered)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.mainYellow))
-            .foregroundColor(.black)
+            showPinStack
+                
+            .alert(isPresented: $incorrectPin) {
+                Alert(title: Text("Pins do not match."))
+            }
+            
+            
+            Button {
+                checkPin()
+            } label: {
+                Text("Get Started")
+                    .frame(width: proxy.size.width * 0.66)
+                    .padding(.vertical, 12)
+                    .foregroundColor(.black)
+            }
+            .background(Color.mainYellow)
+            .cornerRadius(12, corners: .allCorners)
             
         }
     }
