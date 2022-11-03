@@ -216,7 +216,7 @@ struct ChoiceSelectionPage: View {
                     .foregroundColor(.black)
                     .font(.customHeader(size: 20))
                     .padding(.vertical, 4)
-                    .background(Color.init(white: 0.9))
+                    .background(Color.mainYellow)
                     .cornerRadius(100, corners: .allCorners)
                 }
             }

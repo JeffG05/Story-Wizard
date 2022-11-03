@@ -141,6 +141,8 @@ struct FeedbackButton : View {
                     Text(text)
                         .font(Font.customHeader(size: 15))
                 }
+                .frame(width: UIScreen.main.bounds.width/3.2)
+                .frame(height: UIScreen.main.bounds.height/12)
                 .padding()
             }.overlay(
                 RoundedRectangle(cornerRadius: 15).stroke(Color(.black), lineWidth: 2))
