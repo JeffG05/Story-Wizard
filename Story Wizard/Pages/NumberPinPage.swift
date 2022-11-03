@@ -18,50 +18,57 @@ struct NumberPinPage: View {
     @State var isDisabled = false
     
     @EnvironmentObject var user: User
- 
+    
     public var body: some View {
         Color.mainBlue
             .ignoresSafeArea()
+        
         BackgroundStarsView()
+        
         VStack(spacing: 10) {
             HeaderView(
                 text: "Enter Password"
             )
-                .font(Font.customHeader(size: 40))
-                .foregroundColor(.mainYellow)
-                .fontWeight(.bold)
+            .font(Font.customHeader(size: 40))
+            .foregroundColor(.mainYellow)
+            .fontWeight(.bold)
             
             Text("Set a pin code to secure your settings.")
                 .font(Font.customHeader(size:20))
                 .frame(width: 380)
                 .foregroundColor(.mainYellow)
                 .multilineTextAlignment(.center)
-    
-        ZStack {
-            pinDots
-            backgroundField
-        }
-        showPinStack
             
-        
-        Button("Re-enter Password", action: checkPin)
-            .frame(width: proxy.size.width / 2)
-            .padding(.vertical, 12)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-        
-                    .fill(Color.mainYellow))
-            .foregroundColor(.black)
-            .frame(width: proxy.size.width / 2)
-        
+            ZStack {
+                pinDots
+                backgroundField
+            }
             
-        Button("Skip", action: goToChooseUser)
-            .frame(width: proxy.size.width / 2)
-            .padding(.vertical, 12)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.mainYellow))
-            .foregroundColor(.black)
+            showPinStack
+            
+            
+            Button {
+                checkPin()
+            } label: {
+                Text("Re-enter Password")
+                    .frame(width: proxy.size.width * 0.66)
+                    .padding(.vertical, 12)
+                    .foregroundColor(.black)
+            }
+            .background(Color.mainYellow)
+            .cornerRadius(12, corners: .allCorners)
+            
+            Button {
+                goToChooseUser()
+            } label: {
+                Text("Skip")
+                    .frame(width: proxy.size.width * 0.66)
+                    .padding(.vertical, 12)
+                    .foregroundColor(.black)
+            }
+            .background(Color.mainYellow)
+            .cornerRadius(12, corners: .allCorners)
+            .padding(.top, 8)
             
         }
     }
