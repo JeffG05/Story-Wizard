@@ -70,6 +70,7 @@ struct LibraryPage: View {
                     PreviewView(page: $page, degree: $frontDegree)
                     BookCoverView(degree: $backDegree)
                 }
+                .zIndex(100)
                 .onAppear {
                     backDegree = 0
                     frontDegree = -90
@@ -84,6 +85,7 @@ struct LibraryPage: View {
             }
             if showSettings == true {
                 SettingsView(showSettings: $showSettings, proxy: proxy)
+                    .zIndex(100)
             }
         }
         .environmentObject(profile)
