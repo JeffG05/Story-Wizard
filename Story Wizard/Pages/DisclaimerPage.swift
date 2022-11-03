@@ -16,16 +16,18 @@ struct DisclaimerPage: View {
                 
                 Image("FullWizzo")
                     .resizable()
-                    .frame(width: 250, height: 250)
-                    .rotationEffect(Angle(degrees: 40))
-                    .offset(x: -150, y: -250)
+                    .frame(width: 400, height: 400)
+                    .rotationEffect(Angle(degrees: 180))
+                    .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
+                    .offset(x:0, y: -400)
                 VStack {
                     
                     Text("Disclaimer")
                         .foregroundColor(.mainYellow)
-                        .font(Font.customHeader(size: 25))
+                        .font(Font.customHeader(size: 30))
+                        .offset(x:0,y:250)
                         
-                    VStack {
+                    VStack{
                         Text("Wizzo will always try his best to make the most amazing stories based on your input")
                             .foregroundColor(.mainYellow)
                             .font(Font.customHeader(size: 20))
@@ -37,6 +39,7 @@ struct DisclaimerPage: View {
                             .font(Font.customHeader(size: 20))
                             .multilineTextAlignment(.center)
                     }.offset(y: 230)
+                        .padding()
                     Spacer()
                     Button(action: {
                         page = .goBack
