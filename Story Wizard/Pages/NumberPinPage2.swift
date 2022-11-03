@@ -14,153 +14,44 @@ struct NumberPinPage2: View {
     var proxy: GeometryProxy
     
     @State var pin: String = ""
-    @State var showPin = false
-    @State var isDisabled = false
     @State var incorrectPin: Bool = false
     
     @EnvironmentObject var user: User
  
     public var body: some View {
-        Color.mainBlue
-            .ignoresSafeArea()
-        BackgroundStarsView()
-        VStack(spacing: 10) {
-            HeaderView(
-                text: "Re-enter Password",
-                leftIcon: "arrow.left",
-                leftAction: goBack
-            )
-                .font(Font.customHeader(size: 40))
-                .foregroundColor(.mainYellow)
-                .fontWeight(.bold)
-            
-            Text("Set a pin code to secure your settings.")
-                .font(Font.customHeader(size:20))
-                .frame(width: 380)
-                .foregroundColor(.mainYellow)
-                .multilineTextAlignment(.center)
-    
-            ZStack {
-                pinDots
-                backgroundField
+        PinPageView(pin: $pin, confirmPin: user.numberPin, mainAction: goToPinPage1, submitPin: submitPin, proxy: proxy)
+            .alert("Pins do not match", isPresented: $incorrectPin) {
+                Button("Ok", role: .cancel) {
+                    pin = ""
+                }
             }
-            
-            showPinStack
-                
-            .alert(isPresented: $incorrectPin) {
-                Alert(title: Text("Pins do not match."))
-            }
-            
-            
-            Button {
-                checkPin()
-            } label: {
-                Text("Get Started")
-                    .frame(width: proxy.size.width * 0.66)
-                    .padding(.vertical, 12)
-                    .foregroundColor(.black)
-            }
-            .background(Color.mainYellow)
-            .cornerRadius(12, corners: .allCorners)
-            
-        }
     }
     
     func goBack() {
         page = .goBack
     }
     
+    func goToPinPage1(){
+        user.numberPin = ""
+        page = .numberPin
+    }
+    
     func goToChooseUser(){
         page = .chooseUser
     }
     
-    func checkPin(){
-        guard !pin.isEmpty else {
-            showPin = false
-            print("Empty")
-            return
-        }
-        
-        if pin.count == 4 && pin==user.numberPin {
-            goToChooseUser()
-
-        }
-        
-        else {
-            incorrectPin=true
-        }
+    func isValidPin() -> Bool {
+        return pin.count == 4
     }
     
-    private var pinDots: some View {
-        HStack {
-            Spacer()
-            ForEach(0..<4) { index in
-                Image(systemName: self.getImageName(at: index))
-                    .font(.system(size: 60, weight: .thin, design: .default))
-                    .foregroundColor(.mainYellow)
-                Spacer()
+    func submitPin() {
+        if isValidPin() {
+            if pin == user.numberPin {
+                goToChooseUser()
+            } else {
+                incorrectPin = true
             }
         }
-    }
-    
-    private var backgroundField: some View {
-        let boundPin = Binding<String>(get: { self.pin }, set: { newValue in
-            self.pin = newValue
-            self.submitPin()
-        })
-        
-        return TextField("", text: boundPin, onCommit: submitPin)
-
-           .accentColor(.clear)
-           .foregroundColor(.clear)
-           .keyboardType(.numberPad)
-           .disabled(isDisabled)
-    }
-    
-    private var showPinStack: some View {
-        HStack {
-            Spacer()
-            if !pin.isEmpty {
-                showPinButton
-            }
-        }
-        .frame(height: 30)
-        .padding([.trailing])
-    }
-    
-    private var showPinButton: some View {
-        Button(action: {
-            self.showPin.toggle()
-        }, label: {
-            self.showPin ?
-                Image(systemName: "eye.slash.fill").foregroundColor(.mainYellow) :
-                Image(systemName: "eye.fill").foregroundColor(.mainYellow)
-        })
-    }
-    
-    private func submitPin() {
-        
-        guard !pin.isEmpty else {
-            showPin = false
-            return
-        }
-        
-        if pin.count == 4 {
-            print("Test")
-
-        }
-    }
-    
-    private func getImageName(at index: Int) -> String {
-        if index >= self.pin.count {
-            return "circle"
-        }
-        
-        if self.showPin {
-            return self.pin.digits[index].numberString + ".circle"
-        }
-        
-        return "circle.fill"
     }
 }
 
