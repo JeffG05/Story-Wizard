@@ -55,7 +55,7 @@ struct ReadStoryPage: View {
                     TabView(selection: $currentPage) {
                         VStack {
                             Text(profile.libraryRender[profile.currentBookIndex].title)
-                                .font(Font.customHeader(size: 30))
+                                .font(Font.customHeader(size: profile.convertFontSize()))
                                 .multilineTextAlignment(.center)
                                 .padding(15)
                             Text("Swipe to read")
@@ -64,7 +64,7 @@ struct ReadStoryPage: View {
                             VStack {
                                 Spacer()
                                 Text(profile.libraryRender[profile.currentBookIndex].pages[index])
-                                    .font(Font.customHeader(size: 25))
+                                    .font(Font.customHeader(size: profile.convertFontSize()))
                                     .multilineTextAlignment(.center)
                                     .padding(15)
                                 Spacer()
@@ -74,7 +74,7 @@ struct ReadStoryPage: View {
                         }
                         VStack {
                             Text("The end")
-                                .font(Font.customHeader(size: 25))
+                                .font(Font.customHeader(size: profile.convertFontSize()))
                                 .multilineTextAlignment(.center)
                                 .padding(15)
                             Text("Swipe to go back")

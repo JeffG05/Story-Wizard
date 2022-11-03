@@ -44,6 +44,8 @@ struct NavigationView: View {
                 RatingPage(page: $page, profile: user.currentProfile!)
             case .feedbackThanks:
                 ThanksFeedbackPage(page: $page, background: user.currentProfile!.libraryRender[user.currentProfile!.currentBookIndex].frontCover)
+            case .disclaimer:
+                DisclaimerPage(page: $page)
             default:
                 EmptyView()
             }

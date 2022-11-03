@@ -9,10 +9,15 @@ import SwiftUI
 
 public enum FilterType: Int {
     case alphabetical  // section1 is explicitly 0. You can start at any value.
-    case rev_alphabet
     case date_added
     case bookmarked
     case liked
+}
+
+public enum TextSize: Int {
+    case small
+    case medium
+    case large
 }
 
 class Profile: Hashable, Identifiable, ObservableObject {
@@ -24,7 +29,10 @@ class Profile: Hashable, Identifiable, ObservableObject {
     @Published var libraryRender: [Book]
     @Published var filterType: FilterType?
     @Published var currentBookIndex: Int
-    init(name: String, profilePicture: Image? = nil, profileColor: Color) {
+    @Published var readingAge: Int
+    @Published var textSize: TextSize?
+    
+init(name: String, profilePicture: Image? = nil, profileColor: Color) {
         self.id = UUID()
         self.name = name
         self.profilePicture = profilePicture
@@ -33,6 +41,8 @@ class Profile: Hashable, Identifiable, ObservableObject {
         self.filterType = .date_added
         self.currentBookIndex = -1// initialise empty library on profile creation
         self.profileColor = profileColor
+        self.readingAge = 10
+        self.textSize = .medium
         
     }
     
@@ -125,23 +135,11 @@ class Profile: Hashable, Identifiable, ObservableObject {
     static func == (lhs: Profile, rhs: Profile) -> Bool {
         return lhs.name == rhs.name && lhs.profilePicture == rhs.profilePicture
     }
-        
-//        var bookmarkedBooks: [Int] {
-//            var result: [Int] = []
-//            for index in 0..<library.count {
-//                if library[index].bookmarked {
-//                    result.append(index)
-//                }
-//            }
-//            return result
-//        }
     
     func sort_library() -> Void {
         switch filterType {
         case .alphabetical:
-            libraryRender.sort{ $0.title < $1.title }
-        case .rev_alphabet:
-            libraryRender.sort{ $0.title > $1.title }
+            libraryRender = library.sorted{ $0.title <= $1.title }
         case .date_added:
             libraryRender = library
         case .bookmarked:
@@ -151,6 +149,28 @@ class Profile: Hashable, Identifiable, ObservableObject {
         case .none:
             break
         }
+    }
+
+    func convertFontSize() -> CGFloat {
+        switch textSize {
+        case .small:
+            return 15
+        case .medium:
+            return 25
+        case .large:
+            return 45
+        case .none:
+            return -1
+        }
+    }
+    
+    
+    func incrementReadingAge() -> Void {
+        readingAge += 1
+    }
+    
+    func decrementReadingAge() -> Void {
+        readingAge += -1
     }
 }
 

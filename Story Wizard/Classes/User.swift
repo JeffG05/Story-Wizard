@@ -15,6 +15,8 @@ class User : ObservableObject {
     var numberPin: String
     @Published var profiles: [Profile]
     @Published var currentProfileIndex: Int
+    @Published var bannedWords: [String]
+    @Published var bannedThemes: [String]
     
     
     init(name: String, email: String, password: String, numberPin: String, profiles: [Profile], currentProfileIndex: Int = 0) {
@@ -24,6 +26,8 @@ class User : ObservableObject {
         self.numberPin = numberPin
         self.profiles = profiles
         self.currentProfileIndex = currentProfileIndex
+        self.bannedWords = ["Idiot"]
+        self.bannedThemes = ["War"]
     }
     
     var currentProfile: Profile? {
@@ -41,5 +45,15 @@ class User : ObservableObject {
             profiles[currentProfileIndex] = newValue!
         }
     }
+    
+    func addBannedWord(word: String) {
+        bannedWords.append(word)
+    }
+    
+    func addBannedTheme(word: String) {
+        bannedThemes.append(word)
+    }
+    
+    
     
 }

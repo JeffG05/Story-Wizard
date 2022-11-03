@@ -40,7 +40,9 @@ struct ChooseUserPage: View {
             VStack {
                 HeaderView(
                     text: "Who's Reading?",
-                    textSize: 40
+                    textSize: 40,
+                    rightIcon: "gear",
+                    rightAction: goToSettings
                 )
                 .foregroundColor(.mainYellow)
                 
@@ -105,6 +107,10 @@ struct ChooseUserPage: View {
                     editMode = false
                 }
         }
+    }
+    
+    func goToSettings() {
+        page = .settings
     }
     
     func selectProfile(profileIndex: Int) {

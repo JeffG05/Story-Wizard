@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomePage: View {
     @EnvironmentObject var user: User
-    
+    @State var showSettings: Bool = false
     @Binding var page: Page
     var proxy: GeometryProxy
     
@@ -37,6 +37,10 @@ struct HomePage: View {
             }
             .padding(.bottom, proxy.size.height / 8)
         }
+        if showSettings == true {
+            SettingsView(showSettings: $showSettings, proxy: proxy)
+                .environmentObject(user.currentProfile!)
+        }
     }
     
     func goToUserSwitcher() {
@@ -44,7 +48,7 @@ struct HomePage: View {
     }
     
     func goToSettings() {
-        page = .settings
+        showSettings = true
     }
     
     func goToStoryCreator() {
