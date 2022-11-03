@@ -27,6 +27,7 @@ struct RatingPage: View {
                         Text("Please rate this story")
                             .font(Font.customHeader(size: 25))
                             .foregroundColor(.mainYellow)
+                            .padding()
                         Divider()
                         Text("Your feedback will be used to improve future stories")
                             .font(Font.customHeader(size: 20))

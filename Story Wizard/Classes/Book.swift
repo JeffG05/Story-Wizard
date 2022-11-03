@@ -17,9 +17,10 @@ struct Book: Hashable, Identifiable {
     var bookmarked: Bool
     var generationOptions: GenerationOptions
     var pages: [String]
+    var pageImages: [String]
     var rating: Rating
     var theme: String
-    init(title: String, frontCover: Image, blurb: String, bookmarked: Bool, pages: [String], options: GenerationOptions) {
+    init(title: String, frontCover: Image, blurb: String, bookmarked: Bool, pages: [String], images: [String], options: GenerationOptions) {
         self.id = UUID()
         self.title = title
         self.frontCover = frontCover
@@ -27,6 +28,7 @@ struct Book: Hashable, Identifiable {
         self.bookmarked = bookmarked
         self.generationOptions = options
         self.pages = pages
+        self.pageImages = images
         self.rating = .NONE
         self.theme = options.theme.title
     }
@@ -63,6 +65,7 @@ struct Book: Hashable, Identifiable {
                 "Character: \(options.character.title)\(options.characterName != nil ? " (called \(options.characterName!))" : "")",
                 "Friend: \(options.friend.title)\(options.characterName != nil ? " (called \(options.friendName!))" : "")"
             ],
+            images: ["castle","","sunrise","AlienCharacter"],
             options: options
         )
     }
