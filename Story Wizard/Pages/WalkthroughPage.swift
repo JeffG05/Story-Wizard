@@ -158,7 +158,7 @@ struct SlidePage: Identifiable, Equatable {
     static var samplePages: [SlidePage] = [
         SlidePage(name: "HOME", description: "This is the home page. Here you can create a story or go to your library.", image: "Home", tag: 0),
         SlidePage(name: "CREATE STORY", description: "Select an option for your story. If you don't like the options, click shuffle and new options will appear!", image: "CreateStory", tag: 1),
-        SlidePage(name: "LIBRARY", description: "Here is where you store the books you have read. Click on a book to see a preview of it. Click read to enjoy your story!", image: "Library", tag: 2),
+        SlidePage(name: "LIBRARY", description: "Here is where you store your books. Click one of the buttons to turn on a filter and click again to turn it off. Click on a book to see a preview. Click read to enjoy your story!", image: "Library", tag: 2),
         SlidePage(name: "READ", description: "Swipe to flip the page. You can bookmark your favourite books or press the audio button to have the book read to you.", image: "Reading", tag: 3),
         SlidePage(name: "FEEDBACK", description: "At the end of the book, make sure to rate the book with a face to help Wizzo write your books.", image: "Feedback", tag: 4),
 

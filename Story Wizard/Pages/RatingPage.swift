@@ -27,6 +27,7 @@ struct RatingPage: View {
                         Text("Please rate this story")
                             .font(Font.customHeader(size: 25))
                             .foregroundColor(.mainYellow)
+                            .padding()
                         Divider()
                         Text("Your feedback will be used to improve future stories")
                             .font(Font.customHeader(size: 20))
@@ -140,6 +141,8 @@ struct FeedbackButton : View {
                     Text(text)
                         .font(Font.customHeader(size: 15))
                 }
+                .frame(width: UIScreen.main.bounds.width/3.2)
+                .frame(height: UIScreen.main.bounds.height/12)
                 .padding()
             }.overlay(
                 RoundedRectangle(cornerRadius: 15).stroke(Color(.black), lineWidth: 2))

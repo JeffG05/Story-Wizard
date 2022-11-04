@@ -14,6 +14,8 @@ struct LibraryPage: View {
     @StateObject var profile: Profile
     @State var frontDegree: Double = -90
     @State var backDegree: Double = 0
+    @State var selectedFilter: Int = -1
+    let filters: [FilterOption] = [FilterOption(label: "A-Z", filter: .alphabetical), FilterOption(label: "Bookmarked", filter: .bookmarked), FilterOption(label: "Liked", filter: .liked)]
     var body: some View {
         
         ZStack {
@@ -28,23 +30,37 @@ struct LibraryPage: View {
                     rightAction: goToSettings
                 )
                 HStack {
-                    Button("A-Z", action:{
-                        profile.filterType = .alphabetical
-                        profile.sort_library()
-                    })
-                    Button("Date Added", action:{
-                        profile.filterType = .date_added
-                        profile.sort_library()
-                    })
-                    Button("Bookmarked", action:{
-                        profile.filterType = .bookmarked
-                        profile.sort_library()
-                    })
-                    Button("Liked", action:{
-                        profile.filterType = .liked
-                        profile.sort_library()
-                    })
+                    Image("filter")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                    Spacer()
+                    ForEach(0..<filters.count, id: \.self) {filterIndex in
+                        Button(action:{
+                            if selectedFilter == filterIndex {
+                                profile.filterType = .date_added
+                                selectedFilter = -1
+                            } else {
+                                profile.filterType = filters[filterIndex].filter
+                                selectedFilter = filterIndex
+                            }
+                            profile.sort_library()
+                        }, label: {
+                            Text(filters[filterIndex].label)
+                                .padding()
+                                .background() {
+                                    if filterIndex == selectedFilter {
+                                        Color.mainYellow
+                                    } else {
+                                        Color.mainBlue
+                                    }
+                                }
+                                .cornerRadius(10)
+                                .foregroundColor(.black)
+                        })
+                    }
+                    
                 }
+                .padding()
                 
                 Bookcase(proxy: proxy)
             }
@@ -54,6 +70,7 @@ struct LibraryPage: View {
                     PreviewView(page: $page, degree: $frontDegree)
                     BookCoverView(degree: $backDegree)
                 }
+                .zIndex(100)
                 .onAppear {
                     backDegree = 0
                     frontDegree = -90
@@ -68,6 +85,7 @@ struct LibraryPage: View {
             }
             if showSettings == true {
                 SettingsView(showSettings: $showSettings, proxy: proxy)
+                    .zIndex(100)
             }
         }
         .environmentObject(profile)
@@ -86,10 +104,10 @@ struct Bookcase: View {
     @EnvironmentObject var profile: Profile
     var proxy: GeometryProxy
     var body: some View {
-        let shelfboardHeight: CGFloat = 25
+        let shelfboardHeight: CGFloat = 10
         let shelves = max(Int(ceil(Double(profile.libraryRender.count) / 2.0) * 2), 6)
         GeometryReader { g in
-            let shelfSectionHeight = (g.size.height - proxy.safeAreaInsets.bottom) / 3
+            let shelfSectionHeight = (g.size.height - proxy.safeAreaInsets.bottom) / 2.5
             ScrollView(showsIndicators: false) {
                 LazyVGrid(
                     columns: [
@@ -164,7 +182,7 @@ struct BookOptionView: View {
         ZStack {
             Button {
             action: do {
-                withAnimation(.easeIn(duration: 0.25)) {
+                withAnimation(.easeInOut(duration: 0.25)) {
                     profile.setCurrentBook(index: thisIndex)
                 }
             }
@@ -192,6 +210,11 @@ struct BookOptionView: View {
         }
         .frame(width: maxWidth, height: maxHeight)
     }
+}
+
+struct FilterOption {
+    var label: String
+    var filter: FilterType
 }
 
 struct LibraryPage_Previews: PreviewProvider {

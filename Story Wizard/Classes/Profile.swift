@@ -139,7 +139,7 @@ init(name: String, profilePicture: Image? = nil, profileColor: Color) {
     func sort_library() -> Void {
         switch filterType {
         case .alphabetical:
-            libraryRender.sort{ $0.title < $1.title }
+            libraryRender = library.sorted{ $0.title <= $1.title }
         case .date_added:
             libraryRender = library
         case .bookmarked:

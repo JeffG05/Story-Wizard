@@ -24,6 +24,14 @@ struct BookCoverView: View {
                         OutlinedText(text: profile.libraryRender[profile.currentBookIndex].title, width: 1, color: .white)
                             .fontWeight(.bold)
                             .font(.largeTitle)
+                        if profile.libraryRender[profile.currentBookIndex].bookmarked {
+                            Image(systemName: "bookmark.fill")
+                                .resizable()
+                                .foregroundColor(.red)
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 100, height: 100)
+                                .offset(x: 100, y: -160)
+                        }
                     }
                     .padding()
                     .rotation3DEffect(Angle(degrees: degree), axis: (x: 0, y: 1, z: 0))

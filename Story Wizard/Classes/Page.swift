@@ -21,4 +21,5 @@ enum Page {
     case goBack
     case rating
     case feedbackThanks
+    case disclaimer
 }
