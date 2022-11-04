@@ -24,6 +24,7 @@ struct SignUpPage: View {
     
     @State var isSignUpValid: Bool = false
     @State var showInvalidDetailsAlert: Bool = false
+    @Binding var userList: [User]
     
     var body: some View {
         ZStack {
@@ -147,6 +148,7 @@ struct SignUpPage: View {
         //trigger logic
         if isSignUpValid {
             self.isSignUpValid = true //trigger NavigationLink
+            userList.append(User(name: self.name, email: self.email, password: self.password, numberPin: nil, profiles: []))
             goToSignIn()
         }
         else {
@@ -167,7 +169,7 @@ struct SignUpPage: View {
 struct SignUpPage_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { g in
-            SignUpPage(page: .constant(.signUp), proxy: g)
+            SignUpPage(page: .constant(.signUp), proxy: g, userList: .constant([]))
         }
         .environmentObject(TestData.testUser)
     }

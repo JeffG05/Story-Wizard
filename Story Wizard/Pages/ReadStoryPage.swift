@@ -66,8 +66,6 @@ struct ReadStoryPage: View {
                             )
                         }
                         TabView(selection: $currentPage) {
-                            
-                                Spacer()
                                 VStack {
                                     Text(profile.libraryRender[profile.currentBookIndex].title)
                                         .font(Font.customHeader(size: profile.convertFontSize()))

@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "illustration-town-street-made-flat-design-vector-47031190.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

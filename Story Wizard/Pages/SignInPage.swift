@@ -17,13 +17,15 @@ struct SignInPage: View {
     
     @Binding var page: Page
     var proxy: GeometryProxy
-    
+    @EnvironmentObject var user : User
     @State var email: String = ""
     @State var password: String = ""
     @FocusState var focusedField: FocusField?
     
     @State var isSignInValid: Bool = false
     @State var showInvalidDetailsAlert: Bool = false
+    var users: [User]
+    @Binding var currentUserIndex: Int
     
     var body: some View {
         ZStack {
@@ -121,18 +123,28 @@ struct SignInPage: View {
     }
     
     func checkSignIn () {
-        let isSignInValid = self.email == "User" && self.password == "Password"
         
-        
-        
+        var found = false
         //trigger logic
-        if isSignInValid {
+        
             self.isSignInValid = true //trigger NavigationLink
-            goToNumberPin()
-        }
-        else {
+        for index in 0..<users.count {
+                if users[index].email == self.email && users[index].password == self.password {
+                    self.currentUserIndex = index
+                    found = true
+                }
+            }
+        if found {
+            if user.numberPin == nil {
+                goToNumberPin()
+            } else {
+                goToChooseUser()
+            }
+        } else {
             self.showInvalidDetailsAlert = true
         }
+        
+        
     }
     
     func goToNumberPin() {
@@ -203,7 +215,7 @@ struct RegisteredYNButton: View {
 struct SignInPage_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { g in
-            SignInPage(page: .constant(.signIn), proxy: g)
+            SignInPage(page: .constant(.signIn), proxy: g, users: [TestData.testUser], currentUserIndex: .constant(0))
         }
         .environmentObject(TestData.testUser)
     }

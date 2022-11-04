@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct NavigationView: View {
-    @State private var page: Page = .chooseUser
-    @StateObject private var user: User = TestData.testUser
+
+    @State private var page: Page = .walkthrough
+    @State var users: [User] = [TestData.testUser, TestData.testUser2]
     
-    @State private var prevPage: Page = .chooseUser
-    @State private var currentPage: Page = .chooseUser
+    
+    @State private var prevPage: Page = .walkthrough
+    @State private var currentPage: Page = .walkthrough
+    @State var currentUserIndex : Int = 0
     private var pageStack: Stack = Stack<Page>()
         
     var body: some View {
@@ -21,9 +24,9 @@ struct NavigationView: View {
             case .walkthrough:
                 WalkthroughPage(page: $page, proxy: g)
             case .signIn:
-                SignInPage(page: $page, proxy: g)
+                SignInPage(page: $page, proxy: g, users: users, currentUserIndex : $currentUserIndex)
             case .signUp:
-                SignUpPage(page: $page, proxy: g)
+                SignUpPage(page: $page, proxy: g, userList: $users)
             case .numberPin:
                 NumberPinPage(page: $page, proxy: g)
             case .numberPin2:
@@ -35,24 +38,24 @@ struct NavigationView: View {
             case .createStory:
                 CreateStoryPage(page: $page, proxy: g)
             case .readStory:
-                ReadStoryPage(page: $page, proxy: g, profile: user.currentProfile!)
+                ReadStoryPage(page: $page, proxy: g, profile: users[currentUserIndex].currentProfile!)
             case .library:
-                LibraryPage(page: $page, proxy: g, profile: user.currentProfile!)
+                LibraryPage(page: $page, proxy: g, profile: users[currentUserIndex].currentProfile!)
             case .settings:
                 SettingsPage(page: $page, proxy: g)
             case .settingsPin:
                 SettingsPinPage(page: $page, proxy: g)
             case .rating:
-                RatingPage(page: $page, profile: user.currentProfile!)
+                RatingPage(page: $page, profile: users[currentUserIndex].currentProfile!)
             case .feedbackThanks:
-                ThanksFeedbackPage(page: $page, background: user.currentProfile!.libraryRender[user.currentProfile!.currentBookIndex].frontCover)
+                ThanksFeedbackPage(page: $page, background: users[currentUserIndex].currentProfile!.libraryRender[users[currentUserIndex].currentProfile!.currentBookIndex].frontCover)
             case .disclaimer:
                 DisclaimerPage(page: $page)
             default:
                 EmptyView()
             }
         }
-        .environmentObject(user)
+        .environmentObject(users[currentUserIndex])
         .ignoresSafeArea(.keyboard)
         .onChange(of: page) { _ in
             if page == .goBack {

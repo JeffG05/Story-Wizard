@@ -28,7 +28,7 @@ struct DisclaimerPage: View {
                         .offset(x:0,y:250)
                         
                     VStack{
-                        Text("Wizzo will always try his best to make the most amazing stories based on your input")
+                        Text("Wizzo, an AI based story creator, will always try to generate the best stories for you")
                             .foregroundColor(.mainYellow)
                             .font(Font.customHeader(size: 20))
                             .multilineTextAlignment(.center)
