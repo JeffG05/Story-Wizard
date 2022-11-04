@@ -29,13 +29,45 @@ class TestData {
     
     static var testBook3: Book = Book.random(title: "Book 3")
     
+    static var fakeGeneratedBook1: Book = Book(
+        title: "Visit to Earth",
+        frontCover: Image("FakeGeneratedBookCover1"),
+        blurb: "Martian the alien and his dog, Ketchup, visits the friendly dragon of the forest",
+        bookmarked: false,
+        pages: [
+            "Martian was a green alien from space. He had a pet dog called Ketchup.",
+            "Martian was walking in the forest with Ketchup when he sees a sleeping dragon",
+            "When Martian got close the dragon woke up. Oh no!",
+            "The dragon stood up and blew fire out of his nose and opened his mouth to speak.",
+            "'Hello, I am the friendly dragon of the forest' it said.",
+            "After that day, the dragon became Martian and Ketchup's best friend."
+        ],
+        images: [
+            "FakeGeneratedBookImage1",
+            "",
+            "",
+            "FakeGeneratedBookImage2",
+            "",
+            ""
+        ],
+        options: GenerationOptions(
+            theme: ChoiceOption.themes.first(where: { $0.title == "Dragons" })!,
+            setting: ChoiceOption.settings.first(where: { $0.title == "Forest" })!,
+            character: ChoiceOption.characters.first(where: { $0.title == "An Alien" })!,
+            friend: ChoiceOption.characters.first(where: { $0.title == "A Dog" })!,
+            bookTitle: "Visit to Earth",
+            characterName: "Martian",
+            friendName: "Ketchup"
+        )
+    )
+    
     // Profiles
     static var testProfile: Profile {
         let profile = Profile(name: "Profile 1", profileColor: Profile.profileColorOptions[0])
         profile.addBook(bookObj: testBook)
         profile.addBook(bookObj: testBook2)
         profile.addBook(bookObj: testBook3)
-        
+        profile.addBook(bookObj: fakeGeneratedBook1)
         return profile
     }
     static var testProfileWithSelectedBook: Profile {

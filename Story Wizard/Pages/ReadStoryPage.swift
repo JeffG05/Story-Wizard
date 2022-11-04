@@ -22,7 +22,7 @@ struct ReadStoryPage: View {
     
     var body: some View {
         ZStack {
-            if currentPage == 0 || currentPage ==  profile.libraryRender[profile.currentBookIndex].pages.count + 1{
+            if currentPage == 0 || currentPage ==  profile.libraryRender[profile.currentBookIndex].pages.count + 1 {
                 profile.libraryRender[profile.currentBookIndex].frontCover
                                .resizable()
                                .aspectRatio(CGSize(width: proxy.size.width, height: proxy.size.height), contentMode: .fill)
@@ -80,7 +80,7 @@ struct ReadStoryPage: View {
                                         VStack {
                                             
                                             Spacer()
-                                            Text("One day jeff was doing some coding, it was trash as usual, Jeff then decided to save the world by never coding again")
+                                            Text(profile.libraryRender[profile.currentBookIndex].pages[index])
                                                 .font(Font.customHeader(size: profile.convertFontSize()))
                                                 .multilineTextAlignment(.center)
                                                 .padding(15)

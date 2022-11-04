@@ -401,7 +401,7 @@ class ChoiceOption: Hashable {
             ChoiceOption(title: "A Girl", image: Image("GirlCharacter"), type: .character),
             ChoiceOption(title: "A Dog", image: Image("DogCharacter"), type: .character),
             ChoiceOption(title: "A Pig", image: Image("PigCharacter"), type: .character),
-            ChoiceOption(title: "A Elf", image: Image("ElfCharacter"), type: .character),
+            ChoiceOption(title: "An Elf", image: Image("ElfCharacter"), type: .character),
             ChoiceOption(title: "A Zombie", image: Image("ZombieCharacter"), type: .character),
             
         ]
