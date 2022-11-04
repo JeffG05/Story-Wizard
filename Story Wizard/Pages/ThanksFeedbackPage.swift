@@ -18,6 +18,7 @@ struct ThanksFeedbackPage: View {
                 Image("FullWizzo")
                     .resizable()
                     .aspectRatio(CGSize(width: 20, height: 20),contentMode: .fit)
+                    .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
                 Spacer()
                 Text("Thank You!")
                     .font(Font.customHeader(size: 35))
