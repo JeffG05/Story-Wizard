@@ -11,7 +11,8 @@ struct PinPageView: View {
     @Binding var pin: String
     var confirmPin: String? = nil
     var mainAction: () -> Void
-    var submitPin: (() -> Void)?
+    var submitPin: () -> Void
+    var enterUserPin: Bool = false
     var proxy: GeometryProxy
     
     @FocusState var pinFocused: Bool
@@ -30,7 +31,7 @@ struct PinPageView: View {
                 )
                 .foregroundColor(.mainYellow)
                 
-                let text = isConfirmingPin() ? "Please confirm your\nsecurity pin code." : "Set a pin code to secure\nyour settings."
+                let text = enterUserPin ? "Please enter security pin to access user settings" : isConfirmingPin() ? "Please confirm your\nsecurity pin code." : "Set a pin code to secure\nyour settings."
                 
                 Text(text)
                     .font(Font.customHeader(size:20))
@@ -104,7 +105,7 @@ struct PinPageView: View {
     private var backgroundField: some View {
         let boundPin = Binding<String>(get: { self.pin }, set: { newValue in
             self.pin = newValue
-            self.submitPin?()
+            self.submitPin()
         })
         
         return TextField("", text: boundPin)
@@ -158,7 +159,7 @@ struct PinPageView: View {
 struct PinPageView_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { g in
-            PinPageView(pin: .constant(""), mainAction: {}, proxy: g)
+            PinPageView(pin: .constant(""), mainAction: {}, submitPin: {}, proxy: g)
         }
     }
 }

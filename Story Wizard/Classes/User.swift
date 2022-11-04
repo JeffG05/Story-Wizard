@@ -47,11 +47,15 @@ class User : ObservableObject {
     }
     
     func addBannedWord(word: String) {
-        bannedWords.append(word)
+        if !bannedWords.contains(where: { $0.capitalized == word.capitalized }) {
+            bannedWords.append(word.capitalized)
+        }
     }
     
     func addBannedTheme(word: String) {
-        bannedThemes.append(word)
+        if !bannedThemes.contains(where: { $0.capitalized == word.capitalized }) {
+            bannedThemes.append(word.capitalized)
+        }
     }
     
     
