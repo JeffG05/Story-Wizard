@@ -36,11 +36,12 @@ struct SettingsOverlay: View {
                      .aspectRatio(CGSize(width: g.size.width, height: g.size.height * 0.8),contentMode: .fit)
                      .cornerRadius(10, corners: [.topRight, .bottomRight])
                      .offset(CGSize(width: 0, height: g.size.height * 0.1))
-                     .overlay() {
-                         BackgroundStarsView()
-                             .frame(width: g.size.width, height: g.size.height * 0.8)
-                             .offset(CGSize(width: 0, height: g.size.height * 0.1))
-                     }
+                     .frame(width: g.size.width, height: g.size.height * 0.8)
+                     
+                 BackgroundStarsView()
+                     .frame(width: g.size.width, height: g.size.height * 0.8)
+                     .cornerRadius(10, corners: [.topRight, .bottomRight])
+                     .offset(CGSize(width: 0, height: g.size.height * 0.1))
                  SettingsData(showSettings: $showSettings, proxy: proxy)
                      .offset(CGSize(width: 0, height: g.size.height * 0.1))
                      

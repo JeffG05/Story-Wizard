@@ -85,6 +85,7 @@ struct SettingsPage: View {
                     signout()
                 }
                 
+                
                 .foregroundColor(Color.mainYellow)
                 .padding()
             }
@@ -98,6 +99,7 @@ struct SettingsPage: View {
     func disclaimer() {
         page = .disclaimer
     }
+    
     
     func signout() {
         page = .signIn // also probs have to change environment variable user.

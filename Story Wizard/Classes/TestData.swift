@@ -80,8 +80,7 @@ class TestData {
         profile.addBook(bookObj: testBook)
         profile.addBook(bookObj: testBook2)
         profile.addBook(bookObj: testBook3)
-        profile.addBook(bookObj: fakeGeneratedBook1)
-        profile.addBook(bookObj: fakeGeneratedBook2)
+        
         
 
         return profile

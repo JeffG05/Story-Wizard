@@ -32,6 +32,7 @@ struct Book: Hashable, Identifiable {
         self.rating = .NONE
         self.theme = options.theme.title
     }
+    static var bookCount = 0
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(title)
@@ -54,6 +55,15 @@ struct Book: Hashable, Identifiable {
     }
     
     static func generate(options: GenerationOptions) -> Book {
+        if bookCount == 3 {
+            bookCount += 1
+            return TestData.fakeGeneratedBook1
+        }
+        if bookCount == 4 {
+            bookCount += 1
+            return TestData.fakeGeneratedBook2
+                    }
+        bookCount += 1
         return Book(
             title: options.bookTitle ?? "Book Title",
             frontCover: Image("LostInParadise"),
