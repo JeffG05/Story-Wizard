@@ -18,6 +18,7 @@ struct ReadStoryPage: View {
     var proxy: GeometryProxy
     @StateObject var profile: Profile
     @State var voice: AVSpeechSynthesisVoice? = nil
+    
     let synthesizer = AVSpeechSynthesizer()
     
     var body: some View {
@@ -51,7 +52,7 @@ struct ReadStoryPage: View {
                                 leftIcon: "x.square",
                                 rightIcon: "gear",
                                 middleIcon: useSpeech ? "speaker.wave.2.fill" : "speaker.wave.2",
-                                middleDisabled: voice == nil,
+                                middleDisabled: true,
                                 leftAction: goBack,
                                 rightAction: settings,
                                 middleAction: toggleSpeech
@@ -166,10 +167,12 @@ struct ReadStoryPage: View {
         let pages = profile.libraryRender[profile.currentBookIndex].pages
         if pages.indices.contains(currentPage-1) {
             let text = pages[currentPage-1]
+            
             let utterance = AVSpeechUtterance(string: text)
             utterance.voice = voice
             utterance.pitchMultiplier = 1.2
             utterance.rate = 0.3
+            
             synthesizer.stopSpeaking(at: .immediate)
             synthesizer.speak(utterance)
         }
