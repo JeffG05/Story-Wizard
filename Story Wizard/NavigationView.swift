@@ -9,12 +9,8 @@ import SwiftUI
 
 struct NavigationView: View {
 
-    @State private var page: Page = .walkthrough
+    @State private var page: Page = .home
     @State var users: [User] = [TestData.testUser, TestData.testUser2]
-    
-    
-    @State private var prevPage: Page = .walkthrough
-    @State private var currentPage: Page = .walkthrough
     @State var currentUserIndex : Int = 0
     private var pageStack: Stack = Stack<Page>()
         

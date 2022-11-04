@@ -51,6 +51,7 @@ struct PreviewData: View {
     @EnvironmentObject var profile: Profile
     @State var showRating: Bool = true
     @Binding var page: Page
+    @State var showDeletePrompt = false
     var body: some View {
         if profile.currentBookIndex != -1 {
             GeometryReader {g in
@@ -66,6 +67,7 @@ struct PreviewData: View {
                                 .frame(width: 40, height: 40)
                                 .foregroundColor(.black)
                         })
+                        
                         Spacer()
                         Text(profile.libraryRender[profile.currentBookIndex].title)
                             .font(Font.customHeader(size: 25))
@@ -73,15 +75,22 @@ struct PreviewData: View {
                         Spacer()
                         Button(action: {
                             withAnimation(.easeOut(duration: 0.25)) {
-                                profile.removeBook(id: profile.libraryRender[profile.currentBookIndex].id)
-                                profile.currentBookIndex = -1
+                                showDeletePrompt = true
+                                
                             }
                         }, label: {
                             Image(systemName: "trash")
                                 .resizable()
                                 .frame(width: 40, height: 40)
                                 .foregroundColor(.black)
-                        })
+                        }).alert("Are you sure", isPresented: $showDeletePrompt) {
+                            Button("Yes", role: .destructive) {
+                                profile.removeBook(id: profile.libraryRender[profile.currentBookIndex].id)
+                                profile.currentBookIndex = -1
+                            }
+                            Button("Cancel", role: .cancel) {
+                            }
+                        }
                     }
                     
                     Spacer()

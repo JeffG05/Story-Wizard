@@ -158,7 +158,7 @@ init(name: String, profilePicture: Image? = nil, profileColor: Color) {
         case .medium:
             return 25
         case .large:
-            return 45
+            return 30
         case .none:
             return -1
         }

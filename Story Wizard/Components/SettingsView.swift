@@ -92,7 +92,8 @@ struct SettingsData: View {
                             
                         Button("-", action:{
                             profile.decrementReadingAge()
-                        })/*
+                        })
+                        .disabled(profile.readingAge <= 3)/*
                         .background(
                             RoundedRectangle(cornerRadius: 4)
                                 .fill(Color.gray)
@@ -103,6 +104,7 @@ struct SettingsData: View {
                         Button("+", action:{
                             profile.incrementReadingAge()
                         })
+                        .disabled(profile.readingAge >= 11)
                         .padding()
                     }.font(Font.customHeader(size:25))
                     

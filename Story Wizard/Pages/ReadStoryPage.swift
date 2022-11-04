@@ -76,19 +76,23 @@ struct ReadStoryPage: View {
                                 ForEach(0..<profile.libraryRender[profile.currentBookIndex].pages.count, id: \.self) {index in
                                     VStack {
                                         Spacer()
-                                        VStack {
-                                            
-                                            Spacer()
-                                            Text(profile.libraryRender[profile.currentBookIndex].pages[index])
-                                                .font(Font.customHeader(size: profile.convertFontSize()))
-                                                .multilineTextAlignment(.center)
-                                                .padding(15)
-                                            if profile.libraryRender[profile.currentBookIndex].pageImages[index] == "" {
+                                        
+                                            VStack {
+                                                
                                                 Spacer()
+                                                
+                                                Text(profile.libraryRender[profile.currentBookIndex].pages[index])
+                                                    .font(Font.customHeader(size: profile.convertFontSize()))
+                                                
+                                                    .multilineTextAlignment(.center)
+                                                    .padding(15)
+                                                
+                                                
+                                                if profile.libraryRender[profile.currentBookIndex].pageImages[index] == "" {
+                                                    Spacer()
+                                                }
                                             }
-                                        }
-//                                        .offset(y: profile.libraryRender[profile.currentBookIndex].pageImages[index] != "" ? g.size.height / 2 : 0)
-                                        .frame(width:g.size.width, height: profile.libraryRender[profile.currentBookIndex].pageImages[index] != "" ? g.size.height / 2 : g.size.height)
+                                            .frame(width:g.size.width, height: profile.libraryRender[profile.currentBookIndex].pageImages[index] != "" ? CGFloat(g.size.height / 2) : CGFloat(g.size.height))
                                         
                                     }.tag(index + 1)
                                     

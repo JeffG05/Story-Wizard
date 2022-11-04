@@ -87,9 +87,7 @@ class TestData {
     }
     static var testProfileWithSelectedBook: Profile {
         let profile = Profile(name: "Profile 9", profileColor: Profile.profileColorOptions[0])
-        profile.addBook(bookObj: testBook)
-        profile.addBook(bookObj: testBook2)
-        profile.addBook(bookObj: testBook3)
+        profile.addBook(bookObj: fakeGeneratedBook1)
         profile.currentBookIndex = 0
         return profile
     }
