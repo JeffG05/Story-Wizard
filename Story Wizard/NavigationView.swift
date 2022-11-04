@@ -40,6 +40,8 @@ struct NavigationView: View {
                 LibraryPage(page: $page, proxy: g, profile: user.currentProfile!)
             case .settings:
                 SettingsPage(page: $page, proxy: g)
+            case .settingsPin:
+                SettingsPinPage(page: $page, proxy: g)
             case .rating:
                 RatingPage(page: $page, profile: user.currentProfile!)
             case .feedbackThanks:

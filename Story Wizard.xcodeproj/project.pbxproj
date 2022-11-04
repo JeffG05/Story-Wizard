@@ -43,6 +43,7 @@
 		C5E0AAE6290ECD9800AB1B04 /* WalkthroughPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E0AAE5290ECD9800AB1B04 /* WalkthroughPage.swift */; };
 		C5FC95A32911DADB00D45B85 /* NumberPinPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FC95A22911DADB00D45B85 /* NumberPinPage.swift */; };
 		C5FC95A52911DAE300D45B85 /* NumberPinPage2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FC95A42911DAE300D45B85 /* NumberPinPage2.swift */; };
+		D440374C2915235400321644 /* SettingsPinPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D440374B2915235400321644 /* SettingsPinPage.swift */; };
 		D470982C290879F700C72558 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470982B290879F700C72558 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +86,7 @@
 		C5E0AAE5290ECD9800AB1B04 /* WalkthroughPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughPage.swift; sourceTree = "<group>"; };
 		C5FC95A22911DADB00D45B85 /* NumberPinPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPinPage.swift; sourceTree = "<group>"; };
 		C5FC95A42911DAE300D45B85 /* NumberPinPage2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPinPage2.swift; sourceTree = "<group>"; };
+		D440374B2915235400321644 /* SettingsPinPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPinPage.swift; sourceTree = "<group>"; };
 		D470982B290879F700C72558 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -155,6 +157,7 @@
 				2A587E3E28FD9C63000ACBF5 /* SettingsPage.swift */,
 				1FBD726E290ACA9E008DC6E4 /* RatingPage.swift */,
 				1FBD7272290C154B008DC6E4 /* ThanksFeedbackPage.swift */,
+				D440374B2915235400321644 /* SettingsPinPage.swift */,
 			);
 			path = Pages;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				2A587E3928FD9BD6000ACBF5 /* CreateStoryPage.swift in Sources */,
 				C5FC95A32911DADB00D45B85 /* NumberPinPage.swift in Sources */,
 				1F8734F32906879000C71DB5 /* OutlinedText.swift in Sources */,
+				D440374C2915235400321644 /* SettingsPinPage.swift in Sources */,
 				2AF4881E29045A2E0024152C /* Book.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

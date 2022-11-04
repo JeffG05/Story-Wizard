@@ -110,7 +110,7 @@ struct ChooseUserPage: View {
     }
     
     func goToSettings() {
-        page = .settings
+        page = .settingsPin
     }
     
     func selectProfile(profileIndex: Int) {

@@ -16,6 +16,7 @@ enum Page {
     case createStory
     case readStory
     case library
+    case settingsPin
     case settings
     case goBack
     case rating

@@ -10,6 +10,7 @@ import AVFoundation
 
 struct ReadStoryPage: View {
     @Binding var page: Page
+    @State var showSettings: Bool = false
 
     @State var currentPage: Int = 0
     @State var offsetPage: CGFloat = 0
@@ -109,6 +110,11 @@ struct ReadStoryPage: View {
                 
             }
             
+            if showSettings == true {
+                SettingsView(showSettings: $showSettings, proxy: proxy)
+                    .environmentObject(profile)
+            }
+            
         }
         .animation(.easeInOut, value: currentPage)
         .onAppear {
@@ -150,7 +156,9 @@ struct ReadStoryPage: View {
         page = .goBack
     }
     func settings() {
-        page = .settings
+//        page = .settings
+        showSettings = true
+
     }
 }
 
