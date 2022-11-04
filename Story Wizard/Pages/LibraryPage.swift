@@ -88,6 +88,10 @@ struct LibraryPage: View {
                     .zIndex(100)
             }
         }
+        .onAppear {
+            selectedFilter = profile.filterType != nil ? filters.map({ return $0.filter }).firstIndex(of: profile.filterType!) ?? -1 : -1
+            profile.sort_library()
+        }
         .environmentObject(profile)
     }
     
@@ -212,7 +216,7 @@ struct BookOptionView: View {
     }
 }
 
-struct FilterOption {
+struct FilterOption: Equatable {
     var label: String
     var filter: FilterType
 }

@@ -109,7 +109,7 @@ struct CreateStoryPage: View {
             characterName: characterName.isEmpty ? nil : characterName,
             friendName: friendName.isEmpty ? nil : friendName
         )
-        user.currentProfile?.addBook(bookObj: Book.generate(options: generationOptions))
+        user.currentProfile?.currentBookIndex = user.currentProfile!.addBook(bookObj: Book.generate(options: generationOptions)) ?? -1
         page = .library
     }
 }
@@ -355,9 +355,13 @@ class ChoiceOption: Hashable {
         } label: {
             VStack {
                 Spacer()
-                image
-                    .resizable()
+                HStack {
+                    Spacer()
+                    image
+                        .resizable()
                     .scaledToFit()
+                    Spacer()
+                }
                 Spacer()
                 Text(title)
                     .font(.customHeader(size: 20))
@@ -387,12 +391,16 @@ class ChoiceOption: Hashable {
             ChoiceOption(title: "Dragons", image: Image("DragonsTheme"), type: .theme),
             ChoiceOption(title: "Ninjas", image: Image("NinjasTheme"), type: .theme),
             ChoiceOption(title: "Cars", image: Image("CarsTheme"), type: .theme),
+            ChoiceOption(title: "Aeroplanes", image: Image("AeroplaneTheme"), type: .theme),
+            ChoiceOption(title: "Dinosaurs", image: Image("DinosaurTheme"), type: .theme),
             
             // settings
             ChoiceOption(title: "Forest", image: Image("ForestSetting"), type: .setting),
             ChoiceOption(title: "Beach", image: Image("BeachSetting"), type: .setting),
             ChoiceOption(title: "Castle", image: Image("CastleSetting"), type: .setting),
             ChoiceOption(title: "School", image: Image("SchoolSetting"), type: .setting),
+            ChoiceOption(title: "Submarine", image: Image("SubmarineSetting"), type: .setting),
+            ChoiceOption(title: "Haunted House", image: Image("HauntedHouseSetting"), type: .setting),
             
             // characters
             ChoiceOption(title: "A Knight", image: Image("KnightCharacter"), type: .character),
@@ -439,8 +447,13 @@ extension Array where Element : Equatable {
             if indexes.isEmpty {
                 indexes = indices.shuffled()
             }
-            chosen.append(self[indexes.popLast()!])
+            var i = 1
+            while chosen.contains(where: { $0 == self[indexes[indexes.endIndex - i]] }) {
+                i += 1
+            }
+            chosen.append(self[indexes.remove(at: indexes.endIndex - i)])
         }
+        
         return chosen
     }
 }
