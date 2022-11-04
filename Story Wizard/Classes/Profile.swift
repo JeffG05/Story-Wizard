@@ -92,9 +92,11 @@ init(name: String, profilePicture: Image? = nil, profileColor: Color) {
         }
     }
     
-    func addBook(bookObj: Book) -> Void {
+    func addBook(bookObj: Book) -> Int? {
         library.append(bookObj)
         libraryRender.append(bookObj)
+        sort_library()
+        return libraryRender.firstIndex(of: bookObj)
     }
     func removeBook(id: UUID) {
         for i in 0..<library.count {

@@ -109,7 +109,7 @@ struct CreateStoryPage: View {
             characterName: characterName.isEmpty ? nil : characterName,
             friendName: friendName.isEmpty ? nil : friendName
         )
-        user.currentProfile?.addBook(bookObj: Book.generate(options: generationOptions))
+        user.currentProfile?.currentBookIndex = user.currentProfile!.addBook(bookObj: Book.generate(options: generationOptions)) ?? -1
         page = .library
     }
 }
