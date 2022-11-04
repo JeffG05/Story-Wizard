@@ -355,9 +355,13 @@ class ChoiceOption: Hashable {
         } label: {
             VStack {
                 Spacer()
-                image
-                    .resizable()
+                HStack {
+                    Spacer()
+                    image
+                        .resizable()
                     .scaledToFit()
+                    Spacer()
+                }
                 Spacer()
                 Text(title)
                     .font(.customHeader(size: 20))
@@ -443,8 +447,13 @@ extension Array where Element : Equatable {
             if indexes.isEmpty {
                 indexes = indices.shuffled()
             }
-            chosen.append(self[indexes.popLast()!])
+            var i = 1
+            while chosen.contains(where: { $0 == self[indexes[indexes.endIndex - i]] }) {
+                i += 1
+            }
+            chosen.append(self[indexes.remove(at: indexes.endIndex - i)])
         }
+        
         return chosen
     }
 }
