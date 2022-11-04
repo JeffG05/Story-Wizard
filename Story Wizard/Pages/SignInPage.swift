@@ -177,7 +177,7 @@ struct SignInButton: View {
             HStack {
                 Text(text)
             }
-            .frame(width: proxy.size.width / 2)
+            .frame(width: proxy.size.width * 0.66)
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 12)

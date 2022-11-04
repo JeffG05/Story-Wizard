@@ -36,12 +36,12 @@ struct SettingsOverlay: View {
                      .aspectRatio(CGSize(width: g.size.width, height: g.size.height * 0.8),contentMode: .fit)
                      .cornerRadius(10, corners: [.topRight, .bottomRight])
                      .offset(CGSize(width: 0, height: g.size.height * 0.1))
-                     .frame(width: g.size.width, height: g.size.height * 0.8)
-                     
-                 BackgroundStarsView()
-                     .frame(width: g.size.width, height: g.size.height * 0.8)
-                     .cornerRadius(10, corners: [.topRight, .bottomRight])
-                     .offset(CGSize(width: 0, height: g.size.height * 0.1))
+                     .overlay() {
+                         BackgroundStarsView()
+                             .frame(width: g.size.width, height: g.size.height * 0.8)
+                             .cornerRadius(10, corners: [.topRight, .bottomRight])
+                             .offset(CGSize(width: 0, height: g.size.height * 0.1))
+                     }
                  SettingsData(showSettings: $showSettings, proxy: proxy)
                      .offset(CGSize(width: 0, height: g.size.height * 0.1))
                      
@@ -63,7 +63,15 @@ struct SettingsData: View {
     var body: some View {
         GeometryReader {g in
             VStack(alignment: .center) {
-                HStack {
+                HStack(alignment: .center){
+                    profile.profileCircle(size: g.size.width / 5)
+                    Spacer()
+                    
+                    Text("\(profile.name)")
+                        .font(Font.customHeader(size:30))
+                        //.foregroundColor(Color.mainYellow)
+                    Spacer()
+                    
                     Button(action: {
                         withAnimation(.easeIn(duration: 0.25)) {
                             showSettings = false
@@ -72,36 +80,36 @@ struct SettingsData: View {
                         Image(systemName: "x.square")
                             .resizable()
                             .frame(width: 30, height: 30)
+        
                     })
-                    
-                    profile.profileCircle(size: g.size.width / 5)
-                    HeaderView(text:"\(profile.name)'s Settings")
                 }
-                .foregroundColor(.black)
+                .foregroundColor(.mainYellow)
                 
                 VStack {
                     HStack {
                         Text("Reading Age (Years)")
+                        Spacer()
                             
                         Button("-", action:{
                             profile.decrementReadingAge()
-                        })
+                        })/*
+                        .background(
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(Color.gray)
+                        )
+                           */
+                        .padding()
                         Text("\(profile.readingAge)")
                         Button("+", action:{
                             profile.incrementReadingAge()
                         })
-
-                        Spacer()
-                    }.font(Font.customHeader(size:20))
+                        .padding()
+                    }.font(Font.customHeader(size:25))
                     
                     VStack {
                         HStack {
                             Text("Text Size:")
-                                .padding()
-                                .font(Font.customHeader(size:20))
-                            Spacer()
-                        }
-                        HStack {
+                                .font(Font.customHeader(size:25))
                             ForEach(0..<fontSizeOptions.count, id: \.self) {optionIndex in
                                 Button(action: {
                                     profile.textSize = fontSizeOptions[optionIndex].fontValue
