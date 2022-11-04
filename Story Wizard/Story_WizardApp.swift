@@ -12,6 +12,7 @@ struct Story_WizardApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView()
+                .preferredColorScheme(.light)
         }
     }
 }
