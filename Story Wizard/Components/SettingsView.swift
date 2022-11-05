@@ -58,6 +58,8 @@ struct SettingsOverlay: View {
 struct SettingsData: View {
     @Binding var showSettings: Bool
     @EnvironmentObject var profile: Profile
+    @State private var dyslexicOn = false
+    
     let fontSizeOptions: [FontSizeOption] = [FontSizeOption(label: "Aa", fontValue: .small, size: 15),FontSizeOption(label: "Aa", fontValue: .medium, size: 25),FontSizeOption(label: "Aa", fontValue: .large, size: 45)]
     var proxy: GeometryProxy // have to define proxy for user circle
     var body: some View {
@@ -92,8 +94,7 @@ struct SettingsData: View {
                             
                         Button("-", action:{
                             profile.decrementReadingAge()
-                        })
-                        .disabled(profile.readingAge <= 3)/*
+                        })/*
                         .background(
                             RoundedRectangle(cornerRadius: 4)
                                 .fill(Color.gray)
@@ -104,7 +105,6 @@ struct SettingsData: View {
                         Button("+", action:{
                             profile.incrementReadingAge()
                         })
-                        .disabled(profile.readingAge >= 11)
                         .padding()
                     }.font(Font.customHeader(size:25))
                     
@@ -130,14 +130,23 @@ struct SettingsData: View {
                                 })
                             }
                         }
+                        
+                        HStack (alignment: .center) {
+                            Toggle("Dyslexic Mode", isOn: $dyslexicOn)
+                                .font(Font.customHeader(size:25))
                             
-
-                        Spacer()
+                            if dyslexicOn {
+                                Text("On")
+                            }
+                                    
+                                
+                        }
+                        
+                        
                     }
                 }
                 Spacer()
-                
-                
+            
             }
             .padding()
             .foregroundColor(.mainYellow)

@@ -27,6 +27,8 @@ struct SignInPage: View {
     var users: [User]
     @Binding var currentUserIndex: Int
     
+    @State var showPassword = false
+    
     var body: some View {
         ZStack {
             // Background color
@@ -73,20 +75,40 @@ struct SignInPage: View {
                         .cornerRadius(5.0)
                         .padding(.bottom, 20)
                     
-                    SecureField("Password", text: $password)
-                        .textContentType(.password)
-                        .submitLabel(.return)
-                        .focused($focusedField, equals: .password)
-                        .padding()
-                        .frame(width: proxy.size.width / 1.2)
-                        .background(Color.starBlue)
-                        .cornerRadius(5.0)
-                        .padding(.bottom, 20)
-                        .onChange(of: $focusedField.wrappedValue) { _ in
-                            if focusedField == .password {
-                                password = ""
-                            }
+                    if showPassword{
+                        TextField("Password", text: $password)
+                            .textContentType(.password)
+                            .submitLabel(.return)
+                            .focused($focusedField, equals: .password)
+                            .padding()
+                            .frame(width: proxy.size.width / 1.2)
+                            .background(Color.starBlue)
+                            .cornerRadius(5.0)
+                            .padding(.bottom, 20)
+                            .onChange(of: $focusedField.wrappedValue) { _ in
+                                if focusedField == .password {
+                                    password = ""
+                                }
                         }
+                        
+                    } else {
+                        SecureField("Password", text: $password)
+                            .textContentType(.password)
+                            .submitLabel(.return)
+                            .focused($focusedField, equals: .password)
+                            .padding()
+                            .frame(width: proxy.size.width / 1.2)
+                            .background(Color.starBlue)
+                            .cornerRadius(5.0)
+                            .padding(.bottom, 20)
+                            .onChange(of: $focusedField.wrappedValue) { _ in
+                                if focusedField == .password {
+                                    password = ""
+                                }
+                        }
+            
+                    }
+                    
                 }
                 .onSubmit {
                     switch focusedField {
@@ -95,7 +117,11 @@ struct SignInPage: View {
                     default:
                         focusedField = nil
                     }
+                    
                 }
+                
+                showPasswordButton
+                .offset(x:UIScreen.main.bounds.width/3.2,y:0)
                 
                 SignInButton(proxy: proxy, text:"Sign In"){
                     focusedField = nil
@@ -163,6 +189,15 @@ struct SignInPage: View {
         page = .walkthrough
     }
     
+    private var showPasswordButton: some View {
+        Button(action: {
+            self.showPassword.toggle()
+        }, label: {
+            self.showPassword ?
+                Image(systemName: "eye.slash.fill").foregroundColor(.mainYellow) :
+                Image(systemName: "eye.fill").foregroundColor(.mainYellow)
+        })
+    }
 }
 
 struct SignInButton: View {
@@ -177,7 +212,7 @@ struct SignInButton: View {
             HStack {
                 Text(text)
             }
-            .frame(width: proxy.size.width * 0.66)
+            .frame(width: proxy.size.width / 2)
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 12)
@@ -210,7 +245,6 @@ struct RegisteredYNButton: View {
     }
     
 }
-
 
 struct SignInPage_Previews: PreviewProvider {
     static var previews: some View {

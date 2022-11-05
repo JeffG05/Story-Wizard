@@ -10,7 +10,7 @@ import SwiftUI
 struct SignUpPage: View {
     
     enum FocusField {
-        case name, email, password, age
+        case name, email, password, readingAge
     }
     
     @Binding var page: Page
@@ -19,12 +19,14 @@ struct SignUpPage: View {
     @State var name: String = ""
     @State var email: String = ""
     @State var password: String = ""
-    @State var readingAge: Int? = nil
+    @State var readingAge: String = ""
     @FocusState var focusedField: FocusField?
     
     @State var isSignUpValid: Bool = false
     @State var showInvalidDetailsAlert: Bool = false
+    @State var showPassword: Bool = false
     @Binding var userList: [User]
+    
     
     var body: some View {
         ZStack {
@@ -81,37 +83,66 @@ struct SignUpPage: View {
                         .background(Color.starBlue)
                         .cornerRadius(5.0)
                         .padding(.bottom, 20)
-                    SecureField("Password", text: $password)
-                        .submitLabel(.next)
-                        .focused($focusedField, equals: .password)
-                        .padding()
-                        .frame(width: proxy.size.width / 1.2)
-                        .background(Color.starBlue)
-                        .cornerRadius(5.0)
-                        .padding(.bottom, 20)
-                        .onChange(of: $focusedField.wrappedValue) { _ in
-                            if focusedField == .password {
-                                password = ""
-                            }
-                        }
-                    TextField("Reading Age", value: $readingAge, formatter: NumberFormatter())
+                    
+                    TextField("Reading Age", text: $readingAge)
                         .keyboardType(.numberPad)
-                        .submitLabel(.return)
-                        .focused($focusedField, equals: .age)
+                        .submitLabel(.next)
+                        .focused($focusedField, equals: .readingAge)
                         .padding()
                         .frame(width: proxy.size.width / 1.2)
                         .background(Color.starBlue)
                         .cornerRadius(5.0)
                         .padding(.bottom, 20)
+                        .onChange(of: readingAge) { _ in
+                            readingAge = String(readingAge.prefix(while: { $0.isNumber }))
+                        }
+                    
+    
+                    if showPassword{
+                        TextField("Password", text: $password)
+                            .textContentType(.password)
+                            .submitLabel(.return)
+                            .focused($focusedField, equals: .password)
+                            .padding()
+                            .frame(width: proxy.size.width / 1.2)
+                            .background(Color.starBlue)
+                            .cornerRadius(5.0)
+                            .padding(.bottom, 20)
+                            .onChange(of: $focusedField.wrappedValue) { _ in
+                                if focusedField == .password {
+                                    password = ""
+                                }
+                        }
+                        
+                    } else {
+                        SecureField("Password", text: $password)
+                            .textContentType(.password)
+                            .submitLabel(.return)
+                            .focused($focusedField, equals: .password)
+                            .padding()
+                            .frame(width: proxy.size.width / 1.2)
+                            .background(Color.starBlue)
+                            .cornerRadius(5.0)
+                            .padding(.bottom, 20)
+                            .onChange(of: $focusedField.wrappedValue) { _ in
+                                if focusedField == .password {
+                                    password = ""
+                                }
+                        }
+            
+                    }
+                    
                 }
+                
+                showPasswordButton
+                .offset(x:UIScreen.main.bounds.width/3.2,y:0)
+                    
                 .onSubmit {
                     switch focusedField {
                     case .name:
                         focusedField = .email
                     case .email:
-                        focusedField = .password
-                    case .password:
-                        focusedField = .age
+                        focusedField = .readingAge
                     default:
                         focusedField = nil
                     }
@@ -163,6 +194,17 @@ struct SignUpPage: View {
     func goToSignUp() {
         page = .chooseUser
     }
+
+    private var showPasswordButton: some View {
+        Button(action: {
+            self.showPassword.toggle()
+        }, label: {
+            self.showPassword ?
+                Image(systemName: "eye.slash.fill").foregroundColor(.mainYellow) :
+                Image(systemName: "eye.fill").foregroundColor(.mainYellow)
+        })
+    }
+
     
 }
 
