@@ -31,6 +31,7 @@ class Profile: Hashable, Identifiable, ObservableObject {
     @Published var currentBookIndex: Int
     @Published var readingAge: Int
     @Published var textSize: TextSize?
+    @Published var dyslexicMode: Bool
     
 init(name: String, profilePicture: Image? = nil, profileColor: Color) {
         self.id = UUID()
@@ -43,6 +44,7 @@ init(name: String, profilePicture: Image? = nil, profileColor: Color) {
         self.profileColor = profileColor
         self.readingAge = 10
         self.textSize = .medium
+        self.dyslexicMode = false
         
     }
     

@@ -19,6 +19,7 @@ struct SettingsView: View {
                     .padding()
                     
             }
+            .zIndex(100)
     }
 }
 
@@ -58,7 +59,6 @@ struct SettingsOverlay: View {
 struct SettingsData: View {
     @Binding var showSettings: Bool
     @EnvironmentObject var profile: Profile
-    @State private var dyslexicOn = false
     
     let fontSizeOptions: [FontSizeOption] = [FontSizeOption(label: "Aa", fontValue: .small, size: 15),FontSizeOption(label: "Aa", fontValue: .medium, size: 25),FontSizeOption(label: "Aa", fontValue: .large, size: 45)]
     var proxy: GeometryProxy // have to define proxy for user circle
@@ -132,10 +132,10 @@ struct SettingsData: View {
                         }
                         
                         HStack (alignment: .center) {
-                            Toggle("Dyslexic Mode", isOn: $dyslexicOn)
+                            Toggle("Dyslexic Mode", isOn: $profile.dyslexicMode)
                                 .font(Font.customHeader(size:25))
                             
-                            if dyslexicOn {
+                            if profile.dyslexicMode {
                                 Text("On")
                             }
                                     

@@ -31,7 +31,13 @@ struct ReadStoryPage: View {
                                .opacity(0.3)
                                
             } else {
-                Color.white
+                if profile.dyslexicMode {
+                    Color.init(red: 255/255, green: 253/255, blue: 208/255)
+                        .ignoresSafeArea()
+                } else {
+                    Color.white
+                        .ignoresSafeArea()
+                }
             }
             GeometryReader {g in
                 ZStack {
@@ -82,7 +88,10 @@ struct ReadStoryPage: View {
                                                 Spacer()
                                                 
                                                 Text(profile.libraryRender[profile.currentBookIndex].pages[index])
-                                                    .font(Font.customHeader(size: profile.convertFontSize()))
+                                                    .font( profile.dyslexicMode ? Font.customBody(size: profile.convertFontSize())
+                                                        .monospaced():
+                                                        Font.customHeader(size: profile.convertFontSize())
+                                                    )
                                                 
                                                     .multilineTextAlignment(.center)
                                                     .padding(15)
