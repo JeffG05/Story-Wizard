@@ -22,8 +22,7 @@ struct BookCoverView: View {
                             .cornerRadius(10, corners: [.topRight, .bottomRight])
                             .offset(CGSize(width: 0, height: g.size.height * 0.1))
                         OutlinedText(text: profile.libraryRender[profile.currentBookIndex].title, width: 1, color: .white)
-                            .fontWeight(.bold)
-                            .font(.largeTitle)
+                            .font(.largeTitle.bold())
                         if profile.libraryRender[profile.currentBookIndex].bookmarked {
                             Image(systemName: "bookmark.fill")
                                 .resizable()

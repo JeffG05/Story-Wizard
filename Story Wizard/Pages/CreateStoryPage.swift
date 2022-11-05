@@ -125,9 +125,9 @@ struct Indicators: View {
                 currentPage -= 1
             } label: {
                 Image(systemName: "chevron.backward")
+                    .font(.system(size: 20, weight: .semibold))
             }
             .foregroundColor(.black)
-            .fontWeight(.semibold)
             .padding(.trailing)
             .disabled(currentPage == 0)
             .opacity(currentPage == 0 ? 0 : 1)
@@ -140,9 +140,9 @@ struct Indicators: View {
                 currentPage += 1
             } label: {
                 Image(systemName: "chevron.forward")
+                    .font(.system(size: 20, weight: .semibold))
             }
             .foregroundColor(.black)
-            .fontWeight(.semibold)
             .padding(.leading)
             .disabled(true)
             .opacity(0)

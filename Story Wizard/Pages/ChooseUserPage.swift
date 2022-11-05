@@ -96,16 +96,28 @@ struct ChooseUserPage: View {
                 }
             )
         ) {
-            ProfileEditSheet(activeProfile: user.profiles[editingProfileIndex!],
-                             initialName: user.profiles[editingProfileIndex!].name,
-                             initialImage: user.profiles[editingProfileIndex!].profilePicture, profileIndex: editingProfileIndex!, isNewProfile: isEditingNew) {
-                editingProfileIndex = nil
-                isEditingNew = false
-            }
-                .presentationDetents([.fraction(0.75)])
+            if #available(iOS 16.0, *) {
+                ProfileEditSheet(activeProfile: user.profiles[editingProfileIndex!],
+                                 initialName: user.profiles[editingProfileIndex!].name,
+                                 initialImage: user.profiles[editingProfileIndex!].profilePicture, profileIndex: editingProfileIndex!, isNewProfile: isEditingNew) {
+                    editingProfileIndex = nil
+                    isEditingNew = false
+                }
                 .onAppear {
                     editMode = false
                 }
+            } else {
+                // Fallback on earlier versions
+                ProfileEditSheetNoPicture(activeProfile: user.profiles[editingProfileIndex!],
+                                          initialName: user.profiles[editingProfileIndex!].name,
+                                          initialImage: user.profiles[editingProfileIndex!].profilePicture, profileIndex: editingProfileIndex!, isNewProfile: isEditingNew) {
+                    editingProfileIndex = nil
+                    isEditingNew = false
+                }
+                .onAppear {
+                    editMode = false
+                }
+            }
         }
     }
     
@@ -157,6 +169,7 @@ struct ChooseUserPage: View {
     }
 }
 
+@available(iOS 16.0, *)
 struct ProfileEditSheet: View {
     @EnvironmentObject var user: User
     @StateObject var activeProfile: Profile
@@ -209,7 +222,7 @@ struct ProfileEditSheet: View {
                                     .scaledToFit()
                                     .frame(width: g.size.width / 9)
                                     .foregroundColor(.white)
-                                    .fontWeight(.medium)
+                                    .font(.system(size: 20, weight: .medium))
                             }
                             .padding(.bottom, 36)
                         }
@@ -225,7 +238,7 @@ struct ProfileEditSheet: View {
                                         .frame(width: 16, height: 16)
                                         .padding(.all, 12)
                                         .foregroundColor(.black)
-                                        .bold()
+                                        .font(.system(size: 20, weight: .bold))
                                 }
                                 .background(.white)
                                 .clipShape(Circle())
@@ -283,9 +296,6 @@ struct ProfileEditSheet: View {
                 .frame(width: g.size.width, height: g.size.height)
                 .background(Color.mainBlue)
             }
-            .onAppear {
-                
-            }
             .onChange(of: selectedPhoto) { photo in
                 Task {
                     if let data = try? await photo?.loadTransferable(type: Data.self) {
@@ -296,6 +306,138 @@ struct ProfileEditSheet: View {
                         activeProfile.profilePicture = nil
                     }
                 }
+            }
+        } else {
+            GeometryReader { g in
+                
+            }
+            .background(Color.mainBlue)
+        }
+    }
+    
+    func checkValidity() -> Bool {
+        if profile!.wrappedValue.name.isEmpty {
+            return false
+        }
+        
+        if user.profiles.contains(where: { p in
+            return profile!.wrappedValue.name == p.name && profile!.wrappedValue.id != p.id
+        }) {
+            return false
+        }
+        
+        return true
+    }
+    
+    func updateValidity() {
+        isValid = checkValidity()
+    }
+    
+}
+
+struct ProfileEditSheetNoPicture: View {
+    @EnvironmentObject var user: User
+    @StateObject var activeProfile: Profile
+    @State var initialProfile: Profile? = nil
+    @State var isValid: Bool = true
+    
+    var initialName: String
+    var initialImage: Image?
+    
+    var profileIndex: Int
+    var isNewProfile: Bool
+    var onDismiss: () -> Void
+    
+    var profile: Binding<Profile>? {
+        if !user.profiles.indices.contains(profileIndex) {
+            return nil
+        }
+        return $user.profiles[profileIndex]
+    }
+    
+    var body: some View {
+        if profile != nil {
+            GeometryReader { g in
+                VStack {
+                    HeaderView(
+                        text: isNewProfile ? "Add Profile" : "Edit Profile"
+                    )
+                    .foregroundColor(.white)
+                    .padding(.bottom)
+                    
+                    ZStack(alignment: .topTrailing) {
+                        activeProfile
+                            .profileCircle(size: g.size.width / 3)
+                            .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
+                            .padding(.bottom, 36)
+                        
+                        if profile!.wrappedValue.profilePicture != nil {
+                            Button {
+                                activeProfile.profilePicture = nil
+                            } label: {
+                                ZStack {
+                                    Image(systemName: "xmark")
+                                        .resizable()
+                                        .frame(width: 16, height: 16)
+                                        .padding(.all, 12)
+                                        .foregroundColor(.black)
+                                        .font(.system(size: 20, weight: .bold))
+                                }
+                                .background(.white)
+                                .clipShape(Circle())
+                            }
+                        }
+                    }
+                    TextField("Name", text: $activeProfile.name)
+                        .padding()
+                        .frame(width: g.size.width / 1.2)
+                        .background(Color.lighterBlue)
+                        .cornerRadius(5.0)
+                        .multilineTextAlignment(.center)
+                        .font(.customBody())
+                        .onChange(of: activeProfile.name) { _ in
+                            updateValidity()
+                        }
+                    Spacer()
+                    HStack {
+                        Button {
+                            if isNewProfile {
+                                user.profiles.remove(at: profileIndex)
+                            } else {
+                                activeProfile.name = initialName
+                                if let newImage = initialImage {
+                                    activeProfile.profilePicture = newImage
+                                } else {
+                                    activeProfile.profilePicture = nil
+                                }
+                                
+                            }
+                            onDismiss()
+                        } label: {
+                            Image(systemName: "xmark.circle")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 42)
+                                .foregroundColor(.white)
+                        }
+                        Spacer()
+                        Button {
+                            onDismiss()
+                        } label: {
+                            Image(systemName: "checkmark.circle")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 42)
+                                .foregroundColor(.white)
+                        }
+                        .disabled(!isValid)
+                        .opacity(isValid ? 1 : 0.5)
+                    }
+                    .frame(width: g.size.width / 1.2)
+                }
+                .padding(.vertical, 16)
+                .frame(width: g.size.width, height: g.size.height)
+                .background(Color.mainBlue)
             }
         } else {
             GeometryReader { g in
@@ -359,7 +501,7 @@ struct ProfileOptionView: View {
                                     .scaledToFit()
                                     .frame(width: proxy.size.width / 9)
                                     .foregroundColor(.white)
-                                    .fontWeight(.medium)
+                                    .font(.system(size: 20, weight: .medium))
                             }
                         }
                         Text(profile.name.isEmpty ? "Placeholder" : profile.name)
@@ -381,7 +523,7 @@ struct ProfileOptionView: View {
                                 .frame(width: 14, height: 14)
                                 .padding(.all, 12)
                                 .foregroundColor(.black)
-                                .bold()
+                                .font(.system(size: 20, weight: .bold))
                         }
                         .background(.white)
                         .clipShape(Circle())
@@ -422,7 +564,7 @@ struct AddProfileView: View {
                         .scaledToFit()
                         .frame(width: proxy.size.width / 9)
                         .foregroundColor(Color.init(white: 0.4))
-                        .fontWeight(.medium)
+                        .font(.system(size: 20, weight: .medium))
                 }
                 Text("Add Profile")
                     .font(Font.customBody())
@@ -445,10 +587,14 @@ struct EditButton: View {
             HStack {
                 if editMode {
                     Image(systemName: "xmark")
+                        .font(.system(size: 20, weight: .medium))
                     Text("Cancel")
+                        .fontWeight(.medium)
                 } else {
                     Image(systemName: "pencil")
+                        .font(.system(size: 20, weight: .medium))
                     Text("Edit")
+                        .fontWeight(.medium)
                 }
             }
             .frame(width: proxy.size.width / 2)
@@ -458,7 +604,6 @@ struct EditButton: View {
                     .fill(Color.init(white: 0.95))
             )
             .foregroundColor(Color.black)
-            .fontWeight(.medium)
         }
     }
     

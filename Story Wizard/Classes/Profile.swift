@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 public enum FilterType: Int {
     case alphabetical  // section1 is explicitly 0. You can start at any value.
@@ -48,14 +49,14 @@ init(name: String, profilePicture: Image? = nil, profileColor: Color) {
         
     }
     
-    @MainActor
-    static func defaultProfilePicture(color: Color) -> Image {
+    static func defaultProfilePicture(color: Color) -> some View {
         ZStack {
             Image("Headshot")
+                .resizable()
+                .aspectRatio(1, contentMode: .fit)
                 .opacity(0.3)
         }
         .background(color)
-        .generateSnapshot()
     }
     
     static var profileColorOptions: [Color] {
@@ -69,14 +70,19 @@ init(name: String, profilePicture: Image? = nil, profileColor: Color) {
             .mint,
         ]
     }
-    @MainActor
+    
     func profileCircle(size: CGFloat = 42) -> some View {
-        
-        (profilePicture ?? Profile.defaultProfilePicture(color: profileColor))
-            .resizable()
-            .scaledToFill()
-            .frame(width: size, height: size)
-            .clipShape(Circle())
+        ZStack {
+            if profilePicture != nil {
+                profilePicture!
+                    .resizable()
+                    .scaledToFill()
+            } else {
+                Profile.defaultProfilePicture(color: profileColor)
+            }
+        }
+        .frame(width: size, height: size)
+        .clipShape(Circle())
     }
     
     func bookmark(id: UUID) {
@@ -178,20 +184,37 @@ init(name: String, profilePicture: Image? = nil, profileColor: Color) {
     }
 }
 
-extension View {
-    @MainActor
-    func generateSnapshot() -> Image {
-        let renderer = ImageRenderer(content: self)
-        return Image(uiImage: renderer.uiImage ?? UIImage())
+#if os(iOS)
+public extension View {
+    
+    func snapshot(origin: CGPoint = .zero, size: CGSize) -> Image {
+        let window = UIWindow(frame: CGRect(origin: origin, size: size))
+        let hosting = UIHostingController(rootView: self)
+        hosting.view.frame = window.frame
+        window.addSubview(hosting.view)
+        window.makeKeyAndVisible()
+        return Image(uiImage: hosting.view.renderedImage)
     }
 }
+
+private extension UIView {
+    
+    var renderedImage: UIImage {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0.0)
+        let context = UIGraphicsGetCurrentContext()!
+        layer.render(in: context)
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
+}
+#endif
 
 struct ProfileCircle_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             ForEach(Profile.profileColorOptions, id: \.self) { color in
                 Profile.defaultProfilePicture(color: color)
-                    .resizable()
                     .frame(width: 50, height: 50)
             }
         }

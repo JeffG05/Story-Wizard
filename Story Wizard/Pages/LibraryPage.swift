@@ -196,10 +196,9 @@ struct BookOptionView: View {
                         .cornerRadius(10, corners: [.topRight, .bottomRight])
                     
                     OutlinedText(text: book.title, width: 1.5, color: .black)
-                        .font(Font.customHeader(size: 20))
+                        .font(Font.customHeader(size: 20).bold())
                         .frame(width: bookWidth)
                         .foregroundColor(.white)
-                        .bold()
                     
                     if thisIndex < profile.libraryRender.count && profile.libraryRender[thisIndex].bookmarked {
                         Image(systemName: "bookmark.fill")

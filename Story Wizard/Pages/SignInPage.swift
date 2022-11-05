@@ -211,6 +211,7 @@ struct SignInButton: View {
         } label: {
             HStack {
                 Text(text)
+                    .fontWeight(.medium)
             }
             .frame(width: proxy.size.width / 2)
             .padding(.vertical, 12)
@@ -219,7 +220,6 @@ struct SignInButton: View {
                     .fill(Color.mainYellow)
             )
             .foregroundColor(Color.black)
-            .fontWeight(.medium)
         }
     }
     
@@ -236,11 +236,11 @@ struct RegisteredYNButton: View {
         } label: {
             HStack {
                 Text(text)
+                    .fontWeight(.medium)
             }
             .frame(width: proxy.size.width / 1.6)
             .padding(.vertical, 12)
             .foregroundColor(Color.mainYellow)
-            .fontWeight(.medium)
         }
     }
     
