@@ -41,7 +41,7 @@ struct ChooseUserPage: View {
                 HeaderView(
                     text: "Who's Reading?",
                     textSize: 40,
-                    rightIcon: "gear",
+                    rightIcon: Image("gear"),
                     rightAction: goToSettings
                 )
                 .foregroundColor(.mainYellow)
@@ -585,7 +585,7 @@ struct EditButton: View {
                     Image(systemName: "xmark")
                         .font(.system(size: 20, weight: .medium))
                     Text("Cancel")
-                        .fontWeight(.medium)
+                        .font(.customHeader(size: 20).weight(.medium))
                 } else {
                     Image(systemName: "pencil")
                         .font(.system(size: 20, weight: .medium))

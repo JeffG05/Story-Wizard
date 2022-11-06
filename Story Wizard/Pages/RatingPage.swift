@@ -34,22 +34,23 @@ struct RatingPage: View {
                             .foregroundColor(.mainYellow)
                             .multilineTextAlignment(.center)
                         Spacer()
-                        HStack {
+                        HStack(alignment: .bottom) {
                             Spacer()
                             Button(action: {
                                 currentRating = .LIKE
                                 withAnimation(.linear(duration: 0.5)) {
                                     showReason = false
                                 }                        }, label: {
-                                    VStack {
-                                        Image(currentRating == .LIKE ? "happyFace.fill" : "happyFace")
+                                    VStack(spacing: 8) {
+                                        Image("happyFace")
                                             .resizable()
                                             .frame(width: 60, height: 60)
                                         
                                         Text("Like")
-                                            .font(Font.customHeader(size: 15))
+                                            .font(Font.customHeader(size: 20))
                                             .foregroundColor(.mainYellow)
                                     }
+                                    .saturation(currentRating == .DISLIKE ? 0 : 1)
                                 })
                             Spacer()
                             Button(action: {
@@ -58,8 +59,8 @@ struct RatingPage: View {
                                     showReason = true
                                 }
                             }, label: {
-                                VStack {
-                                    Image(currentRating == .DISLIKE ? "sadFace.fill" : "sadFace")
+                                VStack(spacing: 8) {
+                                    Image("sadFace")
                                         .resizable()
                                         .frame(width: 60, height: 60)
             
@@ -67,6 +68,7 @@ struct RatingPage: View {
                                         .font(Font.customHeader(size: 20))
                                         .foregroundColor(.mainYellow)
                                 }
+                                .saturation(currentRating == .LIKE ? 0 : 1)
                             })
                             Spacer()
                             
@@ -82,7 +84,9 @@ struct RatingPage: View {
                             }
                             Spacer()
                         }
-                        .padding()
+                        .padding(.top)
+                        .padding(.horizontal)
+                        Spacer()
                         HStack {
                             if currentRating != .NONE {
                                 Button(action: {
@@ -149,9 +153,10 @@ struct FeedbackButton : View {
                 VStack {
                     Text(text)
                         .font(Font.customHeader(size: 15))
+                        .multilineTextAlignment(.center)
                 }
-                .frame(width: proxy.size.width/3.2, height: proxy.size.height/15)
-                .padding()
+                .frame(width: proxy.size.width/3.2, height: 85)
+                .padding(.horizontal)
             }.overlay(
                 RoundedRectangle(cornerRadius: 15).stroke(Color(.black), lineWidth: 2))
                     .background() {

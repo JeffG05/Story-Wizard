@@ -24,8 +24,8 @@ struct LibraryPage: View {
             VStack {
                 HeaderView(
                     text: "\(profile.name)'s Library",
-                    leftIcon: "arrow.backward",
-                    rightIcon: "gear",
+                    leftIcon: Image("back"),
+                    rightIcon: Image("gear"),
                     leftAction: goToHome,
                     rightAction: goToSettings
                 )

@@ -89,6 +89,7 @@ class TestData {
         let profile = Profile(name: "Profile 9", profileColor: Profile.profileColorOptions[0])
         let _ = profile.addBook(bookObj: fakeGeneratedBook1)
         profile.currentBookIndex = 0
+        profile.rateBook(id: fakeGeneratedBook1.id, rating: .LIKE)
         return profile
     }
     static var testProfile2: Profile {

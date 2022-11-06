@@ -26,7 +26,7 @@ struct SettingsPage: View {
             VStack {
                 HeaderView(
                     text: "Settings",
-                    leftIcon: "arrow.left",
+                    leftIcon: Image("back"),
                     leftAction: goBack
                 )
                 
@@ -42,7 +42,6 @@ struct SettingsPage: View {
                         .frame(width: proxy.size.width / 1.5)
                         .background(Color.starBlue)
                         .cornerRadius(5.0)
-                        .padding(.bottom, 20)
                     Button("Submit", action: {
                         let trimmed = word.trimmingCharacters(in: .whitespacesAndNewlines) // remove whitespace from name
                         if (trimmed.count != 0) {
@@ -53,6 +52,7 @@ struct SettingsPage: View {
                     })
                     .foregroundColor(Color.mainYellow)
                 }
+                .padding(.bottom, 20)
                 
                 Text("Banned Themes")
                     .font(.headline)
@@ -66,7 +66,6 @@ struct SettingsPage: View {
                         .frame(width: proxy.size.width / 1.5)
                         .background(Color.starBlue)
                         .cornerRadius(5.0)
-                        .padding(.bottom, 20)
                     Button("Submit", action: {
                         let trimmed = theme.trimmingCharacters(in: .whitespacesAndNewlines) // remove whitespace from theme
                         if (trimmed.count != 0) {
@@ -76,6 +75,7 @@ struct SettingsPage: View {
                     })
                     .foregroundColor(Color.mainYellow)
                 }
+                .padding(.bottom, 20)
                 
                 SignInButton(proxy: proxy, text:"Change/Set Pin"){
                     updatePin()

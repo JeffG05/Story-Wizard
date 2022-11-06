@@ -34,7 +34,7 @@ struct BackgroundBubbleView: View {
             if bubblePosition == .center {
                 // Top Bubble
                 let topWidth = size.width * 1.5
-                let topHeight = size.height / 2
+                let topHeight = size.height / 2.3
                 drawBorderedEllipse(
                     x: -size.width/4,
                     y: -topHeight/2,
@@ -46,7 +46,7 @@ struct BackgroundBubbleView: View {
                 
                 // Bottom Bubble
                 let bottomWidth = size.width * 1.5
-                let bottomHeight = size.height / 1.5
+                let bottomHeight = size.height / 1.45
                 drawBorderedEllipse(
                     x: -size.width/4,
                     y: bottomHeight,

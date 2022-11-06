@@ -130,7 +130,7 @@ struct WalkthroughView: View {
                     skipAction()
                 } label: {
                     Text("Skip")
-                        .font(.customHeader(size: 14))
+                        .font(.customHeader(size: 18))
                         .foregroundColor(.mainYellow)
                         .bold()
                         .padding(.vertical, 2)

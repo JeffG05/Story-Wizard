@@ -21,7 +21,7 @@ struct HomePage: View {
                 HeaderView(
                     text: "Welcome\n\(user.currentProfile!.name)!",
                     showProfile: true,
-                    rightIcon: "gear",
+                    rightIcon: Image("gear"),
                     profileAction: goToUserSwitcher,
                     rightAction: goToSettings
                 )

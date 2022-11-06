@@ -12,11 +12,12 @@ struct HeaderView: View {
     
     var text: String?
     var iconSize: CGFloat = 32
+    var iconColor: Color = .black
     var textSize: CGFloat = 32
     var showProfile: Bool = false
-    var leftIcon: String?
-    var rightIcon: String?
-    var middleIcon: String?
+    var leftIcon: Image?
+    var rightIcon: Image?
+    var middleIcon: Image?
     var middleDisabled: Bool = false
     var profileAction: (() -> Void)?
     var leftAction: (() -> Void)?
@@ -36,7 +37,7 @@ struct HeaderView: View {
                             .multilineTextAlignment(.center)
                     }
                     if let icon = middleIcon {
-                        IconButton(icon: icon, size: iconSize) {
+                        IconButton(icon: icon, size: iconSize, color: iconColor) {
                             middleAction?()
                         }
                         .disabled(middleDisabled)
@@ -54,14 +55,14 @@ struct HeaderView: View {
                     }
                     
                 }
-                if leftIcon != nil {
-                    IconButton(icon: leftIcon!, size: iconSize) {
+                if let icon = leftIcon {
+                    IconButton(icon: icon, size: iconSize, color: iconColor) {
                         leftAction?()
                     }
                 }
                 Spacer()
-                if rightIcon != nil {
-                    IconButton(icon: rightIcon!, size: iconSize) {
+                if let icon = rightIcon {
+                    IconButton(icon: icon, size: iconSize, color: iconColor) {
                         rightAction?()
                     }
                 }
@@ -75,7 +76,7 @@ struct HeaderView: View {
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            HeaderView(rightIcon: "arrow.right",middleIcon: "speaker.wave.2")
+            HeaderView(rightIcon: Image(uiImage: UIImage(named: "back")!.withHorizontallyFlippedOrientation()), middleIcon: Image(systemName: "speaker.wave.2"))
             Spacer()
         }
         .environmentObject(TestData.testUser)

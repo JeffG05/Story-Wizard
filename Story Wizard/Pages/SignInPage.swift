@@ -57,8 +57,9 @@ struct SignInPage: View {
             VStack {
                 HeaderView(
                     text: "Sign In",
+                    iconColor: .mainYellow,
                     textSize: 40,
-                    rightIcon: "questionmark.circle",
+                    rightIcon: Image(systemName: "questionmark.circle"),
                     rightAction: goToWalkthrough
                 )
                 .padding(.bottom, 30)

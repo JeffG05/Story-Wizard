@@ -55,14 +55,14 @@ struct PreviewData: View {
     var body: some View {
         if profile.currentBookIndex != -1 {
             GeometryReader {g in
-                VStack(alignment: .center) {
+                VStack(alignment: .center, spacing: 0) {
                     HStack {
                         Button(action: {
                             withAnimation(.easeOut(duration: 0.25)) {
                                 profile.currentBookIndex = -1
                             }
                         }, label: {
-                            Image(systemName: "x.square")
+                            Image("exit")
                                 .resizable()
                                 .frame(width: 40, height: 40)
                                 .foregroundColor(.black)
@@ -94,23 +94,27 @@ struct PreviewData: View {
                     }
                     
                     Spacer()
-                    HStack {
-                        if profile.libraryRender[profile.currentBookIndex].rating == .LIKE {
-                            Image("happyFace")
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                            
-                        }
-                        if profile.libraryRender[profile.currentBookIndex].rating == .DISLIKE {
-                            Image("sadFace")
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                        }
-                        Spacer()
-                    }
                     Text(profile.libraryRender[profile.currentBookIndex].blurb)
                         .font(Font.customHeader(size: 20))
                         .multilineTextAlignment(.center)
+                    if profile.libraryRender[profile.currentBookIndex].rating != .NONE {
+                        HStack(spacing: 20) {
+                            Text("Rated:")
+                                .font(.customHeader(size: 20))
+                            if profile.libraryRender[profile.currentBookIndex].rating == .LIKE {
+                                Image("happyFace")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                
+                            }
+                            if profile.libraryRender[profile.currentBookIndex].rating == .DISLIKE {
+                                Image("sadFace")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                            }
+                        }
+                        .padding(.top, 32)
+                    }
                     Spacer()
                     HStack {
                         Spacer()

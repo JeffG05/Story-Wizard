@@ -30,7 +30,7 @@ struct CreateStoryPage: View {
         currentSlide == 1 ? "Where will your story be set?" :
         currentSlide == 2 ? "Who is your main character?" :
         currentSlide == 3 ? "Who is your main character's friend?" :
-        "Add your final touches!"
+        "Add your\nfinal touches!"
         
         
         ZStack(alignment: .leading) {
@@ -41,7 +41,7 @@ struct CreateStoryPage: View {
                 HeaderView(
                     text: title,
                     textSize: 25,
-                    leftIcon: "x.square",
+                    leftIcon: Image("exit"),
                     leftAction: goBack
                 )
                 .frame(width: proxy.size.width)
@@ -220,7 +220,6 @@ struct ChoiceSelectionPage: View {
                     .cornerRadius(100, corners: .allCorners)
                 }
             }
-            .frame(width: proxy.size.width)
             .padding(.vertical)
             .frame(width: proxy.size.width)
         }
@@ -248,8 +247,10 @@ struct FinalTouchesPage: View {
             TextInput(title: "Main Character Name", text: $characterName, width: proxy.size.width * 3/4)
             
             TextInput(title: "Their Friend's Name", text: $friendName, width: proxy.size.width * 3/4)
-            
+                        
             VStack(alignment: .center) {
+                Spacer()
+                
                 Button {
                     action()
                 } label: {
@@ -265,8 +266,8 @@ struct FinalTouchesPage: View {
             .frame(width: proxy.size.width)
             .padding(.vertical)
         }
-        .padding(.top, proxy.size.height / 25)
-        .offset(y:-50)
+        .padding(.top, proxy.size.height / 24)
+//        .background(Color.red)
     }
     
     struct TextInput: View {

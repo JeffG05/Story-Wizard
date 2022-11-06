@@ -55,9 +55,9 @@ struct ReadStoryPage: View {
                         if currentPage > 0 && currentPage < profile.libraryRender[profile.currentBookIndex].pages.count + 1 {
                             
                             HeaderView(
-                                leftIcon: "x.square",
-                                rightIcon: "gear",
-                                middleIcon: useSpeech ? "speaker.wave.2.fill" : "speaker.wave.2",
+                                leftIcon: Image("exit"),
+                                rightIcon: Image("gear"),
+                                middleIcon: Image(systemName: useSpeech ? "speaker.wave.2.fill" : "speaker.wave.2"),
                                 middleDisabled: true,
                                 leftAction: goBack,
                                 rightAction: settings,
@@ -65,8 +65,8 @@ struct ReadStoryPage: View {
                             )
                         } else {
                             HeaderView(
-                                leftIcon: "x.square",
-                                rightIcon: "gear",
+                                leftIcon: Image("exit"),
+                                rightIcon: Image("gear"),
                                 leftAction: goBack,
                                 rightAction: settings
                             )
@@ -80,31 +80,7 @@ struct ReadStoryPage: View {
                                     Text("Swipe to read")
                                 }.tag(0)
                                 ForEach(0..<profile.libraryRender[profile.currentBookIndex].pages.count, id: \.self) {index in
-                                    VStack {
-                                        Spacer()
-                                        
-                                            VStack {
-                                                
-                                                Spacer()
-                                                
-                                                Text(profile.libraryRender[profile.currentBookIndex].pages[index])
-                                                    .font( profile.dyslexicMode ? Font.customBody(size: profile.convertFontSize())
-                                                        .monospaced():
-                                                        Font.customHeader(size: profile.convertFontSize())
-                                                    )
-                                                
-                                                    .multilineTextAlignment(.center)
-                                                    .padding(15)
-                                                
-                                                
-                                                if profile.libraryRender[profile.currentBookIndex].pageImages[index] == "" {
-                                                    Spacer()
-                                                }
-                                            }
-                                            .frame(width:g.size.width, height: profile.libraryRender[profile.currentBookIndex].pageImages[index] != "" ? CGFloat(g.size.height / 2) : CGFloat(g.size.height))
-                                        
-                                    }.tag(index + 1)
-                                    
+                                    pageView(index: index, proxy: g)
                                 }
                             
                             VStack {
@@ -136,7 +112,8 @@ struct ReadStoryPage: View {
                             }
                         HStack {
                             Spacer()
-                            Text("Page \(currentPage + 1)")
+                            Text("Page \(min(profile.libraryRender[profile.currentBookIndex].pages.count, max(1, currentPage)))")
+                                .opacity(currentPage < 1 || currentPage > profile.libraryRender[profile.currentBookIndex].pages.count ? 0 : 1)
                         }
                         .padding()
                     }
@@ -155,6 +132,33 @@ struct ReadStoryPage: View {
         .onAppear {
             findVoice()
         }
+    }
+    
+    func pageView(index: Int, proxy: GeometryProxy) -> some View {
+        VStack {
+            Spacer()
+            
+                VStack {
+                    
+                    Spacer()
+                    
+                    Text(profile.libraryRender[profile.currentBookIndex].pages[index])
+                        .font( profile.dyslexicMode ? Font.customBody(size: profile.convertFontSize())
+                            .monospaced():
+                            Font.customHeader(size: profile.convertFontSize())
+                        )
+                    
+                        .multilineTextAlignment(.center)
+                        .padding(15)
+                    
+                    
+                    if profile.libraryRender[profile.currentBookIndex].pageImages[index] == "" {
+                        Spacer()
+                    }
+                }
+                .frame(width:proxy.size.width, height: profile.libraryRender[profile.currentBookIndex].pageImages[index] != "" ? CGFloat(proxy.size.height / 2) : CGFloat(proxy.size.height))
+            
+        }.tag(index + 1)
     }
     
     func toggleSpeech() {

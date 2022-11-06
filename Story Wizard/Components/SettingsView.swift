@@ -35,12 +35,12 @@ struct SettingsOverlay: View {
                  Rectangle()
                      .foregroundColor(.mainBlue)
                      .aspectRatio(CGSize(width: g.size.width, height: g.size.height * 0.8),contentMode: .fit)
-                     .cornerRadius(10, corners: [.topRight, .bottomRight])
+                     .cornerRadius(10, corners: .allCorners)
                      .offset(CGSize(width: 0, height: g.size.height * 0.1))
                      .overlay() {
                          BackgroundStarsView()
                              .frame(width: g.size.width, height: g.size.height * 0.8)
-                             .cornerRadius(10, corners: [.topRight, .bottomRight])
+                             .cornerRadius(10, corners: .allCorners)
                              .offset(CGSize(width: 0, height: g.size.height * 0.1))
                      }
                  SettingsData(showSettings: $showSettings, proxy: proxy)
@@ -66,7 +66,7 @@ struct SettingsData: View {
         GeometryReader {g in
             VStack(alignment: .center) {
                 HStack(alignment: .center){
-                    profile.profileCircle(size: g.size.width / 5)
+                    profile.profileCircle(size: 40)
                     Spacer()
                     
                     Text("\(profile.name)")
@@ -79,76 +79,76 @@ struct SettingsData: View {
                             showSettings = false
                         }
                     }, label: {
-                        Image(systemName: "x.square")
+                        Image("exit")
                             .resizable()
                             .frame(width: 30, height: 30)
         
                     })
                 }
                 .foregroundColor(.mainYellow)
+                .padding(.bottom)
                 
-                VStack {
+                VStack(spacing: 50) {
                     HStack {
-                        Text("Reading Age (Years)")
+                        Text("Reading Age:")
+                            .font(Font.customHeader(size: 22))
+                            .multilineTextAlignment(.center)
+                        
                         Spacer()
-                            
-                        Button("-", action:{
-                            profile.decrementReadingAge()
-                        })/*
-                        .background(
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(Color.gray)
-                        )
-                           */
-                        .padding()
-                        Text("\(profile.readingAge)")
-                        Button("+", action:{
-                            profile.incrementReadingAge()
-                        })
-                        .padding()
-                    }.font(Font.customHeader(size:25))
-                    
-                    VStack {
+                        
                         HStack {
-                            Text("Text Size:")
-                                .font(Font.customHeader(size:25))
+                            Button("-", action:{
+                                profile.decrementReadingAge()
+                            })
+                            .padding(.horizontal)
+                            Text("\(profile.readingAge)")
+                            Button("+", action:{
+                                profile.incrementReadingAge()
+                            })
+                            .padding(.horizontal)
+                        }.font(Font.customHeader(size: CGFloat(fontSizeOptions[1].size)))
+                    }
+                    
+                    HStack {
+                        Text("Text Size:")
+                            .font(Font.customHeader(size:22))
+                            .multilineTextAlignment(.center)
+                        
+                        Spacer()
+                        
+                        HStack {
                             ForEach(0..<fontSizeOptions.count, id: \.self) {optionIndex in
                                 Button(action: {
                                     profile.textSize = fontSizeOptions[optionIndex].fontValue
                                 }, label: {
                                     Text(fontSizeOptions[optionIndex].label)
                                         .font(Font.customHeader(size: CGFloat(fontSizeOptions[optionIndex].size)))
-                                        .padding()
+                                        .padding(.vertical, 4)
+                                        .frame(width: proxy.size.width / 6, height: CGFloat(fontSizeOptions[fontSizeOptions.count-1].size) + 32)
                                         .background() {
                                             if profile.textSize == fontSizeOptions[optionIndex].fontValue {
                                                 Color.gray
                                             }
                                         }
                                         .cornerRadius(15)
-                                            
-                                        
+                                    
+                                    
                                 })
                             }
                         }
-                        
-                        HStack (alignment: .center) {
-                            Toggle("Dyslexic Mode", isOn: $profile.dyslexicMode)
-                                .font(Font.customHeader(size:25))
-                            
-                            if profile.dyslexicMode {
-                                Text("On")
-                            }
-                                    
-                                
-                        }
-                        
-                        
+                    }
+                    
+                    HStack (alignment: .center) {
+                        Toggle("Dyslexic Mode:", isOn: $profile.dyslexicMode)
+                            .font(Font.customHeader(size:22))
+                            .tint(Color.mainYellow)
                     }
                 }
                 Spacer()
             
             }
             .padding()
+            .padding(.horizontal, 8)
             .foregroundColor(.mainYellow)
         }
     }
@@ -158,4 +158,14 @@ struct FontSizeOption {
     var label: String
     var fontValue: TextSize
     var size: Int
+}
+
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        GeometryReader { g in
+            SettingsView(showSettings: .constant(true), proxy: g)
+                .environmentObject(TestData.testProfileWithSelectedBook)
+        }
+    }
+        
 }
