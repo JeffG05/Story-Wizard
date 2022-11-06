@@ -198,7 +198,7 @@ struct ProfileEditSheet: View {
                     HeaderView(
                         text: isNewProfile ? "Add Profile" : "Edit Profile"
                     )
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.mainYellow)
                     .padding(.bottom)
                     
                     ZStack(alignment: .topTrailing) {
@@ -222,7 +222,7 @@ struct ProfileEditSheet: View {
                                     .scaledToFit()
                                     .frame(width: g.size.width / 9)
                                     .foregroundColor(.white)
-                                    .font(.system(size: 20, weight: .medium))
+                                    .fontWeight(.medium)
                             }
                             .padding(.bottom, 36)
                         }
@@ -238,7 +238,7 @@ struct ProfileEditSheet: View {
                                         .frame(width: 16, height: 16)
                                         .padding(.all, 12)
                                         .foregroundColor(.black)
-                                        .font(.system(size: 20, weight: .bold))
+                                        .bold()
                                 }
                                 .background(.white)
                                 .clipShape(Circle())
@@ -362,7 +362,7 @@ struct ProfileEditSheetNoPicture: View {
                     HeaderView(
                         text: isNewProfile ? "Add Profile" : "Edit Profile"
                     )
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.mainYellow)
                     .padding(.bottom)
                     
                     ZStack(alignment: .topTrailing) {
@@ -433,11 +433,7 @@ struct ProfileEditSheetNoPicture: View {
                         .disabled(!isValid)
                         .opacity(isValid ? 1 : 0.5)
                     }
-                    .frame(width: g.size.width / 1.2)
                 }
-                .padding(.vertical, 16)
-                .frame(width: g.size.width, height: g.size.height)
-                .background(Color.mainBlue)
             }
         } else {
             GeometryReader { g in
@@ -594,14 +590,14 @@ struct EditButton: View {
                     Image(systemName: "pencil")
                         .font(.system(size: 20, weight: .medium))
                     Text("Edit")
-                        .fontWeight(.medium)
+                        .font(.customHeader(size: 20).weight(.medium))
                 }
             }
             .frame(width: proxy.size.width / 2)
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.init(white: 0.95))
+                    .fill(Color.mainYellow)
             )
             .foregroundColor(Color.black)
         }

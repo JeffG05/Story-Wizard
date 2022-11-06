@@ -32,7 +32,7 @@ struct LibraryPage: View {
                 HStack {
                     Image("filter")
                         .resizable()
-                        .frame(width: 50, height: 50)
+                        .frame(width: 40, height: 40)
                     Spacer()
                     ForEach(0..<filters.count, id: \.self) {filterIndex in
                         Button(action:{
@@ -46,7 +46,9 @@ struct LibraryPage: View {
                             profile.sort_library()
                         }, label: {
                             Text(filters[filterIndex].label)
-                                .padding()
+                                .font(.customHeader(size: 12))
+                                .padding(.horizontal)
+                                .padding(.vertical, 12)
                                 .background() {
                                     if filterIndex == selectedFilter {
                                         Color.mainYellow
@@ -58,6 +60,7 @@ struct LibraryPage: View {
                                 .foregroundColor(.black)
                         })
                     }
+                    .shadow(color: Color.black.opacity(0.25), radius: 4, y: 4)
                     
                 }
                 .padding()
@@ -212,6 +215,7 @@ struct BookOptionView: View {
             .padding(.top, 20)
         }
         .frame(width: maxWidth, height: maxHeight)
+        .shadow(color: Color.black.opacity(1), radius: 4, y: 4)
     }
 }
 

@@ -58,6 +58,7 @@ struct SignUpPage: View {
                     text: "Sign Up",
                     textSize: 40
                 )
+                .font(.customHeader(size: 20))
                 .padding(.bottom, 30)
                 .foregroundColor(.mainYellow)
                 .onTapGesture {
@@ -97,45 +98,46 @@ struct SignUpPage: View {
                             readingAge = String(readingAge.prefix(while: { $0.isNumber }))
                         }
                     
-    
-                    if showPassword{
-                        TextField("Password", text: $password)
-                            .textContentType(.password)
-                            .submitLabel(.return)
-                            .focused($focusedField, equals: .password)
-                            .padding()
-                            .frame(width: proxy.size.width / 1.2)
-                            .background(Color.starBlue)
-                            .cornerRadius(5.0)
-                            .padding(.bottom, 20)
-                            .onChange(of: $focusedField.wrappedValue) { _ in
-                                if focusedField == .password {
-                                    password = ""
-                                }
+                    ZStack{
+                        if showPassword{
+                            TextField("Password", text: $password)
+                                .textContentType(.password)
+                                .submitLabel(.return)
+                                .focused($focusedField, equals: .password)
+                                .padding()
+                                .frame(width: proxy.size.width / 1.2)
+                                .background(Color.starBlue)
+                                .cornerRadius(5.0)
+                                .padding(.bottom, 20)
+                                .onChange(of: $focusedField.wrappedValue) { _ in
+                                    if focusedField == .password {
+                                        password = ""
+                                    }
+                            }
+                            
+                        } else {
+                            SecureField("Password", text: $password)
+                                .textContentType(.password)
+                                .submitLabel(.return)
+                                .focused($focusedField, equals: .password)
+                                .padding()
+                                .frame(width: proxy.size.width / 1.2)
+                                .background(Color.starBlue)
+                                .cornerRadius(5.0)
+                                .padding(.bottom, 20)
+                                .onChange(of: $focusedField.wrappedValue) { _ in
+                                    if focusedField == .password {
+                                        password = ""
+                                    }
+                            }
+                
                         }
+                        showPasswordButton
+                            .offset(x:UIScreen.main.bounds.width/2.8,y:-10)
                         
-                    } else {
-                        SecureField("Password", text: $password)
-                            .textContentType(.password)
-                            .submitLabel(.return)
-                            .focused($focusedField, equals: .password)
-                            .padding()
-                            .frame(width: proxy.size.width / 1.2)
-                            .background(Color.starBlue)
-                            .cornerRadius(5.0)
-                            .padding(.bottom, 20)
-                            .onChange(of: $focusedField.wrappedValue) { _ in
-                                if focusedField == .password {
-                                    password = ""
-                                }
-                        }
-            
                     }
                     
                 }
-                
-                showPasswordButton
-                .offset(x:UIScreen.main.bounds.width/3.2,y:0)
                     
                 .onSubmit {
                     switch focusedField {

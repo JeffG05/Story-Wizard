@@ -39,7 +39,7 @@ struct WalkthroughPage: View {
                     ForEach(pages) { page in
                         WalkthroughView(
                             page: page,
-                            buttonText: page == pages.last ? "Sign Up!" : "Next",
+                            buttonText: page == pages.last ? "Done!" : "Next",
                             buttonAction: page == pages.last ? goToSignUp : incrementPage,
                             skipAction: goToSignUp
                         )
@@ -104,7 +104,7 @@ struct WalkthroughView: View {
                     
                     Text(page.description)
                         .font(Font.customHeader(size:20))
-                        .frame(width: g.size.width / 2.5)
+                        .frame(width: g.size.width / 2)
                         .foregroundColor(.mainYellow)
                         .multilineTextAlignment(.center)
                     
@@ -137,8 +137,8 @@ struct WalkthroughView: View {
                         .padding(.horizontal)
                 }
                 .padding(.bottom, 4)
-                .disabled(buttonText.contains("Sign Up"))
-                .opacity(buttonText.contains("Sign Up") ? 0 : 1)
+                .disabled(buttonText.contains("Done"))
+                .opacity(buttonText.contains("Done") ? 0 : 1)
                 
             }
             .frame(height: g.size.height - 16)

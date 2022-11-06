@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UIKit
 
 public enum FilterType: Int {
     case alphabetical  // section1 is explicitly 0. You can start at any value.

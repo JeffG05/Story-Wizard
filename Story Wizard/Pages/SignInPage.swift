@@ -74,39 +74,43 @@ struct SignInPage: View {
                         .background(Color.starBlue)
                         .cornerRadius(5.0)
                         .padding(.bottom, 20)
-                    
-                    if showPassword{
-                        TextField("Password", text: $password)
-                            .textContentType(.password)
-                            .submitLabel(.return)
-                            .focused($focusedField, equals: .password)
-                            .padding()
-                            .frame(width: proxy.size.width / 1.2)
-                            .background(Color.starBlue)
-                            .cornerRadius(5.0)
-                            .padding(.bottom, 20)
-                            .onChange(of: $focusedField.wrappedValue) { _ in
-                                if focusedField == .password {
-                                    password = ""
-                                }
+                    ZStack{
+                        if showPassword{
+                            TextField("Password", text: $password)
+                                .textContentType(.password)
+                                .submitLabel(.return)
+                                .focused($focusedField, equals: .password)
+                                .padding()
+                                .frame(width: proxy.size.width / 1.2)
+                                .background(Color.starBlue)
+                                .cornerRadius(5.0)
+                                .padding(.bottom, 20)
+                                .onChange(of: $focusedField.wrappedValue) { _ in
+                                    if focusedField == .password {
+                                        password = ""
+                                    }
+                            }
+                            
+                        } else {
+                            SecureField("Password", text: $password)
+                                .textContentType(.password)
+                                .submitLabel(.return)
+                                .focused($focusedField, equals: .password)
+                                .padding()
+                                .frame(width: proxy.size.width / 1.2)
+                                .background(Color.starBlue)
+                                .cornerRadius(5.0)
+                                .padding(.bottom, 20)
+                                .onChange(of: $focusedField.wrappedValue) { _ in
+                                    if focusedField == .password {
+                                        password = ""
+                                    }
+                            }
+                
                         }
+                        showPasswordButton
+                            .offset(x:UIScreen.main.bounds.width/2.8,y:-10)
                         
-                    } else {
-                        SecureField("Password", text: $password)
-                            .textContentType(.password)
-                            .submitLabel(.return)
-                            .focused($focusedField, equals: .password)
-                            .padding()
-                            .frame(width: proxy.size.width / 1.2)
-                            .background(Color.starBlue)
-                            .cornerRadius(5.0)
-                            .padding(.bottom, 20)
-                            .onChange(of: $focusedField.wrappedValue) { _ in
-                                if focusedField == .password {
-                                    password = ""
-                                }
-                        }
-            
                     }
                     
                 }
@@ -120,8 +124,6 @@ struct SignInPage: View {
                     
                 }
                 
-                showPasswordButton
-                .offset(x:UIScreen.main.bounds.width/3.2,y:0)
                 
                 SignInButton(proxy: proxy, text:"Sign In"){
                     focusedField = nil
@@ -211,9 +213,9 @@ struct SignInButton: View {
         } label: {
             HStack {
                 Text(text)
-                    .fontWeight(.medium)
+                    .font(.customHeader(size: 20).weight(.medium))
             }
-            .frame(width: proxy.size.width / 2)
+            .frame(width: proxy.size.width / 1.5, height: proxy.size.height/30)
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 12)
@@ -236,9 +238,9 @@ struct RegisteredYNButton: View {
         } label: {
             HStack {
                 Text(text)
-                    .fontWeight(.medium)
+                    .font(.customHeader(size: 20).weight(.medium))
             }
-            .frame(width: proxy.size.width / 1.6)
+            .frame(width: proxy.size.width/1.2)
             .padding(.vertical, 12)
             .foregroundColor(Color.mainYellow)
         }

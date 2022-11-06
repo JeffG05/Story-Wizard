@@ -45,7 +45,10 @@ struct RatingPage: View {
                                         Image(currentRating == .LIKE ? "happyFace.fill" : "happyFace")
                                             .resizable()
                                             .frame(width: 60, height: 60)
+                                        
                                         Text("Like")
+                                            .font(Font.customHeader(size: 15))
+                                            .foregroundColor(.mainYellow)
                                     }
                                 })
                             Spacer()
@@ -59,7 +62,10 @@ struct RatingPage: View {
                                     Image(currentRating == .DISLIKE ? "sadFace.fill" : "sadFace")
                                         .resizable()
                                         .frame(width: 60, height: 60)
+            
                                     Text("Dislike")
+                                        .font(Font.customHeader(size: 20))
+                                        .foregroundColor(.mainYellow)
                                 }
                             })
                             Spacer()
@@ -68,10 +74,10 @@ struct RatingPage: View {
                         HStack {
                             if showReason {
                                 LazyVGrid(columns: columns,alignment: .center, spacing:15) {
-                                    FeedbackButton(text: "Too Boring")
-                                    FeedbackButton(text: "Inapropriate")
-                                    FeedbackButton(text: "Doesn't make sense")
-                                    FeedbackButton(text: "Too Long")
+                                    FeedbackButton(text: "Too Boring", proxy: g)
+                                    FeedbackButton(text: "Inapropriate", proxy: g)
+                                    FeedbackButton(text: "Doesn't make sense", proxy: g)
+                                    FeedbackButton(text: "Too Long", proxy: g)
                                 }
                             }
                             Spacer()
@@ -131,7 +137,10 @@ struct RatingPage: View {
 
 struct FeedbackButton : View {
     var text: String
+    var proxy: GeometryProxy
+    
     @State var clicked: Bool = false
+    
     var body : some View {
         Button(action: {
             clicked = !clicked
@@ -141,8 +150,7 @@ struct FeedbackButton : View {
                     Text(text)
                         .font(Font.customHeader(size: 15))
                 }
-                .frame(width: UIScreen.main.bounds.width/3.2)
-                .frame(height: UIScreen.main.bounds.height/12)
+                .frame(width: proxy.size.width/3.2, height: proxy.size.height/15)
                 .padding()
             }.overlay(
                 RoundedRectangle(cornerRadius: 15).stroke(Color(.black), lineWidth: 2))

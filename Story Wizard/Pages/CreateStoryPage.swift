@@ -241,14 +241,13 @@ struct FinalTouchesPage: View {
     var action: () -> Void
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 0){
+
             TextInput(title: "Book Title", text: $bookTitle, width: proxy.size.width * 3/4)
             
             TextInput(title: "Main Character Name", text: $characterName, width: proxy.size.width * 3/4)
             
             TextInput(title: "Their Friend's Name", text: $friendName, width: proxy.size.width * 3/4)
-            
-            Spacer()
             
             VStack(alignment: .center) {
                 Button {
@@ -267,6 +266,7 @@ struct FinalTouchesPage: View {
             .padding(.vertical)
         }
         .padding(.top, proxy.size.height / 25)
+        .offset(y:-50)
     }
     
     struct TextInput: View {
