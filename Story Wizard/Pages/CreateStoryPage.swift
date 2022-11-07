@@ -354,18 +354,18 @@ class ChoiceOption: Hashable {
         return Button {
             action()
         } label: {
-            VStack {
-                Spacer()
-                HStack {
+            GeometryReader { g in
+                VStack {
                     Spacer()
-                    image
+                    self.image
                         .resizable()
-                    .scaledToFit()
+                        .scaledToFit()
+                        .aspectRatio(1, contentMode: .fit)
+                        .frame(width: g.size.width)
                     Spacer()
+                    Text(self.title)
+                        .font(.customHeader(size: 20))
                 }
-                Spacer()
-                Text(title)
-                    .font(.customHeader(size: 20))
             }
             .padding(.all)
             .background(color)
