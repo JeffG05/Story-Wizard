@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PinPageView: View {
+    @EnvironmentObject var user: User
+    
     @Binding var pin: String
     var confirmPin: String? = nil
     var mainAction: () -> Void
@@ -47,7 +49,7 @@ struct PinPageView: View {
                 
                 showPinStack
                 
-                if isConfirmingPin() {
+                if isConfirmingPin() ||  user.numberPin != nil {
                     Button {
                         mainAction()
                     } label: {
@@ -161,5 +163,6 @@ struct PinPageView_Previews: PreviewProvider {
         GeometryReader { g in
             PinPageView(pin: .constant(""), mainAction: {}, submitPin: {}, proxy: g)
         }
+        .environmentObject(TestData.testUser)
     }
 }

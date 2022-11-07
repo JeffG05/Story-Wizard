@@ -433,7 +433,11 @@ struct ProfileEditSheetNoPicture: View {
                         .disabled(!isValid)
                         .opacity(isValid ? 1 : 0.5)
                     }
+                    .frame(width: g.size.width / 1.2)
                 }
+                .padding(.vertical, 16)
+                .frame(width: g.size.width, height: g.size.height)
+                .background(Color.mainBlue)
             }
         } else {
             GeometryReader { g in

@@ -97,7 +97,7 @@ struct CreateStoryPage: View {
     }
     
     func createBook() async {
-        let randomWaitTime = CGFloat.random(in: 10...20)
+        let randomWaitTime = CGFloat.random(in: 5...10)
         try? await Task.sleep(nanoseconds: UInt64(randomWaitTime * 1_000_000_000))
         
         let generationOptions = GenerationOptions(

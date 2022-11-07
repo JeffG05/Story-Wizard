@@ -20,44 +20,6 @@ struct SettingsPinPage: View {
     @EnvironmentObject var user: User
  
     public var body: some View {
-//        Color.mainBlue
-//            .ignoresSafeArea()
-//        BackgroundStarsView()
-//        VStack(spacing: 10) {
-//            HeaderView(
-//                text: "Pin Required",
-//                leftIcon: "arrow.left",
-//                leftAction: goBack
-//            )
-//                .font(Font.customHeader(size: 40))
-//                .foregroundColor(.mainYellow)
-//                .fontWeight(.bold)
-//
-//            Text("Please enter password to access user settings")
-//                .font(Font.customHeader(size:20))
-//                .frame(width: 380)
-//                .foregroundColor(.mainYellow)
-//                .multilineTextAlignment(.center)
-//
-//        ZStack {
-//            pinDots
-//            backgroundField
-//        }
-//        showPinStack
-//
-//        .alert(isPresented: $incorrectPin) {
-//            Alert(title: Text("Pins do not match."))
-//        }
-//
-//        Button("Enter Settings", action: checkPin)
-//            .buttonStyle(.bordered)
-//            .background(
-//                RoundedRectangle(cornerRadius: 10)
-//                    .fill(Color.mainYellow))
-//            .foregroundColor(.black)
-//
-//        }
-        
         PinPageView(
             pin: $pin,
             confirmPin: user.numberPin,
